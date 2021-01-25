@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  client:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src/Client:/usr/share/nginx/html
+      - ./conf/apache:/usr/local/apache2/conf
