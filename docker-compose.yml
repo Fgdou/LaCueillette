@@ -6,11 +6,11 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./src/Client:/usr/share/nginx/html
+      - ./Client:/usr/share/nginx/html
   server:
     image: openjdk
     ports:
       - "8081:81"
     volumes:
-      - ./src/Server:/app
+      - ./Server:/app
     command: sh /app/run.sh
