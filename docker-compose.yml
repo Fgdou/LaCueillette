@@ -1,16 +1,16 @@
 version: "3"
 
 services:
-  client:
+  front:
     image: nginx
     ports:
       - "8080:80"
     volumes:
-      - ./Client:/usr/share/nginx/html
-  server:
+      - ./Front:/usr/share/nginx/html
+  back:
     image: openjdk
     ports:
       - "8081:81"
     volumes:
-      - ./Server:/app
+      - ./Back:/app
     command: sh /app/run.sh
