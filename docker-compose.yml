@@ -8,8 +8,9 @@ services:
     volumes:
       - ./src/Client:/usr/share/nginx/html
   server:
-    image: java
+    image: openjdk
     ports:
       - "8081:81"
     volumes:
-      - ./src/Client:/app
+      - ./src/Server:/app
+    command: sh /app/run.sh
