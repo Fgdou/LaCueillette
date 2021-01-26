@@ -7,4 +7,9 @@ services:
       - "8080:80"
     volumes:
       - ./src/Client:/usr/share/nginx/html
-      - ./conf/apache:/usr/local/apache2/conf
+  server:
+    image: java
+    ports:
+      - "8081:81"
+    volumes:
+      - ./src/Client:/app
