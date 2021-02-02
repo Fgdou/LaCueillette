@@ -1,20 +1,20 @@
 # TIPE ESIR 2021
 
-##Problématique
+## Problématique
 Comment développer un e-commerce de proximité pour préserver l’environnement et assurer la sécurité des emplois locaux ?
 
-##Membres
+## Membres
 * ALLAIN Arthur
 * GOARDOU Fabien
 * RAOUL Thibaut
 
 ## Building from the sources
 
-Dependencies needed :
+### Dependencies needed :
 - Docker
 - docker-composer
 
-Compile and run :
+### Compile and run :
 
 - Move to the root of the project
 - Execute this command :
