@@ -1,0 +1,155 @@
+@startuml
+
+'skinparam linetype ortho
+
+class Product{
+    String id
+    String name
+    float price
+    boolean price_kg
+    ProductCategory category
+    List<SubProduct> SubProduct
+    Store store
+    boolean canBePicked
+    boolean canBeDelivered
+    List<Tag> tags
+    float TVA
+    DateInterval availability
+    int expiration
+    String description
+    List<SubProduct> getSubProducts()
+    boolean addSubProduct(SubProduct)
+    boolean removeSubProduct(SubProduct)
+
+    static ProductCategory create(...)
+    boolean delete()
+}
+abstract class SubProduct{
+    abstract boolean buy()
+}
+class SubProductWeight extends SubProduct{
+    float weight
+    boolean buy()
+
+    static SubProductWeight create(...)
+    boolean delete()
+}
+class SubProductUnit extends SubProduct{
+    int number
+    Map<String, String> informations
+    boolean buy()
+
+    static SubProductUnit create(...)
+    boolean delete()
+}
+class Store{
+    String name
+    Address address
+    String id
+    Seller boss
+    List<ProductCategory> products
+    TimeTable timeTable
+    String tel
+    String mail
+
+    static Store create(...)
+    boolean delete()
+}
+class Cart{
+    Map<Integer, ProductCategory> products
+    User user
+    boolean addProduct(Product)
+    boolean removeProduct(Product)
+    float getPrice()
+    float getTVA()
+
+    List<Order> buy()
+    boolean clear()
+}
+class Order{
+    Map<Integer, ProductCategory> products
+    Store store
+    User user
+    boolean paid
+    Date date
+    Address address
+    int state
+
+    boolean startPrepare()
+    boolean finishedPrepare()
+    boolean cancel()
+
+    float getPrice()
+    float getTVA()
+}
+class User{
+    String name, surname
+    String tel
+    String mail
+    String password
+    List<Address> addresses
+    boolean admin
+
+    static User register(...)
+
+    Token login(String username, String password)
+    boolean verifyToken(Token)
+
+    boolean changePassword(String)
+    boolean forgetPassword()
+    boolean delete()
+}
+class Seller extends User{
+    List<Store> stores
+
+    static Seller register(...)
+}
+class ProductCategory{
+    String name
+}
+class Tag{
+    String name
+}
+class DateInterval{
+    Date start
+    Date stop
+}
+class TimeInterval{
+    Time start
+    Time stop
+}
+class Database{
+    '//TODO
+}
+class Address{
+    int number
+    String way
+    String city
+    int postalCode
+    String state
+}
+class TimeTable{
+    List<TimeInterval> ints
+}
+class Token{
+    User user
+    String value
+    Date expiration
+}
+
+Seller      --> Store
+Product     --> Store
+Product     --> DateInterval
+Product     --> Tag
+Product     --> SubProduct
+Product     --> ProductCategory
+Cart        --> Product
+Order       --> Product
+User        --> Cart
+User        --> Order
+Token       --> User
+Store       --> Address
+Store       --> TimeTable
+TimeTable   --> TimeInterval
+
+@enduml
