@@ -1,9 +1,9 @@
 # TIPE ESIR 2021
 
-## Problématique
+## Problematic
 Comment développer un e-commerce de proximité pour préserver l’environnement et assurer la sécurité des emplois locaux ?
 
-## Membres
+## Members
 * ALLAIN Arthur
 * GOARDOU Fabien
 * RAOUL Thibaut
