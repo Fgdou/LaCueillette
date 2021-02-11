@@ -20,7 +20,7 @@ class Product{
     List<SubProduct> getSubProducts()
     boolean addSubProduct(SubProduct)
     boolean removeSubProduct(SubProduct)
-
+    --
     static ProductCategory create(...)
     boolean delete()
 }
@@ -30,7 +30,7 @@ abstract class SubProduct{
 class SubProductWeight extends SubProduct{
     float weight
     boolean buy()
-
+    --
     static SubProductWeight create(...)
     boolean delete()
 }
@@ -38,7 +38,7 @@ class SubProductUnit extends SubProduct{
     int number
     Map<String, String> informations
     boolean buy()
-
+    --
     static SubProductUnit create(...)
     boolean delete()
 }
@@ -51,7 +51,7 @@ class Store{
     TimeTable timeTable
     String tel
     String mail
-
+    --
     static Store create(...)
     boolean delete()
 }
@@ -62,7 +62,7 @@ class Cart{
     boolean removeProduct(Product)
     float getPrice()
     float getTVA()
-
+    --
     List<Order> buy()
     boolean clear()
 }
@@ -75,11 +75,10 @@ class Order{
     Date date
     Address address
     int state
-
     boolean startPrepare()
     boolean finishedPrepare()
     boolean cancel()
-
+    --
     float getPrice()
     float getTVA()
 }
@@ -91,23 +90,23 @@ class User{
     String password
     List<Address> addresses
     boolean admin
-
+    --
     static User register(...)
-
     Token login(String username, String password)
     boolean verifyToken(Token)
-
     boolean changePassword(String)
     boolean forgetPassword()
     boolean delete()
 }
 class Seller extends User{
     List<Store> stores
-
+    --
     static Seller register(...)
 }
 class ProductCategory{
     String name
+    --
+    Product getAll()
 }
 class Tag{
     String name
@@ -115,10 +114,14 @@ class Tag{
 class DateInterval{
     Date start
     Date stop
+    --
+    boolean isIn(Time)
 }
 class TimeInterval{
     Time start
     Time stop
+    --
+    boolean isIn(Time)
 }
 class Database{
     '//TODO
@@ -132,19 +135,27 @@ class Address{
 }
 class TimeTable{
     List<TimeInterval> ints
+    --
+    Time getOpen(int day, Time)
+    Time getClose(int day, Time)
+    boolean isOpen(int day, Time)
 }
 class Token{
     User user
     String value
     Date expiration
+    --
+    Token create(...)
+    boolean isValid()
+    void use()
 }
 
-Seller      --> Store
 Product     --> Store
 Product     --> DateInterval
 Product     --> Tag
 Product     --> SubProduct
 Product     --> ProductCategory
+Seller      --> Store
 Cart        --> Product
 Order       --> Product
 User        --> Cart
