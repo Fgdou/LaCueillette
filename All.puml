@@ -17,28 +17,30 @@ class Product{
     DateInterval availability
     int expiration
     String description
+    --
     List<SubProduct> getSubProducts()
     boolean addSubProduct(SubProduct)
     boolean removeSubProduct(SubProduct)
-    --
     static ProductCategory create(...)
     boolean delete()
+
+    static Product getById()
 }
 abstract class SubProduct{
     abstract boolean buy()
 }
 class SubProductWeight extends SubProduct{
     float weight
-    boolean buy()
     --
+    boolean buy()
     static SubProductWeight create(...)
     boolean delete()
 }
 class SubProductUnit extends SubProduct{
     int number
     Map<String, String> informations
-    boolean buy()
     --
+    boolean buy()
     static SubProductUnit create(...)
     boolean delete()
 }
@@ -54,15 +56,21 @@ class Store{
     --
     static Store create(...)
     boolean delete()
+
+    List<Product> getProducts()
+    List<Product> search(String name)
+    List<Order> getOrders()
+    List<Order> getOrders(DateInterval)
 }
 class Cart{
     Map<Integer, ProductCategory> products
+    Cart cart
     User user
+    --
     boolean addProduct(Product)
     boolean removeProduct(Product)
     float getPrice()
     float getTVA()
-    --
     List<Order> buy()
     boolean clear()
 }
@@ -75,10 +83,11 @@ class Order{
     Date date
     Address address
     int state
+    DateTime rdv
+    --
     boolean startPrepare()
     boolean finishedPrepare()
     boolean cancel()
-    --
     float getPrice()
     float getTVA()
 }
@@ -89,6 +98,7 @@ class User{
     String mail
     String password
     List<Address> addresses
+    List<Order> orders
     boolean admin
     --
     static User register(...)
@@ -97,11 +107,16 @@ class User{
     boolean changePassword(String)
     boolean forgetPassword()
     boolean delete()
+
+    List<Order> getOrders(DateInterval)
+    List<Order> getOrders()
+    Cart getCart()
 }
 class Seller extends User{
     List<Store> stores
     --
     static Seller register(...)
+    Store getStore()
 }
 class ProductCategory{
     String name
@@ -164,5 +179,6 @@ Token       --> User
 Store       --> Address
 Store       --> TimeTable
 TimeTable   --> TimeInterval
+Order       --> Store
 
 @enduml

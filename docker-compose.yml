@@ -14,3 +14,10 @@ services:
     volumes:
       - ./Back:/app
     command: sh /app/run.sh
+  db:
+    image: mongo
+    ports:
+      - "8082:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: NEkzsqPkAwEqC82FTM9VEerHBw7WvNjeKwpqDkhp
