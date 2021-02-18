@@ -1,21 +1,22 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import server.DataBase;
+import server.sql.User;
+
+import java.sql.ResultSet;
 
 class test{
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("Starting main service...");
+        DataBase db = new DataBase("root", "g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb", "LaCueillette", "localhost:8082");
+        db.connect();
 
-        Connection cn = null;
-        Statement st = null;
+        try {
+            ResultSet rs = db.query("SELECT * FROM Users");
 
-        try{
-            cn = DriverManager.getConnection("jdbc:mysql://localhost/LaCueillette", "root", "g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb");
-            st = cn.createStatement();
-            String sql = "INSERT INTO test (id) VALUES (3)";
-            st.executeUpdate(sql);
-        }catch(Exception e){
-            throw new RuntimeException(e);
+            while(rs.next()){
+                System.out.println(new User(rs));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
