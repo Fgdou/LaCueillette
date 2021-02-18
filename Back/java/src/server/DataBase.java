@@ -14,30 +14,24 @@ public class DataBase {
     private Connection _con = null;
 
     public DataBase(String username, String password, String database, String host){
-        if(INSTANCE != null)
-            throw new RuntimeException("The singleton is already instantiated");
 
         _username = username;
         _password = password;
         _database = database;
         _host = host;
-
-        INSTANCE = this;
     }
 
     /**
      * Connect to the database
      * @return  success
      */
-    public boolean connect(){
+    public void connect(){
         try {
             _con = DriverManager.getConnection("jdbc:mysql://"+_host+"/" + _database,_username,_password);
         } catch (Exception e) {
-            Log.error(e.getMessage());
-            return false;
+            Log.fatal("Impossible to connect DataBase\n" + e.getMessage());
         }
         Log.info("Database connected");
-        return true;
     }
 
     /**
@@ -121,15 +115,17 @@ public class DataBase {
      * @param id        The id to select in the table
      */
     public void changeValue(String table, String col, String value, int id) throws Exception {
-        String sql = "UPDATE ? SET ? = ? WHERE id = ?";
+        String sql = "UPDATE "+table+" SET "+col+" = ? WHERE id = ?";
         String[] tab = new String[]{
-                table,
-                col,
                 value,
                 String.valueOf(id)
         };
-
-        query(sql, tab);
+        try {
+            query(sql, tab);
+        }catch(Exception e){
+            Log.error("Unable to change info on table " + table + ":" + col + "\n" + e.getMessage());
+            throw new Exception("Unable to change value on DataBase");
+        }
     }
 
     /**
@@ -170,7 +166,16 @@ public class DataBase {
      * Get the singleton of the database
      * @return  The database
      */
-    public static DataBase getInstance(){
+    public static DataBase getInstance() throws Exception {
+        if(INSTANCE == null)
+            throw new Exception("DataBase not connected");
         return INSTANCE;
+    }
+
+    public static void createInstance() throws Exception {
+        if(INSTANCE != null)
+            throw new Exception("The singleton is already instantiated");
+        INSTANCE = new DataBase("root", "g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb", "LaCueillette", "localhost:8082");
+        INSTANCE.connect();
     }
 }
