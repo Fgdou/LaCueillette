@@ -4,19 +4,16 @@ import server.sql.User;
 import java.sql.ResultSet;
 
 class test{
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         DataBase db = new DataBase("root", "g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb", "LaCueillette", "localhost:8082");
         db.connect();
 
-        try {
-            ResultSet rs = db.query("SELECT * FROM Users");
+        if(User.userExist("fabigoardou@gmail.com"))
+            User.getByEmail("fabigoardou@gmail.com").delete();
+        else{
+            User user = User.register("Fabien", "Goardou", "0651535931", "fabigoardou@gmail.com", "didou", true);
 
-            while(rs.next()){
-                System.out.println(new User(rs));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(user);
         }
     }
 }

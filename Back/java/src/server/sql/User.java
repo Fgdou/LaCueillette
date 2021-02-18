@@ -1,8 +1,10 @@
 package server.sql;
 
+import server.Common;
 import server.DataBase;
 import server.Log;
 
+import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -19,28 +21,34 @@ public class User {
     private Date created;
     private Date lastConnection;
 
-    public User(String name, String surname, String tel, String mail, String password, boolean admin) {
-        this.name = name;
-        this.surname = surname;
-        this.tel = tel;
-        this.mail = mail;
-        this.password = password;
-        this.admin = admin;
-        this.emailVerified = false;
-        this.created = new Date();
-        this.lastConnection = null;
+    public User(){}
 
-        String sql = "INSERT INTO Users (name, surname, tel, mail, password, admin, created, email_verified, last_connection) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static User register(String name, String surname, String tel, String mail, String password, boolean admin) throws Exception {
+        if(userExist(mail))
+            throw new Exception("User already exist");
+
+        User user = new User();
+
+        user.name = name;
+        user.surname = surname;
+        user.tel = tel;
+        user.mail = mail;
+        user.password = Common.hash(password);
+        user.admin = admin;
+        user.emailVerified = false;
+        user.created = new Date();
+        user.lastConnection = null;
+
+        String sql = "INSERT INTO Users (name, surname, tel, mail, password, admin, created, email_verified, last_connection) VALUES (?, ?, ?, ?, ?, ?, ?, ?, null)";
         String[] tab = new String[]{
                 name,
                 surname,
                 tel,
                 mail,
-                password,
+                user.password,
                 (admin) ? "1" : "0",
-                "0",
-                created.toString(),
-                "null"
+                (new java.sql.Date(user.created.getTime())).toString(),
+                "0"
         };
 
         DataBase db = DataBase.getInstance();
@@ -49,12 +57,16 @@ public class User {
             Log.info("User " + mail + " created");
         } catch (Exception e) {
             Log.error("Unable to create user\n" + e.getMessage());
-            e.printStackTrace();
+            throw new Exception("Creating user");
         }
 
+        return User.getByEmail(mail);
     }
+    public User(ResultSet queryResult) throws Exception {
+        if(queryResult.isBeforeFirst())
+            if(!queryResult.next())
+                throw new Exception("No user in query response");
 
-    public User(ResultSet queryResult) throws SQLException {
         id = queryResult.getInt(1);
         name = queryResult.getString(2);
         surname = queryResult.getString(3);
@@ -65,6 +77,26 @@ public class User {
         created = queryResult.getDate(8);
         emailVerified = queryResult.getShort(9) == 1;
         lastConnection = queryResult.getDate(10);
+    }
+
+    public static boolean userExist(String email) throws Exception {
+        ResultSet result = DataBase.getInstance().getByCondition("Users", "mail", email);
+        return result.next();
+    }
+    public static User getByEmail(String email) throws Exception {
+        return new User(DataBase.getInstance().getByCondition("Users", "mail", email));
+    }
+    public static User getById(int id) throws Exception{
+        return new User(DataBase.getInstance().getByCondition("Users", "mail", String.valueOf(id)));
+    }
+
+    public void delete() throws Exception {
+        try {
+            DataBase.getInstance().delete("Users", id);
+        } catch (Exception e) {
+            Log.warn("Can't delete user " + mail + "\n" + e.getMessage());
+            throw new Exception("Cannot remove user");
+        }
     }
 
     public String toString(){
