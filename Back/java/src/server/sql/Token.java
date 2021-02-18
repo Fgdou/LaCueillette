@@ -6,6 +6,10 @@ import server.Log;
 import java.sql.ResultSet;
 import java.util.Date;
 
+/**
+ * A token can be used to validate an email, or to be used on a cookie for connection.
+ * The use() method will disable a token.
+ */
 public class Token {
     public static final int TOKEN_LENGTH = 255;
     public static final int TOKEN_TYPE_LOGIN = 0;
@@ -78,14 +82,27 @@ public class Token {
     public static Token getByValue(String value) throws Exception {
         return new Token(DataBase.getInstance().getByCondition("Tokens", "value", value));
     }
-    //TODO comment
+    /**
+     * Return the token by id
+     * @param id        The id of the token
+     * @return          The token
+     */
     public static Token getById(int id) throws Exception {
         return new Token(DataBase.getInstance().getByCondition("Tokens", "id", String.valueOf(id)));
     }
+    /**
+     * Check if the token exist
+     * @param value     The value to search
+     * @return          If the token exist
+     */
     public static boolean exist(String value) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Tokens", "value", value);
         return rs.next();
     }
+    /**
+     * Check if the token is valid with the date and the usage of the token
+     * @return      if it is valid
+     */
     public boolean isValid(){
         return !used && ((new Date()).compareTo(expiration) <= 0);
     }
@@ -110,10 +127,18 @@ public class Token {
         return User.getById(userId);
     }
 
+    /**
+     * Use the token. This token won't be valid after this call
+     */
     public void use() throws Exception {
         used = true;
         DataBase.getInstance().changeValue("Tokens", "used", "1", id);
     }
+
+    /**
+     * Delete the token on the database.
+     * Avoid this call
+     */
     public void delete() throws Exception {
         try {
             DataBase.getInstance().delete("Tokens", id);
@@ -123,6 +148,10 @@ public class Token {
         }
     }
 
+    /**
+     * Generate a value for the token
+     * @return  A string with the static defined length in the class
+     */
     private static String generateValue(){
         String str = "AZERTYUIOPQSDFGHJKLMWXCVBN123456789azertyuiopqsdfghjklmwxcvbn";
         StringBuilder res = new StringBuilder(TOKEN_LENGTH);
