@@ -5,6 +5,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Common {
+    /**
+     * Function for hashing password
+     * @param input     A string
+     * @return          The hashed string
+     */
     public static String hash(String input){
         MessageDigest digest = null;
         try {
