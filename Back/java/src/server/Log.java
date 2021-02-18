@@ -2,12 +2,11 @@ package server;
 
 import java.util.Date;
 
+/**
+ * Used to show information to the user, without using println.
+ * Use this class in case output method change
+ */
 public class Log {
-    /*
-     * Used to show information to the user, without using println.
-     * Use this class in case output method change
-     */
-
     public enum LOG_STATE {
         INFO,
         WARNING,
@@ -51,9 +50,20 @@ public class Log {
         System.exit(1);
     }
 
+    /**
+     * Change the state when log occurred.
+     * If the state is INFO, every log is shown
+     * If the state is WARN, only warn error and fatal will be shown
+     * If the state is ERROR, only error will be shown
+     * @param state     An enum to the state
+     */
     public static void changeState(LOG_STATE state){
         _state = state;
     }
+
+    /**
+     * @return  Get the state log
+     */
     public static LOG_STATE getState(){
         return _state;
     }
