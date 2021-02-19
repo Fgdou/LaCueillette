@@ -172,9 +172,12 @@ public class DataBase {
         return INSTANCE;
     }
 
+    /**
+     * Create a singleton for all the program
+     */
     public static void createInstance() throws Exception {
         if(INSTANCE != null)
-            throw new Exception("The singleton is already instantiated");
+            return;
         INSTANCE = new DataBase("root", "g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb", "LaCueillette", "localhost:8082");
         INSTANCE.connect();
     }
