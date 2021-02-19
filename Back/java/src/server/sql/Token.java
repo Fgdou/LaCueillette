@@ -69,12 +69,30 @@ public class Token {
         try {
             DataBase.getInstance().query(sql, tab);
             Token t = Token.getByValue(value);
-            Log.info("Token "+tokenType+" created" + ((user == null) ? "" : " by " +user.getMail()) + "\n");
+            Log.info("Token "+tokenType+" created" + ((user == null) ? "" : " by " +user.getMail()));
             return t;
         } catch (Exception e) {
             Log.error("Cannot create token\n" + e.getMessage());
             throw new Exception("Connot create token");
         }
+    }
+
+    /**
+     * @param o A token
+     * @return  if the object is the same token
+     */
+    public boolean equals(Object o){
+        if(o instanceof Token)
+            return equals((Token) o);
+        return false;
+    }
+
+    /**
+     * @param t     An other token
+     * @return      If it is the same token
+     */
+    public boolean equals(Token t){
+        return value.equals(t.value);
     }
 
     /**

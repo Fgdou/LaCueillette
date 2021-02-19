@@ -14,14 +14,21 @@ class UserTest {
     @BeforeAll
     static void init() throws Exception {
         DataBase.createInstance();
+        User us;
         if(!User.exist("testJUnit@example.com"))
-            id = User.register("test", "test", "", "testJUnit@example.com", "test", false).getId();
+            us = User.register("test", "test", "", "testJUnit@example.com", "test", false);
         else
-            id = User.getByEmail("testJUnit@example.com").getId();
+            us = User.getByEmail("testJUnit@example.com");
+
+        id = us.getId();
+
+        System.out.println(us);
     }
     @AfterAll
     static void delete() throws Exception {
-        User.getById(id).delete();
+        User us = User.getById(id);
+        System.out.println(us);
+        us.delete();
         if(User.exist("testCreate@example.com"))
             User.getByEmail("testCreate@example.com").delete();
     }
@@ -77,5 +84,39 @@ class UserTest {
         assertEquals("", us.getTel());
         assertFalse(us.isAdmin());
         assertFalse(us.isEmailVerified());
+    }
+
+    @Test
+    void login() throws Exception{
+        User us = User.getById(id);
+
+        try{
+            Thread.sleep(2000);
+            us.login("abcd");
+            fail();
+        }catch (Exception e){
+            assertEquals("Wrong password", e.getMessage());
+        }
+
+        Token t;
+        try{
+            t = us.login("test");
+
+            assertTrue(t.isValid());
+            User cp = t.getUser();
+
+            assertEquals(us, cp);
+
+            us.logout(t);
+
+            t = Token.getByValue(t.getValue());
+
+            assertFalse(t.isValid());
+
+        }catch (Exception e){
+            fail(e.getMessage());
+        }
+
+
     }
 }

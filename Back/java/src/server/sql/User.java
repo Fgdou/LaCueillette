@@ -124,8 +124,14 @@ public class User {
         this.emailVerified = emailVerified;
         DataBase.getInstance().changeValue("Users", "email_verified", (emailVerified)? "1":"0", id);
     }
-    public void setPassword(String password){
-        //TODO
+    public void setPassword(String password) throws Exception {
+        if(password == null)
+            throw new Exception("No password");
+        password = Common.hash(password);
+
+        DataBase.getInstance().changeValue("Users", "password", password, id);
+
+        Log.info("User " + mail + " changed his password");
     }
 
     public void delete() throws Exception {
@@ -138,11 +144,34 @@ public class User {
         }
     }
 
-    public Token login(String password){
-        return null; //TODO (not ask if user exist)
+    public boolean equals(Object e){
+        if(e instanceof User)
+            return equals((User)e);
+        return false;
     }
-    public boolean verifyToken(Token token){
-        return false; //TODO
+    public boolean equals(User other){
+        return mail.equals(other.mail);
+    }
+
+    public Token login(String password) throws Exception {
+        if(password == null)
+            throw new Exception("No password");
+
+        password = Common.hash(password);
+
+        if(!password.equals(this.password))
+            throw new Exception("Wrong password");
+
+        Token t = Token.create(Token.TOKEN_TYPE_LOGIN, this, new DateTime().add(0, 0, 0, 2, 0, 0));
+
+        lastConnection = new DateTime();
+        DataBase.getInstance().changeValue("Users", "last_connection", lastConnection.toString(), id);
+        Log.info("User " + mail + " connected with token " + t.getId());
+
+        return t;
+    }
+    public void logout(Token t) throws Exception {
+        t.use();
     }
     public void forgetPassword(){
         //TODO
