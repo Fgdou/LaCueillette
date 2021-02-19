@@ -1,10 +1,12 @@
 package server.sql;
 
 import server.DataBase;
+import server.DateTime;
 import server.Log;
 
 import java.sql.ResultSet;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * A token can be used to validate an email, or to be used on a cookie for connection.
@@ -19,7 +21,7 @@ public class Token {
     private int type;
     private int userId;
     private String value;
-    private Date expiration;
+    private DateTime expiration;
     private boolean used;
 
     private Token(){}
@@ -36,7 +38,7 @@ public class Token {
         type = rs.getInt(2);
         userId = rs.getInt(3);
         value = rs.getString(4);
-        expiration = rs.getDate(5);
+        expiration = new DateTime(rs.getString(5));
         used = rs.getShort(6) == 1;
     }
 
@@ -47,7 +49,7 @@ public class Token {
      * @param expiration    When the token will expire
      * @return              The token created
      */
-    public static Token create(int tokenType, User user, Date expiration) throws Exception {
+    public static Token create(int tokenType, User user, DateTime expiration) throws Exception {
 
         String value;
         do {
@@ -61,17 +63,18 @@ public class Token {
                 String.valueOf(tokenType),
                 userid,
                 value,
-                new java.sql.Date(expiration.getTime()).toString(),
+                expiration.toString(),
                 "0"
         };
         try {
             DataBase.getInstance().query(sql, tab);
+            Token t = Token.getByValue(value);
+            Log.info("Token "+tokenType+" created" + ((user == null) ? "" : " by " +user.getMail()) + "\n");
+            return t;
         } catch (Exception e) {
             Log.error("Cannot create token\n" + e.getMessage());
             throw new Exception("Connot create token");
         }
-
-        return Token.getByValue(value);
     }
 
     /**
@@ -104,7 +107,7 @@ public class Token {
      * @return      if it is valid
      */
     public boolean isValid(){
-        return !used && ((new Date()).compareTo(expiration) <= 0);
+        return !used && ((new DateTime()).compareTo(expiration) <= 0);
     }
 
     public int getId() {
@@ -116,7 +119,7 @@ public class Token {
     public String getValue() {
         return value;
     }
-    public Date getExpiration() {
+    public DateTime getExpiration() {
         return expiration;
     }
     public User getUser() throws Exception {
@@ -133,6 +136,7 @@ public class Token {
     public void use() throws Exception {
         used = true;
         DataBase.getInstance().changeValue("Tokens", "used", "1", id);
+        Log.info("Token "+id+" used");
     }
 
     /**
@@ -142,6 +146,7 @@ public class Token {
     public void delete() throws Exception {
         try {
             DataBase.getInstance().delete("Tokens", id);
+            Log.info("Token "+id+" deleted");
         } catch (Exception e) {
             Log.error("Cannot delete Token " + id + "\n" + e.getMessage());
             throw new Exception("Cannot delete Token");
@@ -162,5 +167,17 @@ public class Token {
         }
 
         return res.toString();
+    }
+
+    public String toString(){
+        String response = "";
+        response += "Token("+id+"){\n";
+        response += "   user        : " + userId + "\n";
+        response += "   type        : " + type + "\n";
+        response += "   value       : " + value.substring(0, 20) + "...\n";
+        response += "   expiration  : " + expiration.toString() + "\n";
+        response += "   used        : " + used + "\n";
+        response += "}";
+        return response;
     }
 }

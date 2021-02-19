@@ -5,7 +5,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import server.DataBase;
+import server.DateTime;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,11 +20,10 @@ class TokenTest {
     static void init() throws Exception {
         DataBase.createInstance();
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.DAY_OF_MONTH, 2);
+        DateTime date = new DateTime();
+        date = date.add(0, 0, 0, 2, 0, 0);
 
-        Token t = Token.create(0, null, c.getTime());
+        Token t = Token.create(0, null, date);
         id = Token.getByValue(t.getValue()).getId();
     }
     @AfterAll
@@ -32,11 +33,10 @@ class TokenTest {
 
     @Test
     void create() throws Exception {
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.DAY_OF_MONTH, 2);
+        DateTime date = new DateTime();
+        date = date.add(0, 0, 0, 2, 0, 0);
 
-        Token t = Token.create(0, null, c.getTime());
+        Token t = Token.create(0, null, date);
 
         assertTrue(Token.exist(t.getValue()));
 

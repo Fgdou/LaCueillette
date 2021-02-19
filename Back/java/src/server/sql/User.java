@@ -2,11 +2,11 @@ package server.sql;
 
 import server.Common;
 import server.DataBase;
+import server.DateTime;
 import server.Log;
 
 import java.sql.ResultSet;
 import java.util.Calendar;
-import java.util.Date;
 
 public class User {
     private int id;
@@ -17,8 +17,8 @@ public class User {
     private String password;
     private boolean admin;
     private boolean emailVerified;
-    private Date created;
-    private Date lastConnection;
+    private DateTime created;
+    private DateTime lastConnection;
 
     private User(){}
 
@@ -34,7 +34,7 @@ public class User {
                 mail,
                 Common.hash(password),
                 (admin) ? "1" : "0",
-                (new java.sql.Date(new Date().getTime())).toString(),
+                new DateTime().toString(),
                 "0"
         };
 
@@ -60,9 +60,9 @@ public class User {
         mail = queryResult.getString(5);
         password = queryResult.getString(6);
         admin = queryResult.getShort(7) == 1;
-        created = queryResult.getDate(8);
+        created = new DateTime(queryResult.getString(8));
         emailVerified = queryResult.getShort(9) == 1;
-        lastConnection = queryResult.getDate(10);
+        lastConnection = new DateTime(queryResult.getString(10));
     }
 
     public static boolean exist(String email) throws Exception {
@@ -97,10 +97,10 @@ public class User {
     public boolean isEmailVerified() {
         return emailVerified;
     }
-    public Date getCreated() {
+    public DateTime getCreated() {
         return created;
     }
-    public Date getLastConnection() {
+    public DateTime getLastConnection() {
         return lastConnection;
     }
 

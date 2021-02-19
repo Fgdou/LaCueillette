@@ -12,6 +12,15 @@ class DateTimeTest {
 
     @Test
     void add() {
+        DateTime d1 = new DateTime("2021-02-19 10:00:01");
+        DateTime d2 = d1.add(0, 0, 0, 2, 1, 0);
+        assertEquals("2021-02-19 12:01:01", d2.toString());
+
+        d2 = d1.add(0, 0, 0, 24, 0, 0);
+        assertEquals("2021-02-20 10:00:01", d2.toString());
+
+        d2 = d1.add(0, 0, 10, 0, 0, 0);
+        assertEquals("2021-03-01 10:00:01", d2.toString());
     }
 
     @Test
@@ -54,8 +63,8 @@ class DateTimeTest {
     @Test
     void getLastDayOfMonth() {
         assertEquals(31, new DateTime("2021-01-19 10:00:01").getLastDayOfMonth());
-        assertEquals(27, new DateTime("2021-02-19 10:00:01").getLastDayOfMonth());
-        assertEquals(28, new DateTime("2020-02-19 10:00:01").getLastDayOfMonth());
+        assertEquals(28, new DateTime("2021-02-19 10:00:01").getLastDayOfMonth());
+        assertEquals(29, new DateTime("2020-02-19 10:00:01").getLastDayOfMonth());
         assertEquals(31, new DateTime("2021-03-19 10:00:01").getLastDayOfMonth());
         assertEquals(30, new DateTime("2021-04-19 10:00:01").getLastDayOfMonth());
         assertEquals(31, new DateTime("2021-05-19 10:00:01").getLastDayOfMonth());

@@ -70,6 +70,9 @@ public class DateTime {
      */
     private void parse(String str){
         //yyyy-MM-dd hh:mm:ss
+        if(str == null)
+            return;
+
         year = Integer.parseInt(str.substring(0, 4));
         month = Integer.parseInt(str.substring(5, 7))-1;
         day = Integer.parseInt(str.substring(8, 10))-1;
@@ -92,11 +95,10 @@ public class DateTime {
     }
 
     /**
-     * @param dt    The other date
      * @return      The 2 dates added
      */
-    public DateTime add(DateTime dt){
-        return new DateTime(year+dt.year, month +dt.month, day+dt.day, hour+dt.hour, minute+dt.minute, second+dt.second);
+    public DateTime add(int year, int month, int day, int hour, int minute, int second){
+        return new DateTime(year+this.year, month +this.month+1, day+this.day+1, hour+this.hour, minute+this.minute, second+this.second);
     }
     /**
      * If the date is not valid (second >= 60), then increment the date
@@ -111,7 +113,7 @@ public class DateTime {
             hour++;
         }
         while(hour >= 24){
-            hour -= 60;
+            hour -= 24;
             day++;
         }
         while(day >= getLastDayOfMonth()){
@@ -171,7 +173,7 @@ public class DateTime {
      */
     public int getLastDayOfMonth(){
         if(month == 1)
-            return leap() ? 28 : 27;
+            return leap() ? 29 : 28;
         if(month < 7 && month%2 == 0)
             return 31;
         if(month >= 7 && month%2 == 1)
