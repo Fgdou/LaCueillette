@@ -7,6 +7,8 @@ import server.Log;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A token can be used to validate an email, or to be used on a cookie for connection.
@@ -16,6 +18,7 @@ public class Token {
     public static final int TOKEN_LENGTH = 255;
     public static final int TOKEN_TYPE_LOGIN = 0;
     public static final int TOKEN_TYPE_EMAIL = 1;
+    public static final int TOKEN_TYPE_FORGOT_PASSWORD = 2;
 
     private int id;
     private int type;
@@ -23,6 +26,7 @@ public class Token {
     private String value;
     private DateTime expiration;
     private boolean used;
+    private String name;
 
     private Token(){}
 
@@ -31,15 +35,13 @@ public class Token {
      * @param rs            A query input
      */
     public Token(ResultSet rs) throws Exception {
-        if(!rs.next())
-            throw new Exception("No token in query response");
-
         id = rs.getInt(1);
         type = rs.getInt(2);
         userId = rs.getInt(3);
         value = rs.getString(4);
         expiration = new DateTime(rs.getString(5));
         used = rs.getShort(6) == 1;
+        name = rs.getString(7);
     }
 
     /**
@@ -47,9 +49,10 @@ public class Token {
      * @param tokenType     TOKEN_TYPE_* constant int to describe
      * @param user          The user to link
      * @param expiration    When the token will expire
+     * @param name          The name of the PC client
      * @return              The token created
      */
-    public static Token create(int tokenType, User user, DateTime expiration) throws Exception {
+    public static Token create(int tokenType, User user, DateTime expiration, String name) throws Exception {
 
         String value;
         do {
@@ -58,13 +61,14 @@ public class Token {
 
         String userid = (user == null) ? "0" : String.valueOf(user.getId());
 
-        String sql = "INSERT INTO Tokens (type, user_id, value, expiration, used) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Tokens (type, user_id, value, expiration, used, name) VALUES (?, ?, ?, ?, ?, ?)";
         String[] tab = new String[]{
                 String.valueOf(tokenType),
                 userid,
                 value,
                 expiration.toString(),
-                "0"
+                "0",
+                name
         };
         try {
             DataBase.getInstance().query(sql, tab);
@@ -101,7 +105,10 @@ public class Token {
      * @return              The token
      */
     public static Token getByValue(String value) throws Exception {
-        return new Token(DataBase.getInstance().getByCondition("Tokens", "value", value));
+        ResultSet rs = DataBase.getInstance().getByCondition("Tokens", "value", value);
+        if(!rs.next())
+            throw new Exception("Token not found");
+        return new Token(rs);
     }
     /**
      * Return the token by id
@@ -109,7 +116,21 @@ public class Token {
      * @return          The token
      */
     public static Token getById(int id) throws Exception {
-        return new Token(DataBase.getInstance().getByCondition("Tokens", "id", String.valueOf(id)));
+        ResultSet rs = DataBase.getInstance().getByCondition("Tokens", "id", String.valueOf(id));
+        if(!rs.next())
+            throw new Exception("Token not found");
+        return new Token(rs);
+    }
+    public static List<Token> getByUser(User us) throws Exception {
+        int id = (us == null) ? 0 : us.getId();
+        ResultSet rs = DataBase.getInstance().getByCondition("Tokens", "user_id", String.valueOf(id));
+        List<Token> tokens = new LinkedList<>();
+
+        while(rs.next()){
+            tokens.add(new Token(rs));
+        }
+
+        return tokens;
     }
     /**
      * Check if the token exist
@@ -146,6 +167,9 @@ public class Token {
             return null;
         }
         return User.getById(userId);
+    }
+    public String getName() {
+        return name;
     }
 
     /**
@@ -191,6 +215,7 @@ public class Token {
         String response = "";
         response += "Token("+id+"){\n";
         response += "   user        : " + userId + "\n";
+        response += "   name        : " + name + "\n";
         response += "   type        : " + type + "\n";
         response += "   value       : " + value.substring(0, 20) + "...\n";
         response += "   expiration  : " + expiration.toString() + "\n";

@@ -32,5 +32,7 @@ public class Common {
         }
         return hexString.toString();
     }
-
+    public static void sendMail(String mail, String subject, String html){
+        System.out.println("Mail for " + mail + ": " + subject + "\n" + html);
+    }
 }

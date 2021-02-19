@@ -7,6 +7,7 @@ import server.Log;
 
 import java.sql.ResultSet;
 import java.util.Calendar;
+import java.util.List;
 
 public class User {
     private int id;
@@ -50,9 +51,6 @@ public class User {
         return User.getByEmail(mail);
     }
     public User(ResultSet queryResult) throws Exception {
-        if(!queryResult.next())
-            throw new Exception("No user in query response");
-
         id = queryResult.getInt(1);
         name = queryResult.getString(2);
         surname = queryResult.getString(3);
@@ -70,10 +68,22 @@ public class User {
         return result.next();
     }
     public static User getByEmail(String email) throws Exception {
-        return new User(DataBase.getInstance().getByCondition("Users", "mail", email));
+        ResultSet rs = DataBase.getInstance().getByCondition("Users", "mail", email);
+        if(!rs.next())
+            throw new Exception("User not found");
+        return new User(rs);
     }
     public static User getById(int id) throws Exception{
-        return new User(DataBase.getInstance().getByCondition("Users", "id", String.valueOf(id)));
+        ResultSet rs = DataBase.getInstance().getByCondition("Users", "id", String.valueOf(id));
+        if(!rs.next())
+            throw new Exception("User not found");
+        return new User(rs);
+    }
+    public static User getByToken(String token) throws Exception {
+        Token t = Token.getByValue(token);
+        if(t.getType() != Token.TOKEN_TYPE_LOGIN)
+            throw new Exception("Wrong token type");
+        return t.getUser();
     }
 
     public int getId() {
@@ -153,7 +163,7 @@ public class User {
         return mail.equals(other.mail);
     }
 
-    public Token login(String password) throws Exception {
+    public Token login(String password, String PCname) throws Exception {
         if(password == null)
             throw new Exception("No password");
 
@@ -162,7 +172,10 @@ public class User {
         if(!password.equals(this.password))
             throw new Exception("Wrong password");
 
-        Token t = Token.create(Token.TOKEN_TYPE_LOGIN, this, new DateTime().add(0, 0, 0, 2, 0, 0));
+        if(!emailVerified)
+            throw new Exception("Email not verified");
+
+        Token t = Token.create(Token.TOKEN_TYPE_LOGIN, this, new DateTime().add(0, 0, 0, 2, 0, 0), PCname);
 
         lastConnection = new DateTime();
         DataBase.getInstance().changeValue("Users", "last_connection", lastConnection.toString(), id);
@@ -170,11 +183,29 @@ public class User {
 
         return t;
     }
+    public static Token login(String mail, String password, String PCname) throws Exception {
+        User us = User.getByEmail(mail);
+        return us.login(password, PCname);
+    }
+    public static void verifyEmail(String token) throws Exception {
+        Token t = Token.getByValue(token);
+        if(t.getType() != Token.TOKEN_TYPE_EMAIL)
+            throw new Exception("Wrong token type");
+        User u = t.getUser();
+        u.setEmailVerified(true);
+        t.use();
+    }
     public void logout(Token t) throws Exception {
         t.use();
     }
-    public void forgetPassword(){
-        //TODO
+
+    public List<Token> getTokens() throws Exception {
+        return Token.getByUser(this);
+    }
+    public void removeTokens() throws Exception {
+        List<Token> tokens = Token.getByUser(this);
+        for(Token t : tokens)
+            t.delete();
     }
 
     //TODO orders

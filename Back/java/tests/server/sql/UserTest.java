@@ -89,18 +89,29 @@ class UserTest {
     @Test
     void login() throws Exception{
         User us = User.getById(id);
+        boolean lastEmailVerified = us.isEmailVerified();
+
 
         try{
             Thread.sleep(2000);
-            us.login("abcd");
+            us.login("abcd", "test");
             fail();
         }catch (Exception e){
             assertEquals("Wrong password", e.getMessage());
         }
 
+        us.setEmailVerified(false);
+        try{
+            us.login("test", "test");
+            fail();
+        }catch (Exception e){
+            assertEquals("Email not verified", e.getMessage());
+        }
+        us.setEmailVerified(true);
+
         Token t;
         try{
-            t = us.login("test");
+            t = us.login("test", "test");
 
             assertTrue(t.isValid());
             User cp = t.getUser();
@@ -115,6 +126,8 @@ class UserTest {
 
         }catch (Exception e){
             fail(e.getMessage());
+        }finally {
+            us.setEmailVerified(lastEmailVerified);
         }
 
 
