@@ -113,6 +113,15 @@ public class User {
     public DateTime getLastConnection() {
         return lastConnection;
     }
+    public List<Address> getAddresses() throws Exception {
+        String sql = "SELECT Addresses.* FROM Users JOIN UsersAdresses on Users.id = UsersAdresses.user_id JOIN Addresses on UsersAdresses.address_id = Addresses.id WHERE Users.id = ?";
+        String[] tab = new String[]{
+                String.valueOf(id)
+        };
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+        //TODO
+        return null;
+    }
 
     public void setName(String name) throws Exception {
         this.name = name;
