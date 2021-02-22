@@ -6,21 +6,49 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import server.DataBase;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddressTest {
 
     static int id = 0;
+    static int user = 0;
 
     @BeforeAll
     static void init() throws Exception {
         DataBase.createInstance();
-        Address a = Address.create(1, "way", "city", 12345, "state");
+        Address a = Address.create(1, "way", "city", 12345, "state", null);
+        User us = User.register("testAdd", "testAdd", "testAdd", "testAdd", "testAdd", false);
         id = a.getId();
+        user = us.getId();
     }
     @AfterAll
     static void delete() throws Exception{
         Address.getById(id).delete();
+        List<Address> list = Address.getByUser(null);
+        for(Address e : list){
+            e.delete();
+        }
+
+        User.getById(user).delete();
+    }
+
+    @Test
+    void user() throws Exception{
+        User us = User.getById(user);
+
+        assertEquals(0, us.getAddresses().size());
+
+        Address a1 = Address.create(0, "w", "c", 0, "s", us);
+
+        List<Address> list = us.getAddresses();
+        assertEquals(1, list.size());
+        assertEquals(a1.toString(), list.get(0).toString());
+
+        a1.delete();
+
+        assertEquals(0, us.getAddresses().size());
     }
 
     @Test

@@ -4,6 +4,8 @@ import server.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class represent a Address for any usage
@@ -16,6 +18,7 @@ public class Address {
     private String city;
     private int postalcode;
     private String state;
+    private int userId;
 
     private Address(){}
     private Address(ResultSet rs) throws SQLException {
@@ -25,6 +28,7 @@ public class Address {
         city = rs.getString(4);
         postalcode = rs.getInt(5);
         state = rs.getString(6);
+        userId = rs.getInt(7);
     }
 
     /**
@@ -36,14 +40,18 @@ public class Address {
      * @param state
      * @return      The new address
      */
-    public static Address create(int number, String way, String city, int postalcode, String state) throws Exception {
-        String sql = "INSERT INTO Addresses (number, way, city, postalcode, state) VALUES (?, ?, ?, ?, ?);";
+    public static Address create(int number, String way, String city, int postalcode, String state, User us) throws Exception {
+        String sql = "INSERT INTO Addresses (number, way, city, postalcode, state, user_id) VALUES (?, ?, ?, ?, ?, ?);";
+
+        int user_id = (us == null) ? 0 : us.getId();
+
         String[] tab = new String[]{
                 String.valueOf(number),
                 way,
                 city,
                 String.valueOf(postalcode),
-                state
+                state,
+                String.valueOf(user_id)
         };
         DataBase.getInstance().query(sql, tab);
 
@@ -64,6 +72,28 @@ public class Address {
         return new Address(rs);
     }
 
+    /**
+     * Get all the addresses of one user
+     * @param user      The user
+     * @return          The addresses
+     */
+    public static List<Address> getByUser(User user) throws Exception{
+
+        int user_id = (user == null) ? 0 : user.getId();
+
+        String sql = "SELECT * FROM Addresses WHERE user_id = ?;";
+        String[] tab = new String[]{
+                String.valueOf(user_id)
+        };
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+        List<Address> list = new LinkedList<>();
+        while(rs.next())
+            list.add(new Address(rs));
+
+        return list;
+    }
+
     public int getId() {
         return id;
     }
@@ -81,6 +111,9 @@ public class Address {
     }
     public String getState() {
         return state;
+    }
+    public User getUser() throws Exception {
+        return User.getById(userId);
     }
 
     public void setNumber(int number) throws Exception {
@@ -110,7 +143,7 @@ public class Address {
      * @return          The ditance between the two points
      */
     public double distance(Address other){
-        return 0; //TODO
+        return 0; //TODO distance
     }
 
     /**
@@ -118,5 +151,19 @@ public class Address {
      */
     public void delete() throws Exception {
         DataBase.getInstance().delete("Addresses", id);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Address("+id+"){" +
+                "   id=" + id +
+                "   number=" + number + "\n" +
+                "   way=" + way + '\n' +
+                "   city=" + city + '\n' +
+                "   postalcode=" + postalcode +
+                "   state=" + state + '\n' +
+                "   userId=" + userId + "\n" +
+                '}';
     }
 }
