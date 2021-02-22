@@ -34,7 +34,7 @@ public class Token {
      * Create a token for email confirmation or login
      * @param rs            A query input
      */
-    public Token(ResultSet rs) throws Exception {
+    private Token(ResultSet rs) throws Exception {
         id = rs.getInt(1);
         type = rs.getInt(2);
         userId = rs.getInt(3);

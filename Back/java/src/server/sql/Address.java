@@ -18,7 +18,7 @@ public class Address {
     private String state;
 
     private Address(){}
-    public Address(ResultSet rs) throws SQLException {
+    private Address(ResultSet rs) throws SQLException {
         id = rs.getInt(1);
         number = rs.getInt(2);
         way = rs.getString(3);

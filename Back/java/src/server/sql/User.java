@@ -50,7 +50,7 @@ public class User {
 
         return User.getByEmail(mail);
     }
-    public User(ResultSet queryResult) throws Exception {
+    private User(ResultSet queryResult) throws Exception {
         id = queryResult.getInt(1);
         name = queryResult.getString(2);
         surname = queryResult.getString(3);
