@@ -166,4 +166,14 @@ public class Address {
                 "   userId=" + userId + "\n" +
                 '}';
     }
+    public boolean equals(Object o){
+        if(!(o instanceof Address))
+            return false;
+        Address a = (Address) o;
+        return number == a.number &&
+                way.equals(a.way) &&
+                city.equals(a.city) &&
+                postalcode == a.postalcode &&
+                state.equals(a.state);
+    }
 }

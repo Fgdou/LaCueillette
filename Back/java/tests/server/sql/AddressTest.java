@@ -44,7 +44,7 @@ class AddressTest {
 
         List<Address> list = us.getAddresses();
         assertEquals(1, list.size());
-        assertEquals(a1.toString(), list.get(0).toString());
+        assertEquals(a1, list.get(0));
 
         a1.delete();
 

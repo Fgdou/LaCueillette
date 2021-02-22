@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Tag {
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     private Tag(){}
     private Tag(ResultSet rs) throws SQLException {
@@ -63,5 +63,8 @@ public class Tag {
 
     public String toString(){
         return "Tag(" + id + ") : " + name;
+    }
+    public boolean equals(Object o){
+        return (o instanceof Tag && ((Tag)o).name.equals(name));
     }
 }
