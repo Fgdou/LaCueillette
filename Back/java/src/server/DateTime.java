@@ -87,19 +87,6 @@ public class DateTime {
         minute = Integer.parseInt(str.substring(14, 16));
         second = Integer.parseInt(str.substring(17, 19));
     }
-    /**
-     * @param number    A number
-     * @param n         The length to format
-     * @return          The number padded with "0"
-     * @example         (12, 3) --> 012
-     */
-    private static String format(int number, int n){
-        if(n == 0)
-            return "";
-        if(number < Math.pow(10, n-1))
-            return "0" + format(number, n-1);
-        return String.valueOf(number);
-    }
 
     /**
      * @return      The 2 dates added
@@ -172,7 +159,7 @@ public class DateTime {
         return second + minute* 60L + hour*3600L + day*24*3600L + month*31*24*3600L + year * 12*31*24*3600L;
     }
     public String toString(){
-        return format(year, 4)+"-"+format(month+1, 2)+"-"+format(day+1, 2)+" "+format(hour, 2)+":"+format(minute, 2)+":"+format(second, 2);
+        return Common.format(year, 4)+"-"+Common.format(month+1, 2)+"-"+Common.format(day+1, 2)+" "+Common.format(hour, 2)+":"+Common.format(minute, 2)+":"+Common.format(second, 2);
     }
 
     /**
@@ -186,5 +173,29 @@ public class DateTime {
         if(month >= 7 && month%2 == 1)
             return 31;
         return 30;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public int getSecond() {
+        return second;
     }
 }
