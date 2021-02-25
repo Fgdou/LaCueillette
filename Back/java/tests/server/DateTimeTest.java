@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DateTimeTest {
 
     @Test
-    void add() {
+    void add() throws Exception {
         DateTime d1 = new DateTime("2021-02-19 10:00:01");
         DateTime d2 = d1.add(0, 0, 0, 2, 1, 0);
         assertEquals("2021-02-19 12:01:01", d2.toString());
@@ -24,7 +24,7 @@ class DateTimeTest {
     }
 
     @Test
-    void testToString() {
+    void testToString() throws Exception {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         assertEquals(dt.format(new Date()), new DateTime().toString());
@@ -37,7 +37,7 @@ class DateTimeTest {
     }
 
     @Test
-    void testEquals() {
+    void testEquals() throws Exception {
         DateTime d1 = new DateTime();
         DateTime d2 = new DateTime();
         DateTime d3 = new DateTime("2021-02-19 10:00:01");
@@ -49,7 +49,7 @@ class DateTimeTest {
         assertFalse(d3.equals(d1));
     }
     @Test
-    void compareTo() {
+    void compareTo() throws Exception {
         DateTime d1 = new DateTime();
         DateTime d2 = new DateTime();
         DateTime d3 = new DateTime("2021-02-19 10:00:01");
@@ -61,7 +61,7 @@ class DateTimeTest {
     }
 
     @Test
-    void getLastDayOfMonth() {
+    void getLastDayOfMonth() throws Exception {
         assertEquals(31, new DateTime("2021-01-19 10:00:01").getLastDayOfMonth());
         assertEquals(28, new DateTime("2021-02-19 10:00:01").getLastDayOfMonth());
         assertEquals(29, new DateTime("2020-02-19 10:00:01").getLastDayOfMonth());

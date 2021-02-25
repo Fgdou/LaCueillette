@@ -15,7 +15,7 @@ public class DateTime {
     /**
      * @param time      Timestamp
      */
-    public DateTime(long time){
+    public DateTime(long time) throws Exception {
         Date d = new Date(time);
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         parse(sd.format(d));
@@ -27,7 +27,11 @@ public class DateTime {
     public DateTime(){
         Date d = new Date();
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        parse(sd.format(d));
+        try {
+            parse(sd.format(d));
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
         checkValidity();
     }
     /**
@@ -47,7 +51,7 @@ public class DateTime {
      * Create a date with a String
      * @param str   Must be 'yyyy-MM-dd hh:mm:ss'
      */
-    public DateTime(String str){
+    public DateTime(String str) throws Exception {
         parse(str);
         checkValidity();
     }
@@ -68,10 +72,13 @@ public class DateTime {
      * Apply the string to the date
      * @param str   Must be 'yyyy-MM-dd hh:mm:ss'
      */
-    private void parse(String str){
+    private void parse(String str) throws Exception {
         //yyyy-MM-dd hh:mm:ss
         if(str == null)
             return;
+
+        if(!str.matches("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"))
+            throw new Exception("The date format is not 'yyyy-MM-dd hh:mm:ss'");
 
         year = Integer.parseInt(str.substring(0, 4));
         month = Integer.parseInt(str.substring(5, 7))-1;
