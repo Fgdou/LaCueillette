@@ -63,6 +63,9 @@ public class User {
         lastConnection = new DateTime(queryResult.getString(10));
     }
 
+    //TODO changePassword()
+    //TODO setEmail()
+
     public static boolean exist(String email) throws Exception {
         ResultSet result = DataBase.getInstance().getByCondition("Users", "mail", email);
         return result.next();
