@@ -18,7 +18,11 @@ class AddressTest {
     static void init() throws Exception {
         DataBase.createInstance();
         Address a = Address.create(1, "way", "city", 12345, "state", null);
-        User us = User.register("testAdd", "testAdd", "testAdd", "testAdd", "testAdd", false);
+        User us;
+        if(User.exist("testAdd"))
+            us = User.getByEmail("testAdd");
+        else
+            us = User.register("testAdd", "testAdd", "testAdd", "testAdd", "testAdd", false);
         id = a.getId();
         user = us.getId();
     }

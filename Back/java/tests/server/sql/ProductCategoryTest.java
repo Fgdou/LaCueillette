@@ -15,6 +15,10 @@ class ProductCategoryTest {
     @BeforeAll
     static void init() throws Exception {
         DataBase.createInstance();
+        if(ProductCategory.exist("test"))
+            ProductCategory.getByName("test").delete();
+        if(ProductCategory.exist("testChild"))
+            ProductCategory.getByName("testChild").delete();
     }
     @AfterAll
     static void delete() throws Exception {

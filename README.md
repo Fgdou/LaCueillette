@@ -8,6 +8,11 @@ Comment développer un e-commerce de proximité pour préserver l’environnemen
 * GOARDOU Fabien
 * RAOUL Thibaut
 
+## Building for java
+- Open the project on IntelliJ
+- Right-click on 'pom.xml' --> Add as Maven Project
+- Run tests or application
+
 ## Building from the sources
 
 ### Dependencies needed :
