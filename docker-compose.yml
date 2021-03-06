@@ -8,7 +8,7 @@ services:
     volumes:
       - ./Front:/usr/share/nginx/html
   back:
-    image: openjdk
+    image: maven
     ports:
       - "8081:81"
     volumes:
