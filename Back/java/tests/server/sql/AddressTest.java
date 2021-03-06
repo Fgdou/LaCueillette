@@ -1,6 +1,5 @@
 package server.sql;
 
-import com.mysql.cj.xdevapi.AddResult;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
