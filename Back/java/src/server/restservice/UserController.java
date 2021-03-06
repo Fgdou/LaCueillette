@@ -53,7 +53,7 @@ public class UserController {
         User user = server.sql.User.getByEmail(userEmail);
         if (userPasswordNew2.equals(userPasswordNew1)){
             try{
-                user.setPassword(userPasswordNew1);
+                user.changePassword(userPasswordNew1);
                 return true;
             } catch (Exception e){
                 return false;

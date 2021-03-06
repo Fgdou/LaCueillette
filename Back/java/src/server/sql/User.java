@@ -63,9 +63,6 @@ public class User {
         lastConnection = new DateTime(queryResult.getString(10));
     }
 
-    //TODO changePassword()
-    //TODO setEmail()
-
     public static boolean exist(String email) throws Exception {
         ResultSet result = DataBase.getInstance().getByCondition("Users", "mail", email);
         return result.next();
@@ -140,7 +137,7 @@ public class User {
         this.emailVerified = emailVerified;
         DataBase.getInstance().changeValue("Users", "email_verified", (emailVerified)? "1":"0", id);
     }
-    public void setPassword(String password) throws Exception {
+    public void changePassword(String password) throws Exception {
         if(password == null)
             throw new Exception("No password");
         password = Common.hash(password);
@@ -149,6 +146,8 @@ public class User {
 
         Log.info("User " + mail + " changed his password");
     }
+    //TODO setEmail()
+
 
     public void delete() throws Exception {
         try {
