@@ -10,7 +10,7 @@ services:
   back:
     image: maven
     ports:
-      - "8081:81"
+      - "8081:8080"
     volumes:
       - ./Back/java:/app
     command: sh /app/run.sh
