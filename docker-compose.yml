@@ -16,6 +16,8 @@ services:
     command: sh /app/run.sh
     depends_on:
       - db
+    links:
+      - db
   db:
     image: mysql
     ports:
