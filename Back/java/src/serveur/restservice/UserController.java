@@ -1,5 +1,6 @@
 package serveur.restservice;
 
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import serveur.sql.User;
 
@@ -9,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class UserController {
 
-    private final AtomicLong counter = new AtomicLong();
+    //private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/user")
     public User userGetByEmail(@RequestParam(value = "email") String email) throws Exception {
@@ -19,90 +20,74 @@ public class UserController {
     /**
      * Create a user account
      * @param requestParams Map of Strings : name, surname, tel, email et password required for user account creation
-     * @return The user created
+     * @return JSONObject of error or "user created"
      * @throws Exception The email is already used
      */
     @PostMapping("/user/new")
-    public User createNewUser(@RequestParam Map<String,String> requestParams) throws Exception{
+    public JSONObject createNewUser(@RequestParam Map<String,String> requestParams) throws Exception{
         String userName = requestParams.get("name");
         String userSurname = requestParams.get("surname");
         String userTel = requestParams.get("tel");
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
         try {
-            return serveur.sql.User.register(userName, userSurname, userTel, userEmail, userPassword, false);
+            User newUser = serveur.sql.User.register(userName, userSurname, userTel, userEmail, userPassword, false);
+            return new JSONObject().put("log", "user created");
         }catch (Exception e){
-            return null;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("error", e.toString());
+            return jsonObject;
         }
     }
 
     /**
      * Change the user's password
-     * @param requestParams Map of Strings : email, old_password, new_password_first, new_password_second
-     * @return  True if and only if the password has been successfully changed
+     * @param requestParams Map of Strings : email, old_password, new_password
+     * @return  JSONObject with error or log
      * @throws Exception The email is not present in the database
      */
     @PostMapping("/user/change/password")
-    public boolean changePassword(@RequestParam Map<String,String> requestParams) throws Exception {
+    public JSONObject changePassword(@RequestParam Map<String,String> requestParams) throws Exception {
         String userEmail = requestParams.get("email");
         String userPasswordOld = requestParams.get("old_password");
-        String userPasswordNew1 = requestParams.get("new_password_first");
-        String userPasswordNew2 = requestParams.get("new_password_second");
+        String userPasswordNew = requestParams.get("new_password");
         //TODO Vérifier si l'ancien mot de passe est le bon
         //TODO Utiliser la bonne fonction
         User user = serveur.sql.User.getByEmail(userEmail);
-        if (userPasswordNew2.equals(userPasswordNew1)){
-            try{
-                user.changePassword(userPasswordNew1);
-                return true;
-            } catch (Exception e){
-                return false;
-            }
+        try{
+            user.changePassword(userPasswordNew);
+            return new JSONObject().put("log", "password successfully changed");
+        } catch (Exception e) {
+            return new JSONObject().put("error", e.toString());
         }
-        else
-            return false;
-    }
-
-    /**
-     * Change email of an account
-     * @param requestParams Map of Strings : old_email, new_email
-     * @return True if and only if the email has been successfully changed
-     * @throws Exception ???
-     */
-    @PostMapping("/user/change/email")
-    public boolean changeEmail(@RequestParam Map<String,String> requestParams) throws Exception{
-        String userEmailOld = requestParams.get("old_email");
-        String userEmailNew = requestParams.get("new_email");
-        User user = serveur.sql.User.getByEmail(userEmailOld);
-        if (userEmailNew.equals(userEmailOld))
-            return false;
-        user.setEmailVerified(false);
-        //TODO Modifier l'email
-        return true;
     }
 
     /**
      * Change one or more user informations
-     * @param requestParams Map of Strings : name, surname, tel
-     * @return The user (with actualized infos)
+     * @param requestParams Map of Strings : name, surname, tel, adresse, ville, code_postal
+     * @return JSONObject of error or log
      * @throws Exception ???
      */
     @PostMapping("/user/change")
-    public User changeUserInfos(@RequestParam Map<String,String> requestParams) throws Exception{
+    public JSONObject changeUserInfos(@RequestParam Map<String,String> requestParams) throws Exception{
         String userName = requestParams.get("new_name");
         String userSurname = requestParams.get("new_surname");
         String userTel = requestParams.get("new_tel");
         String userEmail = requestParams.get("email"); //Not changed !
+        String userAddress = requestParams.get("adresse");
+        String userTown = requestParams.get("ville");
+        String userCP = requestParams.get("code_postal");
         User user = serveur.sql.User.getByEmail(userEmail);
         try{
+            //TODO Change if and only if not empty
             user.setName(userName);
             user.setSurname(userSurname);
             user.setTel(userTel);
+            return new JSONObject().put("log", "infos changed");
         }
         catch (Exception e){
-            return null;
+            return new JSONObject().put("error", e.toString());
         }
-        return user;
     }
 
     /**
