@@ -96,7 +96,7 @@ public class UserController {
      * @return True if and only if the user has been successfully deleted
      * @throws Exception ???
      */
-    @PutMapping("/user/delete")
+    @PostMapping("/user/delete")
     public boolean deleterUser(@RequestParam Map<String,String> requestParams) throws Exception{
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
