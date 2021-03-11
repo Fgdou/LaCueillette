@@ -1,7 +1,4 @@
-import server.DataBase;
-import server.sql.User;
-
-import java.sql.ResultSet;
+import serveur.DataBase;
 
 class test{
     public static void main(String[] args) throws Exception {

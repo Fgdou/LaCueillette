@@ -1,6 +1,6 @@
-package server.sql;
+package serveur.sql;
 
-import server.DataBase;
+import serveur.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

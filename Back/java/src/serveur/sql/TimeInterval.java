@@ -1,6 +1,6 @@
-package server.sql;
+package serveur.sql;
 
-import server.DateTime;
+import serveur.DateTime;
 
 public class TimeInterval {
     public final DateTime start;

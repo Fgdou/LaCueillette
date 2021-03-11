@@ -1,15 +1,11 @@
-package server.sql;
+package serveur.sql;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import server.DataBase;
-import server.DateTime;
+import serveur.DataBase;
+import serveur.DateTime;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,6 +1,6 @@
-package server.sql;
+package serveur.sql;
 
-import server.DataBase;
+import serveur.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +32,7 @@ public class Address {
     }
 
     /**
-     * Crate an address into database
+     * Create an address into database
      * @param number
      * @param way
      * @param city

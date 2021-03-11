@@ -1,12 +1,11 @@
-package server.sql;
+package serveur.sql;
 
-import server.Common;
-import server.DataBase;
-import server.DateTime;
-import server.Log;
+import serveur.Common;
+import serveur.DataBase;
+import serveur.DateTime;
+import serveur.Log;
 
 import java.sql.ResultSet;
-import java.util.Calendar;
 import java.util.List;
 
 public class User {

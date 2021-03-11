@@ -1,8 +1,8 @@
-package server.sql;
+package serveur.sql;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import server.DataBase;
+import serveur.DataBase;
 
 import static org.junit.jupiter.api.Assertions.*;
 

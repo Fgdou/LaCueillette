@@ -1,7 +1,7 @@
-package server.sql;
+package serveur.sql;
 
-import server.Common;
-import server.DateTime;
+import serveur.Common;
+import serveur.DateTime;
 
 public class Time extends DateTime {
     public Time(String str) throws Exception {

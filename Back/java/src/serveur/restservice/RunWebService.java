@@ -1,8 +1,8 @@
-package server.restservice;
+package serveur.restservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import server.DataBase;
+import serveur.DataBase;
 
 @SpringBootApplication
 public class RunWebService {

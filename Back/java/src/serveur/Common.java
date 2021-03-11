@@ -1,4 +1,4 @@
-package server;
+package serveur;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

@@ -1,12 +1,10 @@
-package server.sql;
+package serveur.sql;
 
-import server.DataBase;
-import server.DateTime;
-import server.Log;
+import serveur.DataBase;
+import serveur.DateTime;
+import serveur.Log;
 
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 

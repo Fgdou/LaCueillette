@@ -1,7 +1,7 @@
-package server.sql;
+package serveur.sql;
 
 import org.junit.jupiter.api.Test;
-import server.DateTime;
+import serveur.DateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 

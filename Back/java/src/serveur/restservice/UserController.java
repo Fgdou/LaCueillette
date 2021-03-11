@@ -1,7 +1,7 @@
-package server.restservice;
+package serveur.restservice;
 
 import org.springframework.web.bind.annotation.*;
-import server.sql.User;
+import serveur.sql.User;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -13,7 +13,7 @@ public class UserController {
 
     @GetMapping("/user")
     public User userGetByEmail(@RequestParam(value = "email") String email) throws Exception {
-        return server.sql.User.getByEmail(email);
+        return serveur.sql.User.getByEmail(email);
     }
 
     /**
@@ -30,7 +30,7 @@ public class UserController {
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
         try {
-            return server.sql.User.register(userName, userSurname, userTel, userEmail, userPassword, false);
+            return serveur.sql.User.register(userName, userSurname, userTel, userEmail, userPassword, false);
         }catch (Exception e){
             return null;
         }
@@ -50,7 +50,7 @@ public class UserController {
         String userPasswordNew2 = requestParams.get("new_password_second");
         //TODO Vérifier si l'ancien mot de passe est le bon
         //TODO Utiliser la bonne fonction
-        User user = server.sql.User.getByEmail(userEmail);
+        User user = serveur.sql.User.getByEmail(userEmail);
         if (userPasswordNew2.equals(userPasswordNew1)){
             try{
                 user.changePassword(userPasswordNew1);
@@ -73,7 +73,7 @@ public class UserController {
     public boolean changeEmail(@RequestParam Map<String,String> requestParams) throws Exception{
         String userEmailOld = requestParams.get("old_email");
         String userEmailNew = requestParams.get("new_email");
-        User user = server.sql.User.getByEmail(userEmailOld);
+        User user = serveur.sql.User.getByEmail(userEmailOld);
         if (userEmailNew.equals(userEmailOld))
             return false;
         user.setEmailVerified(false);
@@ -93,7 +93,7 @@ public class UserController {
         String userSurname = requestParams.get("new_surname");
         String userTel = requestParams.get("new_tel");
         String userEmail = requestParams.get("email"); //Not changed !
-        User user = server.sql.User.getByEmail(userEmail);
+        User user = serveur.sql.User.getByEmail(userEmail);
         try{
             user.setName(userName);
             user.setSurname(userSurname);
@@ -115,7 +115,7 @@ public class UserController {
     public boolean deleterUser(@RequestParam Map<String,String> requestParams) throws Exception{
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
-        User user = server.sql.User.getByEmail(userEmail);
+        User user = serveur.sql.User.getByEmail(userEmail);
         //TODO vérifier si le password est le bon
         if(false /* Vérifier ici */) {
             user.delete();
