@@ -119,13 +119,20 @@ public class Token {
             throw new Exception("Token not found");
         return new Token(rs);
     }
+
+    /**
+     * @param us the user
+     * @return  all the valid tokens for this user
+     */
     public static List<Token> getByUser(User us) throws Exception {
         int id = (us == null) ? 0 : us.getId();
         ResultSet rs = DataBase.getInstance().getByCondition("Tokens", "user_id", String.valueOf(id));
         List<Token> tokens = new LinkedList<>();
 
         while(rs.next()){
-            tokens.add(new Token(rs));
+            Token t = new Token(rs);
+            if(t.isValid())
+                tokens.add(t);
         }
 
         return tokens;

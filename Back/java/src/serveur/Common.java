@@ -4,6 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This class regroup the common functions, like hash or formatting the numbers
+ */
+
 public class Common {
     /**
      * Function for hashing password
@@ -21,6 +25,10 @@ public class Common {
         }
         return null;
     }
+
+    /**
+     * Used for the hash function
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (int i = 0; i < hash.length; i++) {
@@ -32,7 +40,14 @@ public class Common {
         }
         return hexString.toString();
     }
-    public static void sendMail(String mail, String subject, String html){
+
+    /**
+     * Send a mail TODO
+     * @param mail
+     * @param subject
+     * @param html  the mail under html format
+     */
+    public static void sendMail(String mail, String subject, String html) throws Exception{
         System.out.println("Mail for " + mail + ": " + subject + "\n" + html);
     }
 

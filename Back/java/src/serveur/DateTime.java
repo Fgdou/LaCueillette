@@ -3,6 +3,10 @@ package serveur;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Store the date and time on format 'yyyy-MM-dd hh:mm:ss'
+ */
+
 public class DateTime {
 
     private int year;
@@ -26,7 +30,7 @@ public class DateTime {
      */
     public DateTime(){
         Date d = new Date();
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             parse(sd.format(d));
         }catch(Exception e){

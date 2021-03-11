@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class represent a category of product
+ */
+
 public class ProductCategory {
     private int id;
     private String name;
@@ -18,6 +22,12 @@ public class ProductCategory {
         name = rs.getString(2);
     }
 
+    /**
+     * Create on database
+     * @param name  the display name
+     * @param parent    the parent if anyone
+     * @return  the class created on database
+     */
     public static ProductCategory create(String name, ProductCategory parent) throws Exception {
 
         if(exist(name))
@@ -35,6 +45,11 @@ public class ProductCategory {
 
         return getByName(name);
     }
+
+    /**
+     * @param name of the category
+     * @return  if this category already exist
+     */
     public static boolean exist(String name) throws Exception {
         try{
             getByName(name);
@@ -45,6 +60,11 @@ public class ProductCategory {
             throw e;
         }
     }
+
+    /**
+     * @param name of the category
+     * @return the class
+     */
     public static ProductCategory getByName(String name) throws Exception {
         String sql = "SELECT * FROM ProductsCategory WHERE name = ?;";
         String[] tab = new String[]{
@@ -57,6 +77,12 @@ public class ProductCategory {
 
         return new ProductCategory(rs);
     }
+
+    /**
+     * @param id    the id
+     * @return the class
+     * @throws Exception
+     */
     public static ProductCategory getById(int id) throws Exception {
         String sql = "SELECT * FROM ProductsCategory WHERE id = ?;";
         String[] tab = new String[]{
@@ -69,6 +95,10 @@ public class ProductCategory {
 
         return new ProductCategory(rs);
     }
+
+    /**
+     * @return all category that have this category for parent
+     */
     public List<ProductCategory> getChildren() throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("ProductsCategory", "parent_id", String.valueOf(id));
 
@@ -80,6 +110,9 @@ public class ProductCategory {
         return list;
     }
 
+    /**
+     * Remove on the database
+     */
     public void delete() throws Exception {
         DataBase.getInstance().delete("ProductsCategory", id);
     }

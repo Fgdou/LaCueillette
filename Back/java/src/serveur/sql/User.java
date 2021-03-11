@@ -22,6 +22,16 @@ public class User {
 
     private User(){}
 
+    /**
+     * Create user in database
+     * @param name      The first name (nom)
+     * @param surname   The last name  (prenom)
+     * @param tel       The phone number (up to 10 chars)
+     * @param mail      The email
+     * @param password  The un-encoded password
+     * @param admin     If this is an admin
+     * @return          The user created
+     */
     public static User register(String name, String surname, String tel, String mail, String password, boolean admin) throws Exception {
         if(exist(mail))
             throw new Exception("User already exist");
@@ -62,22 +72,44 @@ public class User {
         lastConnection = new DateTime(queryResult.getString(10));
     }
 
+    /**
+     * @param email identifier of the user
+     * @return      If the user exist
+     */
     public static boolean exist(String email) throws Exception {
         ResultSet result = DataBase.getInstance().getByCondition("Users", "mail", email);
         return result.next();
     }
+
+    /**
+     * @param email the identifier of the user
+     * @return      The user
+     * @throws Exception if not found
+     */
     public static User getByEmail(String email) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Users", "mail", email);
         if(!rs.next())
             throw new Exception("User not found");
         return new User(rs);
     }
+
+    /**
+     * @param id of the user
+     * @return  the user in database
+     * @throws Exception    if not found
+     */
     public static User getById(int id) throws Exception{
         ResultSet rs = DataBase.getInstance().getByCondition("Users", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("User not found");
         return new User(rs);
     }
+
+    /**
+     * @param token a login token
+     * @return  the user
+     * @throws Exception if token is not valid
+     */
     public static User getByToken(String token) throws Exception {
         Token t = Token.getByValue(token);
         if(t.getType() != Token.TOKEN_TYPE_LOGIN)
@@ -147,7 +179,9 @@ public class User {
     }
     //TODO setEmail()
 
-
+    /**
+     * Delete the user on database
+     */
     public void delete() throws Exception {
         try {
             DataBase.getInstance().delete("Users", id);
@@ -167,6 +201,11 @@ public class User {
         return mail.equals(other.mail);
     }
 
+    /**
+     * @param password the unencoded password
+     * @param PCname   the name of the connection / pc for the logs
+     * @return         the new token is the password was correct
+     */
     public Token login(String password, String PCname) throws Exception {
         if(password == null)
             throw new Exception("No password");
@@ -187,10 +226,23 @@ public class User {
 
         return t;
     }
+
+    /**
+     * @param mail      identifier of the user
+     * @param password  password unencoded
+     * @param PCname    name of the connection / pc for the logs
+     * @return          a token is the login infos are correct
+     */
     public static Token login(String mail, String password, String PCname) throws Exception {
         User us = User.getByEmail(mail);
         return us.login(password, PCname);
     }
+
+    /**
+     * Check on database the email
+     * @param token the email token to verify
+     * @throws Exception if the token is not valid
+     */
     public static void verifyEmail(String token) throws Exception {
         Token t = Token.getByValue(token);
         if(t.getType() != Token.TOKEN_TYPE_EMAIL)
@@ -199,13 +251,25 @@ public class User {
         u.setEmailVerified(true);
         t.use();
     }
+
+    /**
+     * Delete the login token
+     * @param t the token
+     */
     public void logout(Token t) throws Exception {
         t.use();
     }
 
+    /**
+     * @return all the valid tokens
+     */
     public List<Token> getTokens() throws Exception {
         return Token.getByUser(this);
     }
+
+    /**
+     * Delete all the tokens (email and login)
+     */
     public void removeTokens() throws Exception {
         List<Token> tokens = Token.getByUser(this);
         for(Token t : tokens)

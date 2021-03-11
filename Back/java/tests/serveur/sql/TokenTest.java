@@ -2,6 +2,7 @@ package serveur.sql;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import serveur.DataBase;
 import serveur.DateTime;
@@ -63,6 +64,14 @@ class TokenTest {
         t = Token.getById(id);
 
         assertFalse(t.isValid());
+
+        t.delete();
+
+        DateTime date = new DateTime();
+        date = date.add(0, 0, 0, 2, 0, 0);
+
+        t = Token.create(0, null, date, "test");
+        id = t.getId();
     }
 
     @Test

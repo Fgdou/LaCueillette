@@ -1,15 +1,21 @@
 package serveur.sql;
 
 import serveur.DataBase;
+import serveur.Time;
 
 import java.sql.ResultSet;
+
+/**
+ * Interval of the TimeTable
+ * Used to modify or delete infos in TimeTable
+ */
 
 public class TimeTableInterval {
     private TimeInterval inter;
     private int id, dayOfWeek, store_id;
     private boolean active;
 
-    public TimeTableInterval(ResultSet rs) throws Exception {
+    protected TimeTableInterval(ResultSet rs) throws Exception {
         id = rs.getInt(1);
         dayOfWeek = rs.getInt(2);
         inter = new TimeInterval(
@@ -19,7 +25,7 @@ public class TimeTableInterval {
         active = rs.getBoolean(5);
         store_id = rs.getInt(6);
     }
-    public TimeTableInterval(TimeInterval interval, int dayOfWeek, int store){
+    protected TimeTableInterval(TimeInterval interval, int dayOfWeek, int store){
         this.inter = interval;
         this.dayOfWeek = dayOfWeek;
         active = true;
@@ -27,7 +33,7 @@ public class TimeTableInterval {
         store_id = store;
     }
 
-    public TimeTableInterval getById(int id) throws Exception {
+    protected TimeTableInterval getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("TimeTable", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("Interval not found");
@@ -63,5 +69,12 @@ public class TimeTableInterval {
     public void setActive(boolean active) throws Exception {
         this.active = active;
         DataBase.getInstance().changeValue("TimeTable", "active", (active)?"1":"0", id);
+    }
+
+    /**
+     * Remove on the database
+     */
+    public void delete() throws Exception {
+        DataBase.getInstance().delete("TimeTable", id);
     }
 }

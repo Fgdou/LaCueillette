@@ -2,6 +2,10 @@ package serveur;
 
 import java.sql.*;
 
+/**
+ * This core class is used to handle database queries
+ */
+
 public class DataBase {
 
     private static DataBase INSTANCE = null;
@@ -13,6 +17,13 @@ public class DataBase {
 
     private Connection _con = null;
 
+    /**
+     * Instanciate the database. Next, call connect()
+     * @param username
+     * @param password
+     * @param database
+     * @param host
+     */
     public DataBase(String username, String password, String database, String host){
 
         _username = username;

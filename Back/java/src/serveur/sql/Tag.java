@@ -5,6 +5,10 @@ import serveur.DataBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+/**
+ * A tag is put on products for searching them
+ */
 public class Tag {
     private int id;
     private String name;
@@ -15,6 +19,11 @@ public class Tag {
         name = rs.getString(2);
     }
 
+    /**
+     * Create on database
+     * @param name  the display name
+     * @return  the class created
+     */
     public static Tag create(String name) throws Exception {
         if(exist(name))
             throw new Exception("Tag already exist");
@@ -27,18 +36,33 @@ public class Tag {
 
         return getByName(name);
     }
+
+    /**
+     * @param name of the tag
+     * @return  the class
+     */
     public static Tag getByName(String name) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Tags", "name", name);
         if(!rs.next())
             throw new Exception("Tag not found");
         return new Tag(rs);
     }
+    /**
+     * @param id of the tag
+     * @return  the class
+     */
     public static Tag getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Tags", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("Tag not found");
         return new Tag(rs);
     }
+
+    /**
+     * @param name of the tag
+     * @return if the tag exist
+     * @throws Exception
+     */
     public static boolean exist(String name) throws Exception {
         try{
             getByName(name);
@@ -57,6 +81,9 @@ public class Tag {
         return id;
     }
 
+    /**
+     * Remove on the database
+     */
     public void delete() throws Exception {
         DataBase.getInstance().delete("Tags", id);
     }
