@@ -106,7 +106,10 @@ public class Token {
         ResultSet rs = DataBase.getInstance().getByCondition("Tokens", "value", value);
         if(!rs.next())
             throw new Exception("Token not found");
-        return new Token(rs);
+        Token t = new Token(rs);
+        if(!t.isValid())
+            throw new Exception("Token not valid");
+        return t;
     }
     /**
      * Return the token by id
