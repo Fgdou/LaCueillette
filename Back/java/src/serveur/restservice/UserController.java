@@ -2,15 +2,14 @@ package serveur.restservice;
 
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
+import serveur.sql.Address;
+import serveur.sql.Token;
 import serveur.sql.User;
 
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class UserController {
-
-    //private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/user")
     public User userGetByEmail(@RequestParam(value = "email") String email) throws Exception {
@@ -35,7 +34,7 @@ public class UserController {
             return new JSONObject().put("log", "user created");
         }catch (Exception e){
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("error", e.toString());
+            jsonObject.put("error", e.getMessage());
             return jsonObject;
         }
     }
@@ -58,7 +57,7 @@ public class UserController {
             user.changePassword(userPasswordNew);
             return new JSONObject().put("log", "password successfully changed");
         } catch (Exception e) {
-            return new JSONObject().put("error", e.toString());
+            return new JSONObject().put("error", e.getMessage());
         }
     }
 
@@ -74,19 +73,32 @@ public class UserController {
         String userSurname = requestParams.get("new_surname");
         String userTel = requestParams.get("new_tel");
         String userEmail = requestParams.get("email"); //Not changed !
-        String userAddress = requestParams.get("adresse");
+        int userNumber = Integer.parseInt(requestParams.get("number"));
+        String userWay = requestParams.get("way");
         String userTown = requestParams.get("ville");
-        String userCP = requestParams.get("code_postal");
+        int userCP = Integer.parseInt(requestParams.get("code_postal"));
+        String userToken = requestParams.get("token");
         User user = serveur.sql.User.getByEmail(userEmail);
+
+        if (!user.getTokens().contains(userToken)){
+            return new JSONObject().put("error", "user not in database");
+        }
+
         try{
-            //TODO Change if and only if not empty
-            user.setName(userName);
-            user.setSurname(userSurname);
-            user.setTel(userTel);
+            //Change if and only if not empty
+            if (!userName.equals(""))
+                user.setName(userName);
+            if (!userSurname.equals(""))
+                user.setSurname(userSurname);
+            if (!userTel.equals(""))
+                user.setTel(userTel);
+            if (!userWay.equals("") || !userTown.equals("")){
+                user.getAddresses().add(Address.create(userNumber, userWay, userTown, userCP, "France", user));
+            }
             return new JSONObject().put("log", "infos changed");
         }
         catch (Exception e){
-            return new JSONObject().put("error", e.toString());
+            return new JSONObject().put("error", e.getMessage());
         }
     }
 
@@ -108,6 +120,33 @@ public class UserController {
         }
         else
             return false;
+    }
+
+    /**
+     * Login
+     * @param requestParams Paramètre requis
+     * @return JSONObject du token créé
+     * @throws Exception
+     */
+    public JSONObject login(@RequestParam Map<String,String> requestParams)throws Exception{
+        String userEmail = requestParams.get("email");
+        String userPassword = requestParams.get("password");
+        User user = serveur.sql.User.getByEmail(userEmail);
+        Token token = user.login(userPassword, userEmail);
+        return new JSONObject().put("log", token.toString());
+    }
+
+    /**
+     * Logout
+     * @param requestParams Paramètre requis
+     * @return JSONObject du token créé
+     * @throws Exception
+     */
+    public JSONObject logout(@RequestParam Map<String,String> requestParams)throws Exception{
+        String token = requestParams.get("token");
+        User user = serveur.sql.User.getByToken(token);
+        user.logout(Token.getByValue(token));
+        return new JSONObject().put("log", "logout done");
     }
 
 }
