@@ -2,6 +2,7 @@ package serveur.sql;
 
 import serveur.DataBase;
 import serveur.DateTime;
+import serveur.Log;
 
 import java.sql.ResultSet;
 import java.util.LinkedList;
@@ -60,11 +61,16 @@ public class Store {
         };
         DataBase.getInstance().query(sql, tab);
 
-        return Store.getByRef(ref);
+        Store store = Store.getByRef(ref);
+
+        Log.info("Store " + store.ref + " created by " + seller.getMail());
+
+        return store;
     }
 
     public void delete() throws Exception {
         DataBase.getInstance().delete("Stores", id);
+        Log.info("Store " + ref + " deleted");
     }
 
     public static boolean exist(String ref) throws Exception {
@@ -136,6 +142,10 @@ public class Store {
     public void setType(StoreType type) throws Exception {
         this.type_id = type.getId();
         DataBase.getInstance().changeValue("Stores", "type_id", String.valueOf(type.getId()), id);
+    }
+
+    public boolean equals(Object o){
+        return (o instanceof Store && ((Store)o).ref.equals(ref));
     }
 
     //TODO products
