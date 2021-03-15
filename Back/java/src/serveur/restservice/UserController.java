@@ -12,8 +12,8 @@ import java.util.Map;
 public class UserController {
 
     @GetMapping("/user")
-    public User userGetByEmail(@RequestParam(value = "email") String email) throws Exception {
-        return serveur.sql.User.getByEmail(email);
+    public User userGetByEmail(@RequestParam(value = "token") String token) throws Exception {
+        return serveur.sql.User.getByToken(token);
     }
 
     /**
@@ -47,12 +47,9 @@ public class UserController {
      */
     @PostMapping("/user/change/password")
     public JSONObject changePassword(@RequestParam Map<String,String> requestParams) throws Exception {
-        String userEmail = requestParams.get("email");
-        String userPasswordOld = requestParams.get("old_password");
-        String userPasswordNew = requestParams.get("new_password");
-        //TODO Vérifier si l'ancien mot de passe est le bon
-        //TODO Utiliser la bonne fonction
-        User user = serveur.sql.User.getByEmail(userEmail);
+        String token = requestParams.get("token");
+        String userPasswordNew = requestParams.get("password");
+        User user = User.getByToken(token);
         try{
             user.changePassword(userPasswordNew);
             return new JSONObject().put("log", "password successfully changed");
@@ -65,24 +62,18 @@ public class UserController {
      * Change one or more user informations
      * @param requestParams Map of Strings : name, surname, tel, adresse, ville, code_postal
      * @return JSONObject of error or log
-     * @throws Exception ???
      */
     @PostMapping("/user/change")
     public JSONObject changeUserInfos(@RequestParam Map<String,String> requestParams) throws Exception{
         String userName = requestParams.get("new_name");
         String userSurname = requestParams.get("new_surname");
         String userTel = requestParams.get("new_tel");
-        String userEmail = requestParams.get("email"); //Not changed !
         int userNumber = Integer.parseInt(requestParams.get("number"));
         String userWay = requestParams.get("way");
         String userTown = requestParams.get("ville");
         int userCP = Integer.parseInt(requestParams.get("code_postal"));
         String userToken = requestParams.get("token");
-        User user = serveur.sql.User.getByEmail(userEmail);
-
-        if (!user.getTokens().contains(userToken)){
-            return new JSONObject().put("error", "user not in database");
-        }
+        User user = User.getByToken(userToken);
 
         try{
             //Change if and only if not empty
@@ -92,6 +83,7 @@ public class UserController {
                 user.setSurname(userSurname);
             if (!userTel.equals(""))
                 user.setTel(userTel);
+            //TODO update address without creating one ?
             if (!userWay.equals("") || !userTown.equals("")){
                 user.getAddresses().add(Address.create(userNumber, userWay, userTown, userCP, "France", user));
             }
@@ -106,33 +98,24 @@ public class UserController {
      * Delete an account
      * @param requestParams Map of Strings : email, password
      * @return True if and only if the user has been successfully deleted
-     * @throws Exception ???
      */
     @PostMapping("/user/delete")
     public boolean deleterUser(@RequestParam Map<String,String> requestParams) throws Exception{
-        String userEmail = requestParams.get("email");
-        String userPassword = requestParams.get("password");
-        User user = serveur.sql.User.getByEmail(userEmail);
-        //TODO vérifier si le password est le bon
-        if(false /* Vérifier ici */) {
-            user.delete();
-            return true;
-        }
-        else
-            return false;
+        String token = requestParams.get("token");
+        User user = User.getByToken(token);
+        user.delete();
+        return true;
     }
 
     /**
      * Login
      * @param requestParams Paramètre requis
      * @return JSONObject du token créé
-     * @throws Exception
      */
     public JSONObject login(@RequestParam Map<String,String> requestParams)throws Exception{
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
-        User user = serveur.sql.User.getByEmail(userEmail);
-        Token token = user.login(userPassword, userEmail);
+        Token token = User.login(userEmail, userPassword, userEmail);
         return new JSONObject().put("log", token.toString());
     }
 
@@ -140,7 +123,6 @@ public class UserController {
      * Logout
      * @param requestParams Paramètre requis
      * @return JSONObject du token créé
-     * @throws Exception
      */
     public JSONObject logout(@RequestParam Map<String,String> requestParams)throws Exception{
         String token = requestParams.get("token");

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import serveur.sql.Address;
 import serveur.sql.Store;
+import serveur.sql.StoreType;
 import serveur.sql.User;
 
 import java.util.List;
@@ -33,13 +34,12 @@ public class StoreController {
         String token = requestParam.get("token");
         try{
             User user = User.getByToken(token);
-            //TODO getStoresByUser(User user) : User -> List[Store]
-            //List<Store> listStore = getStoresByUser(user);
+            List<Store> listStore = Store.getByUser(user);
             JSONObject jsonObject = new JSONObject();
-            /*for (s : listStore) {
-                jsonObject.put(String.valueOf(s.getInt), s.getName);
+            for (Store s : listStore) {
+                jsonObject.put(String.valueOf(s.getId()), s.getName());
             }
-            */
+
             return jsonObject;
         } catch (Exception e){
             return new JSONObject().put("error", e.getMessage());
@@ -50,7 +50,6 @@ public class StoreController {
      * Create a store
      * @param requestParam Parameters requested
      * @return JSONObject : error or log
-     * @throws Exception
      */
     @PostMapping("/store/new")
     public JSONObject createStore(@RequestParam Map<String, String> requestParam) throws Exception {
@@ -62,10 +61,11 @@ public class StoreController {
         int cp = Integer.parseInt(requestParam.get("postal_code"));
         String town = requestParam.get("town");
         String userToken = requestParam.get("token");
+        int storeType_id = Integer.parseInt(requestParam.get("storeType_id"));
         try {
             User user = User.getByToken(userToken);
-            Store store = Store.create(name, "", Address.create(number, way, town, cp, "France", user), user, tel, email, null);
-            //TODO Add ref and StoreType
+            Store store = Store.create(name, "", Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
+            //TODO Calculate auto ref
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("log", "Store created");
             jsonObject.put("store_id", store.getId());
@@ -79,7 +79,6 @@ public class StoreController {
      * Change infos about a store
      * @param requestParam Parameters requested
      * @return JSONObject : error or log
-     * @throws Exception
      */
     @PostMapping("/store/change")
     public JSONObject modifyStore(@RequestParam Map<String, String> requestParam) throws Exception {
@@ -127,7 +126,6 @@ public class StoreController {
      * Delete a store
      * @param requestParam Parameters requested
      * @return JSONObject : error or log
-     * @throws JSONException
      */
     @PostMapping("/store/delete")
     public JSONObject deleteStore(@RequestParam Map<String, String> requestParam) throws JSONException {
