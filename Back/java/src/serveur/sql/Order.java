@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * This class hold the information of an order
+ */
+
 public class Order {
 
     public static int ORDER_PENDING = 0;
@@ -60,18 +64,32 @@ public class Order {
         }
     }
 
+    /**
+     * @param id id of the order
+     * @return the order
+     */
     public static Order getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Orders", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("Cannot found Order");
         return new Order(rs);
     }
+
+    /**
+     * @param ref the uniq ref of the order
+     * @return the order
+     */
     public static Order getByRef(String ref) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Orders", "ref", ref);
         if(!rs.next())
             throw new Exception("Cannot found Order");
         return new Order(rs);
     }
+
+    /**
+     * @param user the user
+     * @return all the orders link to this user
+     */
     public static List<Order> getByUser(User user) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Orders", "user_id", String.valueOf(user.getId()));
 
@@ -82,6 +100,11 @@ public class Order {
 
         return list;
     }
+
+    /**
+     * @param store a store
+     * @return all the orders for the store
+     */
     public static List<Order> getByStore(Store store) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Orders", "store_id", String.valueOf(store.getId()));
 
@@ -93,12 +116,25 @@ public class Order {
         return list;
     }
 
+    /**
+     * @param ref a order reference
+     * @return if the order exist
+     */
     public static boolean exists(String ref) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Orders", "ref", ref);
         return rs.next();
     }
 
-    public static Order create(String ref, Store store, Address address, DateTime appointment, User user) throws Exception {
+    /**
+     * Create an order in database (only used by the cart)
+     * @param ref
+     * @param store
+     * @param address
+     * @param appointment
+     * @param user
+     * @return the new Order
+     */
+    protected static Order create(String ref, Store store, Address address, DateTime appointment, User user) throws Exception {
         if(exists(ref))
             throw new Exception("Order already exist");
 
@@ -107,7 +143,7 @@ public class Order {
                 ref,
                 String.valueOf(store.getId()),
                 String.valueOf(address.getId()),
-                appointment.toString(),
+                (appointment == null) ? "null" : appointment.toString(),
                 String.valueOf(user.getId())
         };
 
@@ -115,7 +151,13 @@ public class Order {
 
         return getByRef(ref);
     }
-    public void addSubProduct(SubProduct sp, int quantity) throws Exception {
+
+    /**
+     * Add product to the order
+     * @param sp SubProduct
+     * @param quantity quantity
+     */
+    protected void addSubProduct(SubProduct sp, int quantity) throws Exception {
         products_q.put(sp.getId(), quantity);
 
         String sql = "INSERT INTO OrdersProducts (subproduct_id, order_id, quantity, kg) VALUES (?, ?, ?, 0)";
@@ -126,7 +168,12 @@ public class Order {
         };
         DataBase.getInstance().query(sql, tab);
     }
-    public void addSubProduct(SubProduct sp, float kg) throws Exception {
+    /**
+     * Add product to the order
+     * @param sp SubProduct
+     * @param kg quantity
+     */
+    protected void addSubProduct(SubProduct sp, float kg) throws Exception {
         products_kg.put(sp.getId(), kg);
 
         String sql = "INSERT INTO OrdersProducts (subproduct_id, order_id, quantity, kg) VALUES (?, ?, 0, ?)";
@@ -138,12 +185,23 @@ public class Order {
         DataBase.getInstance().query(sql, tab);
     }
 
+    /**
+     * update the state of the order
+     */
     public void startPrepare() throws Exception {
         setState(ORDER_PREPARING);
     }
+
+    /**
+     * update the state of the order
+     */
     public void finishPrepare() throws Exception {
         setState(ORDER_FINISHED);
     }
+    /**
+     * update the state of the order
+     * Will get the stock back
+     */
     public void cancel() throws Exception {
         setState(ORDER_CANCELED);
 
@@ -163,9 +221,13 @@ public class Order {
         }
     }
 
+    /**
+     * Will lower the sock of the products
+     */
     public void pay() throws Exception {
         setPaid(true);
 
+        //TODO check availability
         for(int i : products_q.keySet()){
             SubProduct s = SubProduct.getById(i);
             int q = products_q.get(i);
@@ -180,6 +242,9 @@ public class Order {
         }
     }
 
+    /**
+     * @return the HT price
+     */
     public float getPriceHT() throws Exception {
         float sum = 0;
 
@@ -200,6 +265,9 @@ public class Order {
 
         return sum;
     }
+    /**
+     * @return the TVA price
+     */
     public float getTVA() throws Exception {
         float sum = 0;
 
@@ -220,6 +288,9 @@ public class Order {
 
         return sum;
     }
+    /**
+     * @return the TTC price
+     */
     public float getPriceTTC() throws Exception {
         float sum = 0;
 
@@ -282,6 +353,9 @@ public class Order {
         DataBase.getInstance().changeValue("Orders", "state", String.valueOf(state), id);
     }
 
+    /**
+     * Remove the order
+     */
     public void delete() throws Exception {
         String sql = "DELETE FROM OrdersProducts WHERE order_id = ?";
         String[] tab = new String[]{String.valueOf(id)};

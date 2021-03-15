@@ -10,6 +10,12 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class represent a type of product
+ * Like a Jean
+ * A subproduct is used for referencing for example the size S / M / L
+ */
+
 public class Product {
     private int id;
     private String name;
@@ -41,6 +47,22 @@ public class Product {
         description = rs.getString(13);
     }
 
+    /**
+     * Create a product in database
+     * @param name
+     * @param price
+     * @param price_kg if the price is for kg or quantity
+     * @param category
+     * @param store
+     * @param canBePicked
+     * @param canBeDelivered
+     * @param tva in percent : 0 -> 1
+     * @param start interval of the availability
+     * @param stop interval of the availability
+     * @param expiration expiration date (peremption in french)
+     * @param description
+     * @return the new product
+     */
     public static Product create(String name, float price, boolean price_kg, ProductCategory category,
                                  Store store, boolean canBePicked, boolean canBeDelivered, float tva,
                                  DateTime start, DateTime stop, Time expiration, String description) throws Exception {
@@ -69,12 +91,20 @@ public class Product {
         return p;
     }
 
+    /**
+     * @param id the id
+     * @return the product
+     */
     public static Product getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Products", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("Product not found");
         return new Product(rs);
     }
+    /**
+     * @param store the store
+     * @return all the product in the store
+     */
     public static List<Product> getByStore(Store store) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Products", "store_id", String.valueOf(store.getId()));
         List<Product> list = new LinkedList<>();
@@ -85,6 +115,12 @@ public class Product {
 
         return list;
     }
+
+    /**
+     * @param store the store
+     * @param name the name of a product
+     * @return the product in the store with the name
+     */
     public static Product getByStoreAndName(Store store, String name) throws Exception {
         String sql = "SELECT * FROM Products WHERE store_id = ? AND name = ?";
         String[] tab = new String[]{
@@ -96,6 +132,12 @@ public class Product {
             throw new Exception("Product not found");
         return new Product(rs);
     }
+
+    /**
+     * @param store the store
+     * @param name the name of the product
+     * @return if the product exist
+     */
     public static boolean exist(Store store, String name) throws Exception {
         String sql = "SELECT * FROM Products WHERE store_id = ? AND name = ?";
         String[] tab = new String[]{
@@ -106,6 +148,9 @@ public class Product {
         return rs.next();
     }
 
+    /**
+     * Delete the product on the database
+     */
     public void delete() throws Exception {
         DataBase.getInstance().delete("Products", id);
         Log.info("Product " + name + " on " + getStore().getId() + " deleted");
@@ -218,6 +263,12 @@ public class Product {
         DataBase.getInstance().changeValue("Products", "description", description, id);
     }
 
+    /**
+     * @param city the city
+     * @param postalcode the postal code
+     * @param category the category of product
+     * @return all the product founded
+     */
     public List<Product> searchByCity(String city, int postalcode, ProductCategory category) throws Exception {
         String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.state = ? AND P.category_id = ?";
         String[] tab = new String[]{
@@ -235,6 +286,12 @@ public class Product {
 
         return list;
     }
+    /**
+     * @param city the city
+     * @param postalcode the postal code
+     * @param tags the tags to search
+     * @return all the product founded with all tags
+     */
     public List<Product> searchByCity(String city, int postalcode, List<Tag> tags) throws Exception{
         List<Product> list = new LinkedList<>();
 
@@ -262,6 +319,9 @@ public class Product {
         return list;
     }
 
+    /**
+     * @return all the subproducts related
+     */
     public List<SubProduct> getSubProducts() throws Exception {
         return SubProduct.getByProduct(this);
     }

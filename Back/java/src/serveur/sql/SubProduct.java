@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This is the lower part of the product
+ * The special_tag represent the information, like the size or the color
+ */
+
 public class SubProduct {
     private int id;
     private int quantity;
@@ -27,6 +32,10 @@ public class SubProduct {
         price_kg = Product.getById(product_id).isPrice_kg();
     }
 
+    /**
+     * @param id
+     * @return the subproduct
+     */
     public static SubProduct getById(int id) throws Exception{
         ResultSet rs = DataBase.getInstance().getByCondition("SubProducts", "id", String.valueOf(id));
         if(!rs.next())
@@ -34,6 +43,13 @@ public class SubProduct {
         return new SubProduct(rs);
     }
 
+    /**
+     * Create the subproduct in the database
+     * @param quantity  quantity in number
+     * @param special_tag the tag
+     * @param p the product
+     * @return the new subproduct
+     */
     public static SubProduct create(int quantity, String special_tag, Product p) throws Exception{
         String sql = "INSERT INTO SubProducts (quantity, special_tag, created, product_id, kg) VALUES (?, ?, NOW(), ?, 0); SELECT MAX(id) FROM SubProducts";
         String[] tab = new String[]{
@@ -46,6 +62,13 @@ public class SubProduct {
 
         return getById(max);
     }
+    /**
+     * Create the subproduct in the database
+     * @param kg  quantity in kg
+     * @param special_tag the tag
+     * @param p the product
+     * @return the new subproduct
+     */
     public static SubProduct create(float kg, String special_tag, Product p) throws Exception{
         String sql = "INSERT INTO SubProducts (quantity, special_tag, created, product_id, kg) VALUES (0, ?, NOW(), ?, ?); SELECT MAX(id) FROM SubProducts";
         String[] tab = new String[]{
@@ -58,6 +81,11 @@ public class SubProduct {
 
         return getById(max);
     }
+
+    /**
+     * @param p the product
+     * @return all of the subproduct related
+     */
     public static List<SubProduct> getByProduct(Product p) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("SubProducts", "product_id", String.valueOf(p.getId()));
 
@@ -112,6 +140,10 @@ public class SubProduct {
         DataBase.getInstance().changeValue("SubProducts", "kg", String.valueOf(kg), id);
     }
 
+    /**
+     * Delete from the stock the quantity
+     * @param quantity
+     */
     public void buy(int quantity) throws Exception{
         if(price_kg)
             throw new Exception("Cannot buy product with kg price");
@@ -119,6 +151,10 @@ public class SubProduct {
             throw new Exception("Not enough quantity");
         setQuantity(this.quantity-quantity);
     }
+    /**
+     * Delete from the stock the quantity
+     * @param kg
+     */
     public void buy(float kg) throws Exception{
         if(price_kg)
             throw new Exception("Cannot buy product with quantity price");
@@ -127,6 +163,9 @@ public class SubProduct {
         setKg(this.kg - kg);
     }
 
+    /**
+     * Delete the subproduct from the database
+     */
     public void delete() throws Exception{
         DataBase.getInstance().delete("SubProducts", id);
     }

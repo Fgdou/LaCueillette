@@ -8,6 +8,10 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class represent a store
+ */
+
 public class Store {
     private String name;
     private int address_id;
@@ -31,18 +35,31 @@ public class Store {
         type_id = rs.getInt(9);
     }
 
+    /**
+     * @param ref the ref of the store
+     * @return the store found
+     */
     public static Store getByRef(String ref) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Stores", "ref", ref);
         if(!rs.next())
             throw new Exception("Store not found");
         return new Store(rs);
     }
+    /**
+     * @param id the id of the store
+     * @return the store found
+     */
     public static Store getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Stores", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("Store not found");
         return new Store(rs);
     }
+
+    /**
+     * @param type a type of store
+     * @return all the store with this type
+     */
     public static List<Store> getByType(StoreType type) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Stores", "type_id", String.valueOf(type.getId()));
         List<Store> list = new LinkedList<>();
@@ -51,6 +68,11 @@ public class Store {
             list.add(new Store(rs));
         return list;
     }
+
+    /**
+     * @param user a user
+     * @return all the store with this user
+     */
     public static List<Store> getByUser(User user) throws Exception{
         ResultSet rs = DataBase.getInstance().getByCondition("Stores", "boss_id", String.valueOf(user.getId()));
 
@@ -61,13 +83,25 @@ public class Store {
 
         return list;
     }
-    public static Store create(String name, String ref, Address address, User seller, String tel, String mail, StoreType typeId) throws Exception {
+
+    /**
+     * Create a store in database
+     * @param name the name fo the store
+     * @param ref   the uniq reference of the store
+     * @param address the address of the store
+     * @param seller the owner of the store
+     * @param tel the tel
+     * @param mail the mail
+     * @param type the type of store
+     * @return the new store
+     */
+    public static Store create(String name, String ref, Address address, User seller, String tel, String mail, StoreType type) throws Exception {
         if(exist(ref))
             throw new Exception("Store already exist");
 
         String sql = "INSERT INTO Stores (name, ref, address_id, boss_id, tel, mail, created, type_id) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
         String[] tab = new String[]{
-                name, ref, String.valueOf(address.getId()), String.valueOf(seller.getId()), tel, mail, String.valueOf(typeId.getId())
+                name, ref, String.valueOf(address.getId()), String.valueOf(seller.getId()), tel, mail, String.valueOf(type.getId())
         };
         DataBase.getInstance().query(sql, tab);
 
@@ -78,6 +112,9 @@ public class Store {
         return store;
     }
 
+    /**
+     * Delete the store of the database
+     */
     public void delete() throws Exception {
         for(Product p : getProducts())
             p.delete();
@@ -85,6 +122,10 @@ public class Store {
         Log.info("Store " + ref + " deleted");
     }
 
+    /**
+     * @param ref the uniq reference
+     * @return if this store exist
+     */
     public static boolean exist(String ref) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Stores", "ref", ref);
         return rs.next();
@@ -164,10 +205,17 @@ public class Store {
         return (o instanceof Store && ((Store)o).ref.equals(ref));
     }
 
-
+    /**
+     * @return all the products of the store
+     */
     public List<Product> getProducts() throws Exception {
         return Product.getByStore(this);
     }
+
+    /**
+     * @param tags
+     * @return all the products founded on the store
+     */
     public List<Product> search(List<Tag> tags) throws Exception {
         List<Product> list = new LinkedList<>();
 
@@ -188,6 +236,10 @@ public class Store {
 
         return list;
     }
+    /**
+     * @param category
+     * @return all the products founded on the store
+     */
     public List<Product> search(ProductCategory category) throws Exception {
         String sql = "SELECT * FROM Products JOIN ProductsCategory PC on Products.category_id = PC.id WHERE PC.id = ?";
         String[] tab = new String[]{String.valueOf(category.getId())};
@@ -205,6 +257,9 @@ public class Store {
         return list;
     }
 
+    /**
+     * @return all the orders of this store
+     */
     public List<Order> getOrders() throws Exception{
         return Order.getByStore(this);
     }
