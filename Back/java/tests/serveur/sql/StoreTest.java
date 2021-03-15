@@ -21,7 +21,7 @@ class StoreTest {
             Store.getByRef("TEST_CHANGE").delete();
 
         if(User.exist("testStore")) {
-            user.getAddresses().forEach(a -> {
+            User.getByEmail("testStore").getAddresses().forEach(a -> {
                 try {
                     a.delete();
                 } catch (Exception e) {

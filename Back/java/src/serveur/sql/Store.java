@@ -126,6 +126,10 @@ public class Store {
         return StoreType.getById(type_id);
     }
 
+    public TimeTable getTimeTable() throws Exception{
+        return TimeTable.getByStore(id);
+    }
+
     public void setName(String name) throws Exception {
         this.name = name;
         DataBase.getInstance().changeValue("Stores", "name", name, id);

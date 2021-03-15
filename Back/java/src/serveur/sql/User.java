@@ -148,6 +148,10 @@ public class User {
         return Address.getByUser(this);
     }
 
+    public List<Store> getStores() throws Exception{
+        return Store.getByUser(this);
+    }
+
     public void setName(String name) throws Exception {
         this.name = name;
         DataBase.getInstance().changeValue("Users", "name", name, id);

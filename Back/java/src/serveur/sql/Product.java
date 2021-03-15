@@ -262,5 +262,7 @@ public class Product {
         return list;
     }
 
-    //TODO subproducts
+    public List<SubProduct> getSubProducts() throws Exception {
+        return SubProduct.getByProduct(this);
+    }
 }
