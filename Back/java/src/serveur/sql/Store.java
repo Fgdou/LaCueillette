@@ -51,6 +51,16 @@ public class Store {
             list.add(new Store(rs));
         return list;
     }
+    public static List<Store> getByUser(User user) throws Exception{
+        ResultSet rs = DataBase.getInstance().getByCondition("Stores", "boss_id", String.valueOf(user.getId()));
+
+        List<Store> list = new LinkedList<>();
+
+        while(rs.next())
+            list.add(new Store(rs));
+
+        return list;
+    }
     public static Store create(String name, String ref, Address address, User seller, String tel, String mail, StoreType typeId) throws Exception {
         if(exist(ref))
             throw new Exception("Store already exist");
