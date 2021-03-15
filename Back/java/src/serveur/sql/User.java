@@ -182,13 +182,12 @@ public class User {
      * Delete the user on database
      */
     public void delete() throws Exception {
-        try {
-            DataBase.getInstance().delete("Users", id);
-            Log.info("User "+mail+" deleted");
-        } catch (Exception e) {
-            Log.warn("Can't delete user " + mail + "\n" + e.getMessage());
-            throw new Exception("Cannot remove user");
-        }
+        for(Address a : getAddresses())
+            a.delete();
+        for(Token t : getTokens())
+            t.delete();
+        DataBase.getInstance().delete("Users", id);
+        Log.info("User "+mail+" deleted");
     }
 
     public boolean equals(Object e){

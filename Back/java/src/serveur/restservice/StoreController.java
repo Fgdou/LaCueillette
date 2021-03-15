@@ -95,6 +95,11 @@ public class StoreController {
         try {
             User user = User.getByToken(token);
             Store store = Store.getById(id);
+
+            if(!store.getSeller().equals(user))
+                throw new Exception("You are not the owner of this store");
+
+            //TODO changer pour store.getAddress.set***() ?
             JSONObject jsonObject = new JSONObject();
             if (!way.equals("") && !town.equals("")){
                 store.setAddress(Address.create(number, way, town, cp, "France", user));
@@ -131,6 +136,10 @@ public class StoreController {
         try{
             User user = User.getByToken(token);
             Store store = Store.getById(id);
+
+            if(!store.getSeller().equals(user))
+                throw new Exception("You are not the owner of this store");
+
             store.delete();
             return new JSONObject().put("log", "store deleted");
         } catch (Exception e){
