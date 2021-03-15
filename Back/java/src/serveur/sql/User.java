@@ -278,7 +278,9 @@ public class User {
             t.delete();
     }
 
-    //TODO orders
+    public List<Order> getOrders() throws Exception {
+        return Order.getByUser(this);
+    }
 
     public String toString(){
         String response = "";

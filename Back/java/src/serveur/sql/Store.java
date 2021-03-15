@@ -205,5 +205,7 @@ public class Store {
         return list;
     }
 
-    //TODO orders
+    public List<Order> getOrders() throws Exception{
+        return Order.getByStore(this);
+    }
 }

@@ -115,6 +115,28 @@ public class Order {
 
         return getByRef(ref);
     }
+    public void addSubProduct(SubProduct sp, int quantity) throws Exception {
+        products_q.put(sp.getId(), quantity);
+
+        String sql = "INSERT INTO OrdersProducts (subproduct_id, order_id, quantity, kg) VALUES (?, ?, ?, 0)";
+        String[] tab = new String[]{
+                String.valueOf(sp.getId()),
+                String.valueOf(id),
+                String.valueOf(quantity)
+        };
+        DataBase.getInstance().query(sql, tab);
+    }
+    public void addSubProduct(SubProduct sp, float kg) throws Exception {
+        products_kg.put(sp.getId(), kg);
+
+        String sql = "INSERT INTO OrdersProducts (subproduct_id, order_id, quantity, kg) VALUES (?, ?, 0, ?)";
+        String[] tab = new String[]{
+                String.valueOf(sp.getId()),
+                String.valueOf(id),
+                String.valueOf(kg)
+        };
+        DataBase.getInstance().query(sql, tab);
+    }
 
     public void startPrepare() throws Exception {
         setState(ORDER_PREPARING);

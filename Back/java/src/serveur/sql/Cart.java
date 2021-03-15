@@ -3,6 +3,8 @@ package serveur.sql;
 import serveur.DataBase;
 
 import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -105,7 +107,40 @@ public class Cart {
         return sum;
     }
 
-    //TODO orders
+    List<Order> buy(Address address) throws Exception {
+        Map<Integer, Order> orders = new TreeMap<>();
+
+        for(int si : products_q.keySet()){
+            SubProduct subProduct = SubProduct.getById(si);
+            int quantity = products_q.get(si);
+            Store store = subProduct.getProduct().getStore();
+
+            Order order = orders.get(store.getId());
+
+            if(order == null){
+                order = Order.create("", store, address, null, getUser());
+                orders.put(store.getId(), order);
+            }
+
+            order.addSubProduct(subProduct, quantity);
+        }
+        for(int si : products_kg.keySet()){
+            SubProduct subProduct = SubProduct.getById(si);
+            float kg = products_kg.get(si);
+            Store store = subProduct.getProduct().getStore();
+
+            Order order = orders.get(store.getId());
+
+            if(order == null){
+                order = Order.create("", store, address, null, getUser());
+                orders.put(store.getId(), order);
+            }
+
+            order.addSubProduct(subProduct, kg);
+        }
+
+        return new LinkedList(orders.values());
+    }
 
     public void clear() throws Exception {
         String sql = "DELETE FROM Cart WHERE user_id = ?";
