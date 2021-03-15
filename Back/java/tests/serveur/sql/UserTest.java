@@ -120,7 +120,7 @@ class UserTest {
 
             us.logout(t);
 
-            t = Token.getByValue(t.getValue());
+            t = Token.getById(t.getId());
 
             assertFalse(t.isValid());
 

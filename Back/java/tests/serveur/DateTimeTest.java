@@ -25,7 +25,7 @@ class DateTimeTest {
 
     @Test
     void testToString() throws Exception {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         assertEquals(dt.format(new Date()), new DateTime().toString());
         Calendar c = Calendar.getInstance();

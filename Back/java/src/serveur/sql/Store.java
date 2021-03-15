@@ -79,7 +79,6 @@ public class Store {
     }
 
     public void delete() throws Exception {
-        getAddress().delete();
         for(Product p : getProducts())
             p.delete();
         DataBase.getInstance().delete("Stores", id);
