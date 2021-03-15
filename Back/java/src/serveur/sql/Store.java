@@ -148,5 +148,46 @@ public class Store {
         return (o instanceof Store && ((Store)o).ref.equals(ref));
     }
 
-    //TODO products
+
+    public List<Product> getProducts() throws Exception {
+        return Product.getByStore(this);
+    }
+    public List<Product> search(List<Tag> tags) throws Exception {
+        List<Product> list = new LinkedList<>();
+
+        String sql = "SELECT * FROM Products JOIN TagsProducts TP on Products.id = TP.product_id WHERE store_id = ? AND TP.tag_id = ?";
+
+        for(Tag t : tags){
+            String[] tab = new String[]{String.valueOf(t.getId())};
+
+            ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+            while(rs.next()){
+                Product p = new Product(rs);
+
+                if(!list.contains(p))
+                    list.add(p);
+            }
+        }
+
+        return list;
+    }
+    public List<Product> search(ProductCategory category) throws Exception {
+        String sql = "SELECT * FROM Products JOIN ProductsCategory PC on Products.category_id = PC.id WHERE PC.id = ?";
+        String[] tab = new String[]{String.valueOf(category.getId())};
+
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+        List<Product> list = new LinkedList<>();
+
+        while(rs.next()){
+            Product p = new Product(rs);
+
+            if(!list.contains(p))
+                list.add(p);
+        }
+        return list;
+    }
+
+    //TODO orders
 }

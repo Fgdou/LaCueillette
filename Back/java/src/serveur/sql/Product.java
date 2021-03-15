@@ -25,7 +25,7 @@ public class Product {
     private Time expiration;
     private String description;
 
-    private Product(ResultSet rs) throws Exception {
+    protected Product(ResultSet rs) throws Exception {
         id = rs.getInt(1);
         name = rs.getString(2);
         price = rs.getFloat(3);
