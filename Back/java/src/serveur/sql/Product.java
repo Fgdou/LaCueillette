@@ -218,5 +218,49 @@ public class Product {
         DataBase.getInstance().changeValue("Products", "description", description, id);
     }
 
+    public List<Product> searchByCity(String city, int postalcode, ProductCategory category) throws Exception {
+        String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.state = ? AND P.category_id = ?";
+        String[] tab = new String[]{
+                city,
+                String.valueOf(postalcode),
+                String.valueOf(category.getId())
+        };
+
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+        List<Product> list = new LinkedList<>();
+
+        while(rs.next())
+            list.add(new Product(rs));
+
+        return list;
+    }
+    public List<Product> searchByCity(String city, int postalcode, List<Tag> tags) throws Exception{
+        List<Product> list = new LinkedList<>();
+
+        String sql = "SELECT * FROM Products P JOIN TagsProducts TP on P.id = TP.product_id JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.postalcode = ? AND TP.tag_id = ?";
+
+        String[] tab = new String[]{
+                city,
+                String.valueOf(postalcode),
+                ""
+        };
+
+        for(Tag t : tags){
+            tab[2] = String.valueOf(t.getId());
+
+            ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+            while(rs.next()){
+                Product p = new Product(rs);
+
+                if(!list.contains(p))
+                    list.add(p);
+            }
+        }
+
+        return list;
+    }
+
     //TODO subproducts
 }
