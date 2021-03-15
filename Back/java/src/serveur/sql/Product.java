@@ -265,4 +265,8 @@ public class Product {
     public List<SubProduct> getSubProducts() throws Exception {
         return SubProduct.getByProduct(this);
     }
+
+    public boolean equals(Object o){
+        return (o instanceof Product && ((Product)o).getId() == id);
+    }
 }

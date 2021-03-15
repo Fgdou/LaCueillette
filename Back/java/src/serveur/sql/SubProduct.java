@@ -115,11 +115,15 @@ public class SubProduct {
     public void buy(int quantity) throws Exception{
         if(price_kg)
             throw new Exception("Cannot buy product with kg price");
+        if(quantity < this.quantity)
+            throw new Exception("Not enough quantity");
         setQuantity(this.quantity-quantity);
     }
     public void buy(float kg) throws Exception{
         if(price_kg)
             throw new Exception("Cannot buy product with quantity price");
+        if(kg < this.kg)
+            throw new Exception("Not enough quantity");
         setKg(this.kg - kg);
     }
 
