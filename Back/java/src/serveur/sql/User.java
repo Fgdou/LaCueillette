@@ -177,7 +177,6 @@ public class User {
 
         Log.info("User " + mail + " changed his password");
     }
-    //TODO setAddress(adresse, ville, cp)
 
     /**
      * Delete the user on database
