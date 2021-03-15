@@ -17,7 +17,7 @@ Comment développer un e-commerce de proximité pour préserver l’environnemen
 
 ### Dependencies needed :
 - Docker
-- docker-composer
+- docker-compose
 
 ### Compile and run :
 
