@@ -130,4 +130,8 @@ public class SubProduct {
     public void delete() throws Exception{
         DataBase.getInstance().delete("SubProducts", id);
     }
+
+    public boolean equals(Object o){
+        return (o instanceof SubProduct && ((SubProduct)o).id == id);
+    }
 }

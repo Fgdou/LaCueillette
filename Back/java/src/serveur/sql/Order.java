@@ -288,4 +288,8 @@ public class Order {
         DataBase.getInstance().query(sql, tab);
         DataBase.getInstance().delete("Orders", id);
     }
+
+    public boolean equals(Object o){
+        return (o instanceof Order && ((Order)o).ref.equals(ref));
+    }
 }
