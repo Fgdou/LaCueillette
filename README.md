@@ -8,11 +8,6 @@ Comment développer un e-commerce de proximité pour préserver l’environnemen
 * GOARDOU Fabien
 * RAOUL Thibaut
 
-## Building from the source with for java
-- Open the project on IntelliJ
-- Right-click on 'pom.xml' --> Add as Maven Project
-- Run tests or application
-
 ## Running the application
 
 ### Dependencies needed :
@@ -28,3 +23,4 @@ Comment développer un e-commerce de proximité pour préserver l’environnemen
     ```
 - The application is running on [localhost:8080](http://localhost:8080)
 - The API is running on [localhost:8081](http://localhost:8081)
+- The Database is running on **localhost:8082**
