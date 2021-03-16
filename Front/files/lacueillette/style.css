@@ -1,0 +1,158 @@
+body
+{
+	background:white;
+	margin:0;
+	font-family:Roboto;
+}
+
+header
+{
+	display:flex;
+	background:#58391C;
+	color:white;
+	justify-content:space-between;
+	height:50px;
+	overflow:hidden;
+	align-items:center;
+}
+
+#icone
+{
+	flex:1;
+	display:flex;
+}
+
+#icone img
+{
+	width:40%;
+	margin-left:20px;
+}
+
+#localisation
+{
+	flex:1;
+	display:flex;
+	align-items:center;
+	justify-content:flex-start;
+}
+
+#localisation img
+{
+	width:20%;
+	margin-right:5px;
+}
+
+#recherche
+{
+	flex:10;
+	color:#58391C;
+	display:flex;
+	justify-content:flex-end;
+	align-items:center;
+	background:white;
+	border-radius:5px;
+	height:35px;
+}
+
+#recherche img
+{
+	margin-left:500px;
+	margin-right:20px;
+	height:25px;
+}
+
+#compte
+{
+	flex:2;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+#compte img
+{
+	width:15%;
+	margin-right:8px;
+}
+
+#panier
+{
+	flex:2;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
+#panier img
+{
+	width:18%;
+	margin-right:8px;
+
+}
+
+section
+{
+	display:flex;
+}
+
+#carte 
+{
+	overflow:hidden;
+	flex:3;
+	margin:0;
+}
+
+#listeresultat
+{
+	flex:1;
+	overflow:hidden;
+}
+
+.resultat
+{
+	display:flex;
+	background:#58391C;
+	height:120px;
+	margin-top:10px;
+	margin-right:20px;
+	border-radius:20px;
+	align-items:center;
+	justify-content:flex-start;
+}
+
+.resultat img 
+{
+	background:white;
+	border-radius:20px;
+	height:90%;
+	margin-left:7px;
+}
+
+.resultat div
+{
+	overflow:hidden;
+	white-space: nowrap;
+}
+
+.infos
+{
+	display:flex;
+	width:70%;
+	flex-direction:column;
+	color:white;
+	margin-left:15px;
+	margin-right:15px;
+	line-height:1.3em;
+}
+
+.typedistance
+{
+	display:flex;
+	justify-content:space-between;
+	color:#BFBFBF;
+}
+
+.nom
+{
+	font-size:1.5em;
+}
