@@ -95,14 +95,14 @@ public class Store {
      * @return the new store
      */
     public static Store create(String name, Address address, User seller, String tel, String mail, StoreType type) throws Exception {
-        String sql = "INSERT INTO Stores (name, ref, address_id, boss_id, tel, mail, created, type_id) VALUES (?, null, ?, ?, ?, ?, NOW(), ?); SELECT MAX(id) FROM Stores";
+        String sql = "INSERT INTO Stores (name, ref, address_id, boss_id, tel, mail, created, type_id) VALUES (?, NULL, ?, ?, ?, ?, NOW(), ?);";
         String[] tab = new String[]{
                 name, String.valueOf(address.getId()), String.valueOf(seller.getId()), tel, mail, String.valueOf(type.getId())
         };
 
-        ResultSet rs = DataBase.getInstance().query(sql, tab);
+        DataBase.getInstance().query(sql, tab);
 
-        Store store = Store.getById(rs.getInt(1));
+        Store store = Store.getById(DataBase.getInstance().getLastId("Stores"));
 
         Log.info("Store " + store.ref + " created by " + seller.getMail());
 

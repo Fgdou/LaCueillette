@@ -61,7 +61,8 @@ class StoreTest {
     @Test
     void createDelete() throws Exception {
         assertFalse(Store.exist("TEST"));
-        Store s = Store.create("test", "TEST", address, user, "tel", "mail", type);
+        Store s = Store.create("test", address, user, "tel", "mail", type);
+        s.setRef("TEST");
         assertTrue(Store.exist("TEST"));
 
         s.delete();
@@ -70,7 +71,8 @@ class StoreTest {
 
     @Test
     void change() throws Exception {
-        Store s = Store.create("test", "TEST_CHANGE", address, user, "tel", "mail", type);
+        Store s = Store.create("test", address, user, "tel", "mail", type);
+        s.setRef("TEST_CHANGE");
 
         assertEquals("mail", s.getMail());
         s.setMail("mymail");
