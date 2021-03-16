@@ -95,17 +95,15 @@ public class Store {
      * @param type the type of store
      * @return the new store
      */
-    public static Store create(String name, String ref, Address address, User seller, String tel, String mail, StoreType type) throws Exception {
-        if(exist(ref))
-            throw new Exception("Store already exist");
-
-        String sql = "INSERT INTO Stores (name, ref, address_id, boss_id, tel, mail, created, type_id) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
+    public static Store create(String name, Address address, User seller, String tel, String mail, StoreType type) throws Exception {
+        String sql = "INSERT INTO Stores (name, ref, address_id, boss_id, tel, mail, created, type_id) VALUES (?, null, ?, ?, ?, ?, NOW(), ?); SELECT MAX(id) FROM Stores";
         String[] tab = new String[]{
-                name, ref, String.valueOf(address.getId()), String.valueOf(seller.getId()), tel, mail, String.valueOf(type.getId())
+                name, String.valueOf(address.getId()), String.valueOf(seller.getId()), tel, mail, String.valueOf(type.getId())
         };
-        DataBase.getInstance().query(sql, tab);
 
-        Store store = Store.getByRef(ref);
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+        Store store = Store.getById(rs.getInt(1));
 
         Log.info("Store " + store.ref + " created by " + seller.getMail());
 
@@ -194,6 +192,13 @@ public class Store {
     public void setMail(String mail) throws Exception {
         this.mail = mail;
         DataBase.getInstance().changeValue("Stores", "mail", mail, id);
+    }
+
+    public void setRef(String ref) throws Exception{
+        if(this.ref != null)
+            throw new Exception("Ref is already defined");
+        this.ref = ref;
+        DataBase.getInstance().changeValue("Stores", "ref", ref, id);
     }
 
     public void setType(StoreType type) throws Exception {
