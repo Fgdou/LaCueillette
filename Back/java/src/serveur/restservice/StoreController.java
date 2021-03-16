@@ -87,7 +87,7 @@ public class StoreController {
      * @return The ref of the store
      */
     private String generateRef(String name, int cp, String State, int id){
-        return ("COM" + State.charAt(0) + State.charAt(1) + Common.format(cp, 5) + name.charAt(0) + name.charAt(1) + id).toUpperCase();
+        return ("COM" + State.charAt(0) + State.charAt(1) + Common.format(cp, 5) + name.charAt(0) + name.charAt(1) + Common.format(id, 10).toUpperCase();
     }
 
     /**
