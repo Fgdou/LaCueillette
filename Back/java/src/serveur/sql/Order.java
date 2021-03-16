@@ -25,7 +25,6 @@ public class Order {
     Map<Integer, Float> products_kg;
 
     private int id;
-    private String ref;
     private int store_id;
     private boolean paid;
     private DateTime created;
@@ -39,14 +38,13 @@ public class Order {
         products_q = new TreeMap<>();
 
         id = rs.getInt(1);
-        ref = rs.getString(2);
-        store_id = rs.getInt(3);
-        paid = rs.getBoolean(4);
-        created = new DateTime(rs.getString(5));
-        address_id = rs.getInt(6);
-        state = rs.getInt(7);
-        appointment = new DateTime(rs.getString(8));
-        user_id = rs.getInt(9);
+        store_id = rs.getInt(2);
+        paid = rs.getBoolean(3);
+        created = new DateTime(rs.getString(4));
+        address_id = rs.getInt(5);
+        state = rs.getInt(6);
+        appointment = new DateTime(rs.getString(7));
+        user_id = rs.getInt(8);
 
         String sql = "SELECT * FROM OrdersProducts WHERE order_id = ?";
         String[] tab = new String[]{String.valueOf(id)};
@@ -70,17 +68,6 @@ public class Order {
      */
     public static Order getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Orders", "id", String.valueOf(id));
-        if(!rs.next())
-            throw new Exception("Cannot found Order");
-        return new Order(rs);
-    }
-
-    /**
-     * @param ref the uniq ref of the order
-     * @return the order
-     */
-    public static Order getByRef(String ref) throws Exception {
-        ResultSet rs = DataBase.getInstance().getByCondition("Orders", "ref", ref);
         if(!rs.next())
             throw new Exception("Cannot found Order");
         return new Order(rs);
@@ -117,39 +104,26 @@ public class Order {
     }
 
     /**
-     * @param ref a order reference
-     * @return if the order exist
-     */
-    public static boolean exists(String ref) throws Exception {
-        ResultSet rs = DataBase.getInstance().getByCondition("Orders", "ref", ref);
-        return rs.next();
-    }
-
-    /**
      * Create an order in database (only used by the cart)
-     * @param ref
      * @param store
      * @param address
      * @param appointment
      * @param user
      * @return the new Order
      */
-    protected static Order create(String ref, Store store, Address address, DateTime appointment, User user) throws Exception {
-        if(exists(ref))
-            throw new Exception("Order already exist");
+    protected static Order create(Store store, Address address, DateTime appointment, User user) throws Exception {
 
-        String sql = "INSERT INTO Orders (ref, store_id, paid, created, address_id, state, appointement, user_id) VALUES (?, ?, 0, NOW(), ?, 0, ?, ?)";
+        String sql = "INSERT INTO Orders (store_id, paid, created, address_id, state, appointement, user_id) VALUES (?, 0, NOW(), ?, 0, ?, ?); SELECT MAX(id) FROM Orders";
         String[] tab = {
-                ref,
                 String.valueOf(store.getId()),
                 String.valueOf(address.getId()),
                 (appointment == null) ? "null" : appointment.toString(),
                 String.valueOf(user.getId())
         };
 
-        DataBase.getInstance().query(sql, tab);
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
 
-        return getByRef(ref);
+        return getById(rs.getInt(1));
     }
 
     /**
@@ -315,9 +289,6 @@ public class Order {
     public int getId() {
         return id;
     }
-    public String getRef() {
-        return ref;
-    }
     public Store getStore() throws Exception {
         return Store.getById(store_id);
     }
@@ -364,6 +335,6 @@ public class Order {
     }
 
     public boolean equals(Object o){
-        return (o instanceof Order && ((Order)o).ref.equals(ref));
+        return (o instanceof Order && ((Order)o).id == id);
     }
 }
