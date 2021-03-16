@@ -69,8 +69,9 @@ public class StoreController {
             Store store = Store.create(name, Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
             store.setRef(generateRef(name, cp, "France", store.getId()));
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("log", "Store created:" + store.getRef());
+            jsonObject.put("log", "Store created");
             jsonObject.put("store_id", store.getId());
+            jsonObject.put("store_ref", store.getRef());
             return jsonObject;
         } catch (Exception e){
             return new JSONObject().put("error", e.getMessage());
