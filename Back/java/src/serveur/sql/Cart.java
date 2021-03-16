@@ -228,7 +228,7 @@ public class Cart {
             Order order = orders.get(store.getId());
 
             if(order == null){
-                order = Order.create("", store, address, null, getUser());
+                order = Order.create(store, address, null, getUser());
                 orders.put(store.getId(), order);
             }
 
@@ -242,7 +242,7 @@ public class Cart {
             Order order = orders.get(store.getId());
 
             if(order == null){
-                order = Order.create("", store, address, null, getUser());
+                order = Order.create(store, address, null, getUser());
                 orders.put(store.getId(), order);
             }
 
