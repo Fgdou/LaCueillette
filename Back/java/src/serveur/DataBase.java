@@ -193,4 +193,20 @@ public class DataBase {
         INSTANCE = new DataBase("root", "g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb", "LaCueillette", "db:3306");
         INSTANCE.connect();
     }
+
+    /**
+     * Get last id inserted into the table
+     * @param tab the table name
+     * @return the last id
+     */
+    public int getLastId(String tab) throws Exception {
+        String sql = "SELECT MAX(id) FROM " + tab + ";";
+
+        ResultSet rs = query(sql);
+
+        if(!rs.next())
+            throw new Exception("No value in this table");
+
+        return rs.getInt(1);
+    }
 }
