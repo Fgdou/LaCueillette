@@ -3,12 +3,14 @@ package serveur.restservice;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
+import serveur.Common;
 import serveur.sql.Address;
 import serveur.sql.Store;
 import serveur.sql.StoreType;
 import serveur.sql.User;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -64,15 +66,27 @@ public class StoreController {
         int storeType_id = Integer.parseInt(requestParam.get("storeType_id"));
         try {
             User user = User.getByToken(userToken);
-            Store store = Store.create(name, "", Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
-            //TODO Calculate auto ref
+            Store store = Store.create(name, Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
+            store.setRef(generateRef(name, cp, "France", store.getId()));
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("log", "Store created");
+            jsonObject.put("log", "Store created:" + store.getRef());
             jsonObject.put("store_id", store.getId());
             return jsonObject;
         } catch (Exception e){
             return new JSONObject().put("error", e.getMessage());
         }
+    }
+
+    /**
+     * Create ref for the Store
+     * @param name String the name of the store
+     * @param cp int the postal code of the store
+     * @param State String the state of the store
+     * @param id int the id of the store
+     * @return The ref of the store
+     */
+    private String generateRef(String name, int cp, String State, int id){
+        return ("COM" + State.charAt(0) + State.charAt(1) + Common.format(cp, 5) + name.charAt(0) + name.charAt(1) + id).toUpperCase();
     }
 
     /**
