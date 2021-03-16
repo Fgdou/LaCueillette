@@ -87,7 +87,6 @@ public class Store {
     /**
      * Create a store in database
      * @param name the name fo the store
-     * @param ref   the uniq reference of the store
      * @param address the address of the store
      * @param seller the owner of the store
      * @param tel the tel
