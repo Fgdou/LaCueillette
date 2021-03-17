@@ -7,10 +7,13 @@ import serveur.sql.Product;
 import serveur.sql.Store;
 import serveur.sql.User;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 public class ProductController {
+
+    //TODO Gestions des admins
 
     /**
      * Create a new product in the DataBase
@@ -30,15 +33,17 @@ public class ProductController {
         boolean price_kg = requestParam.get("price_kg").toLowerCase().equals("true") ? true : false;
         boolean canBeDelivered = requestParam.get("canBeDelivered").toLowerCase().equals("true") ? true : false;
         boolean canBePicked = requestParam.get("canBePicked").toLowerCase().equals("true") ? true : false;
-        //TODO Date1, Date2, Expiration
+        String time_start = requestParam.get("time_start");
+        String time_stop = requestParam.get("time_start");
+        String expiration = requestParam.get("expiration");
         try{
             User user = User.getByToken(token);
             Store store = Store.getById(store_id);
 
             if(!store.getSeller().equals(user))
                 throw new Exception("You are not the owner of this store");
-
-            Product product = Product.create(name, (float)price, price_kg, null, store, canBePicked, canBeDelivered, (float)tva, null, null, null, description);
+            //TODO addProductCategory
+            Product product = Product.create(name, (float)price, price_kg, null, store, canBePicked, canBeDelivered, (float)tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
             return new JSONObject().put("log", "product created: " + product.getId());
         } catch (Exception e){
             return new JSONObject().put("error", e.getMessage());
@@ -141,16 +146,10 @@ public class ProductController {
      * @throws Exception
      */
     @GetMapping("/product/get/byStore")
-    public JSONObject getProductByStore(@RequestParam Map<String, String> requestParam) throws Exception{
+    public List<Product> getProductByStore(@RequestParam Map<String, String> requestParam) throws Exception{
         int store_id = Integer.parseInt(requestParam.get("store_id"));
-        JSONObject returnJson = new JSONObject();
-        try{
-            Store store = Store.getById(store_id);
-            //TODO Liste des id de produits d'un store
-        } catch (Exception e){
-            returnJson.put("error", e.getMessage());
-        }
-        return returnJson;
+        Store store = Store.getById(store_id);
+        return store.getProducts();
     }
 
     /**
@@ -160,23 +159,9 @@ public class ProductController {
      * @throws Exception
      */
     @GetMapping("/product/get/infos")
-    public JSONObject getProductInfos(@RequestParam Map<String, String> requestParam) throws Exception{
+    public Product getProductInfos(@RequestParam Map<String, String> requestParam) throws Exception{
         int product_id = Integer.parseInt(requestParam.get("product_id"));
-        JSONObject jsonObject = new JSONObject();
-        try{
-            Product product = Product.getById(product_id);
-            jsonObject.put("log", "infos about: " + product_id);
-            jsonObject.put("name", product.getName());
-            jsonObject.put("price", product.getPrice());
-            jsonObject.put("price_kg", product.isPrice_kg());
-            jsonObject.put("canBeDelivered", product.canBeDelivered());
-            jsonObject.put("canBePicked", product.canBePicked());
-            jsonObject.put("expiration", product.getExpiration());
-            jsonObject.put("description", product.getDescription());
-        } catch (Exception e){
-            jsonObject.put("error", e.getMessage());
-        }
-        return jsonObject;
+        return Product.getById(product_id);
     }
 
 
