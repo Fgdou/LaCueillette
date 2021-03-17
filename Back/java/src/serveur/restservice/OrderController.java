@@ -109,6 +109,10 @@ public class OrderController {
 
     //TODO Set Paid
 
-
+    @PostMapping("/order/getAll")
+    public List<Order> getByUser(@RequestParam Map<String, String> requestParam) throws Exception{
+        User user = User.getByToken(requestParam.get("user_token"));
+        return user.getOrders();
+    }
 
 }

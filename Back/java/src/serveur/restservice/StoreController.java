@@ -30,7 +30,7 @@ public class StoreController {
      */
     @GetMapping("/store/get/byUser")
     public List<Store> getStoresByUser(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
+        String token = requestParam.get("user_token");
         User user;
         user = User.getByToken(token);
         return Store.getByUser(user);
@@ -50,7 +50,7 @@ public class StoreController {
         String way = requestParam.get("way");
         int cp = Integer.parseInt(requestParam.get("postal_code"));
         String town = requestParam.get("town");
-        String userToken = requestParam.get("token");
+        String userToken = requestParam.get("user_token");
         int storeType_id = Integer.parseInt(requestParam.get("storeType_id"));
         User user = User.getByToken(userToken);
         Store store = Store.create(name, Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
@@ -77,7 +77,7 @@ public class StoreController {
      */
     @PostMapping("/store/change")
     public Response modifyStore(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
+        String token = requestParam.get("user_token");
         int id = Integer.parseInt(requestParam.get("id"));
         String name = requestParam.get("name");
         String email = requestParam.get("email");
@@ -125,7 +125,7 @@ public class StoreController {
      */
     @PostMapping("/store/delete")
     public Response deleteStore(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
+        String token = requestParam.get("user_token");
         int id = Integer.parseInt(requestParam.get("id"));
         User user = User.getByToken(token);
         Store store = Store.getById(id);

@@ -14,14 +14,15 @@ class CartTest {
     static void init() throws Exception {
         DataBase.createInstance();
         clear();
-        User us = User.register("testCart", "testCart", "testCart", "testCart", "testCart", false);
-        us.setEmailVerified(true);
+        user = User.register("testCart", "testCart", "testCart", "testCart", "testCart", false);
+        user.setEmailVerified(true);
     }
     @AfterAll
     static void clear() throws Exception {
-        if(User.exist("testCart"))
+        if(User.exist("testCart")) {
+            Cart.getByUser(User.getByEmail("testCart")).clear();
             User.getByEmail("testCart").delete();
-        Cart.getByUser(user).clear();
+        }
     }
 
     @Test

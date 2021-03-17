@@ -11,7 +11,7 @@ import java.util.Map;
 public class UserController {
 
     @PostMapping("/user")
-    public User userGetByEmail(@RequestParam(value = "token") String token) throws Exception {
+    public User userGetByEmail(@RequestParam(value = "user_token") String token) throws Exception {
         return serveur.sql.User.getByToken(token);
     }
 
@@ -43,7 +43,7 @@ public class UserController {
      */
     @PostMapping("/user/change/password")
     public Response changePassword(@RequestParam Map<String, String> requestParams) throws Exception {
-        String token = requestParams.get("token");
+        String token = requestParams.get("user_token");
         String userPasswordNew = requestParams.get("password");
         User user = User.getByToken(token);
         user.changePassword(userPasswordNew);
@@ -66,7 +66,7 @@ public class UserController {
         String userWay = requestParams.get("way");
         String userTown = requestParams.get("ville");
         int userCP = Integer.parseInt(requestParams.get("code_postal"));
-        String userToken = requestParams.get("token");
+        String userToken = requestParams.get("user_token");
 
         User user = User.getByToken(userToken);
         //Change if and only if not empty
@@ -91,7 +91,7 @@ public class UserController {
      */
     @PostMapping("/user/delete")
     public Response deleterUser(@RequestParam Map<String, String> requestParams) throws Exception {
-        String token = requestParams.get("token");
+        String token = requestParams.get("user_token");
         User user = User.getByToken(token);
         user.delete();
         //TODO Send mail for verification
@@ -119,7 +119,7 @@ public class UserController {
      */
     @PostMapping("/user/logout")
     public Response logout(@RequestParam Map<String, String> requestParams) throws Exception {
-        String token = requestParams.get("token");
+        String token = requestParams.get("user_token");
         User user = serveur.sql.User.getByToken(token);
         user.logout(Token.getByValue(token));
         return new ResponseLog(true);

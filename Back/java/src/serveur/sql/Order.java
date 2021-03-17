@@ -1,6 +1,5 @@
 package serveur.sql;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 import serveur.DateTime;
 
@@ -290,7 +289,6 @@ public class Order {
     public int getId() {
         return id;
     }
-    @JsonIgnore
     public Store getStore() throws Exception {
         return Store.getById(store_id);
     }
