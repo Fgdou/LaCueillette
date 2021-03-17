@@ -1,13 +1,13 @@
 package serveur.restservice;
 
 public class ResponseError<A> extends Response {
-    private A log;
+    private A error;
 
     public ResponseError(A log){
-        this.log = log;
+        this.error = log;
     }
 
-    public A getLog(){
-        return log;
+    public A getError(){
+        return error;
     }
 }
