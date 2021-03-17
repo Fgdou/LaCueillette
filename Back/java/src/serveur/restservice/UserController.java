@@ -112,6 +112,7 @@ public class UserController {
      * @param requestParams Paramètre requis
      * @return JSONObject du token créé
      */
+    @PostMapping("/user/login")
     public JSONObject login(@RequestParam Map<String,String> requestParams)throws Exception{
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
@@ -124,6 +125,7 @@ public class UserController {
      * @param requestParams Paramètre requis
      * @return JSONObject du token créé
      */
+    @PostMapping("/user/logout")
     public JSONObject logout(@RequestParam Map<String,String> requestParams)throws Exception{
         String token = requestParams.get("token");
         User user = serveur.sql.User.getByToken(token);
