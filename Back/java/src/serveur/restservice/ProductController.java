@@ -22,7 +22,7 @@ public class ProductController {
      * @throws Exception
      */
     @PutMapping("/product/new")
-    public JSONObject addProduct(@RequestParam Map<String, String> requestParam) throws Exception{
+    public Response addProduct(@RequestParam Map<String, String> requestParam) throws Exception{
         String token = requestParam.get("token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         String name = requestParam.get("name");
@@ -36,18 +36,16 @@ public class ProductController {
         String time_start = requestParam.get("time_start");
         String time_stop = requestParam.get("time_start");
         String expiration = requestParam.get("expiration");
-        try{
-            User user = User.getByToken(token);
-            Store store = Store.getById(store_id);
 
-            if(!store.getSeller().equals(user))
-                throw new Exception("You are not the owner of this store");
-            //TODO addProductCategory
-            Product product = Product.create(name, (float)price, price_kg, null, store, canBePicked, canBeDelivered, (float)tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
-            return new JSONObject().put("log", "product created: " + product.getId());
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+        User user = User.getByToken(token);
+        Store store = Store.getById(store_id);
+
+        if(!store.getSeller().equals(user))
+            throw new Exception("You are not the owner of this store");
+        //TODO addProductCategory
+        Product product = Product.create(name, (float)price, price_kg, null, store, canBePicked, canBeDelivered, (float)tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
+        return new ResponseLog("product created: " + product.getId());
+
     }
 
     /**
@@ -57,7 +55,7 @@ public class ProductController {
      * @throws Exception
      */
     @PostMapping("/product/modify")
-    public JSONObject modifyProduct(@RequestParam Map<String, String> requestParam) throws Exception{
+    public Response modifyProduct(@RequestParam Map<String, String> requestParam) throws Exception{
         String token = requestParam.get("token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         int product_id = Integer.parseInt(requestParam.get("product_id"));
@@ -69,28 +67,25 @@ public class ProductController {
         boolean canBeDelivered = requestParam.get("canBeDelivered").toLowerCase().equals("true") ? true : false;
         boolean canBePicked = requestParam.get("canBePicked").toLowerCase().equals("true") ? true : false;
         //TODO Date1, Date2, Expiration
-        try{
-            User user = User.getByToken(token);
-            Store store = Store.getById(store_id);
 
-            if(!store.getSeller().equals(user))
-                throw new Exception("You are not the owner of this store");
+        User user = User.getByToken(token);
+        Store store = Store.getById(store_id);
 
-            Product product = Product.getById(product_id);
+        if(!store.getSeller().equals(user))
+            throw new Exception("You are not the owner of this store");
 
-            if(!name.equals(""))
-                product.setName(name);
-            product.setPrice((float) price);
-            product.setTva((float) tva);
-            if(!description.equals(""))
-                product.setDescription(description);
-            product.setPrice_kg(price_kg);
-            product.setCanBeDelivered(canBeDelivered);
-            product.setCanBePicked(canBePicked);
-            return new JSONObject().put("log", "product modified: " + product.getId());
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+        Product product = Product.getById(product_id);
+
+        if(!name.equals(""))
+            product.setName(name);
+        product.setPrice((float) price);
+        product.setTva((float) tva);
+        if(!description.equals(""))
+            product.setDescription(description);
+        product.setPrice_kg(price_kg);
+        product.setCanBeDelivered(canBeDelivered);
+        product.setCanBePicked(canBePicked);
+        return new ResponseLog<>("product modified: " + product.getId());
     }
 
     /**
@@ -100,23 +95,20 @@ public class ProductController {
      * @throws Exception
      */
     @PostMapping("/product/delete")
-    public JSONObject deleteProduct(@RequestParam Map<String, String> requestParam) throws Exception{
+    public Response deleteProduct(@RequestParam Map<String, String> requestParam) throws Exception{
         String token = requestParam.get("token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         int product_id = Integer.parseInt(requestParam.get("product_id"));
-        try{
-            User user = User.getByToken(token);
-            Store store = Store.getById(store_id);
 
-            if(!store.getSeller().equals(user))
-                throw new Exception("You are not the owner of this store");
+        User user = User.getByToken(token);
+        Store store = Store.getById(store_id);
 
-            Product product = Product.getById(product_id);
-            product.delete();
-            return new JSONObject().put("log", "product deleted");
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+        if(!store.getSeller().equals(user))
+            throw new Exception("You are not the owner of this store");
+
+        Product product = Product.getById(product_id);
+        product.delete();
+        return new ResponseLog("product deleted");
     }
 
     /**
@@ -126,17 +118,14 @@ public class ProductController {
      * @throws Exception
      */
     @GetMapping("/product/get/quantityAvailable")
-    public JSONObject getQuantityAvailable(@RequestParam Map<String, String> requestParam) throws Exception{
+    public Response getQuantityAvailable(@RequestParam Map<String, String> requestParam) throws Exception{
         String token = requestParam.get("token");
         int id = Integer.parseInt(requestParam.get("id"));
-        try{
-            User user = User.getByToken(token);
-            Product product = Product.getById(id);
-            return new JSONObject().put("log", "quantity: " + 0);
-            //TODO Product.getQuantity()
-        }catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+
+        User user = User.getByToken(token);
+        Product product = Product.getById(id);
+        return new ResponseLog<>("quantity: " + 0);
+        //TODO Product.getQuantity()
     }
 
     /**

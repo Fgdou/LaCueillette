@@ -32,20 +32,11 @@ public class StoreController {
      * @return JSONObject : error or list of id+name
      */
     @GetMapping("/store/get/byUser")
-    public JSONObject getStoresByUser(@RequestParam Map<String, String> requestParam) throws JSONException {
+    public List<Store> getStoresByUser(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("token");
-        try{
-            User user = User.getByToken(token);
-            List<Store> listStore = Store.getByUser(user);
-            JSONObject jsonObject = new JSONObject();
-            for (Store s : listStore) {
-                jsonObject.put(String.valueOf(s.getId()), s.getName());
-            }
-
-            return jsonObject;
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+        User user;
+        user = User.getByToken(token);
+        return Store.getByUser(user);
     }
 
     /**
@@ -54,7 +45,7 @@ public class StoreController {
      * @return JSONObject : error or log
      */
     @PostMapping("/store/new")
-    public JSONObject createStore(@RequestParam Map<String, String> requestParam) throws Exception {
+    public Store createStore(@RequestParam Map<String, String> requestParam) throws Exception {
         String name = requestParam.get("name");
         String email = requestParam.get("email");
         String tel = requestParam.get("tel");
@@ -64,18 +55,10 @@ public class StoreController {
         String town = requestParam.get("town");
         String userToken = requestParam.get("token");
         int storeType_id = Integer.parseInt(requestParam.get("storeType_id"));
-        try {
-            User user = User.getByToken(userToken);
-            Store store = Store.create(name, Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
-            store.setRef(generateRef(name, cp, "France", store.getId()));
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("log", "Store created");
-            jsonObject.put("store_id", store.getId());
-            jsonObject.put("store_ref", store.getRef());
-            return jsonObject;
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+        User user = User.getByToken(userToken);
+        Store store = Store.create(name, Address.create(number, way, town, cp, "France", user), user, tel, email, StoreType.getById(storeType_id));
+        store.setRef(generateRef(name, cp, "France", store.getId()));
+        return store;
     }
 
     /**
@@ -96,7 +79,7 @@ public class StoreController {
      * @return JSONObject : error or log
      */
     @PostMapping("/store/change")
-    public JSONObject modifyStore(@RequestParam Map<String, String> requestParam) throws Exception {
+    public Response modifyStore(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("token");
         int id = Integer.parseInt(requestParam.get("id"));
         String name = requestParam.get("name");
@@ -106,35 +89,36 @@ public class StoreController {
         String way = requestParam.get("way");
         int cp = Integer.parseInt(requestParam.get("postal_code"));
         String town = requestParam.get("town");
-        try {
-            User user = User.getByToken(token);
-            Store store = Store.getById(id);
+        User user = User.getByToken(token);
+        Store store = Store.getById(id);
 
-            if(!store.getSeller().equals(user))
-                throw new Exception("You are not the owner of this store");
+        Response r = null;
 
-            //TODO changer pour store.getAddress.set***() ?
-            JSONObject jsonObject = new JSONObject();
-            if (!way.equals("") && !town.equals("")){
-                store.setAddress(Address.create(number, way, town, cp, "France", user));
-                jsonObject.put("log", "address updated");
-            }
-            if (!name.equals("")){
-                store.setName(name);
-                jsonObject.put("log", "name updated");
-            }
-            if (!email.equals("")){
-                store.setMail(email);
-                jsonObject.put("log", "email updated");
-            }
-            if (!tel.equals("")){
-                store.setTel(tel);
-                jsonObject.put("log", "tel updated");
-            }
-            return jsonObject;
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
+        if(!store.getSeller().equals(user))
+            throw new Exception("You are not the owner of this store");
+
+        //TODO changer pour store.getAddress.set***() ?
+        if (!way.equals("") && !town.equals("")){
+            store.setAddress(Address.create(number, way, town, cp, "France", user));
+            r = new ResponseLog<>("address updated");
         }
+        if (!name.equals("")){
+            store.setName(name);
+            r = new ResponseLog<>("name updated");
+        }
+        if (!email.equals("")){
+            store.setMail(email);
+            r = new ResponseLog<>("email updated");
+        }
+        if (!tel.equals("")){
+            store.setTel(tel);
+            r = new ResponseLog<>("tel updated");
+        }
+
+        if(r == null)
+            throw new Exception("nothing updated");
+
+        return r;
     }
 
     /**
@@ -143,21 +127,17 @@ public class StoreController {
      * @return JSONObject : error or log
      */
     @PostMapping("/store/delete")
-    public JSONObject deleteStore(@RequestParam Map<String, String> requestParam) throws JSONException {
+    public Response deleteStore(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("token");
         int id = Integer.parseInt(requestParam.get("id"));
-        try{
-            User user = User.getByToken(token);
-            Store store = Store.getById(id);
+        User user = User.getByToken(token);
+        Store store = Store.getById(id);
 
-            if(!store.getSeller().equals(user))
-                throw new Exception("You are not the owner of this store");
+        if(!store.getSeller().equals(user))
+            throw new Exception("You are not the owner of this store");
 
-            store.delete();
-            return new JSONObject().put("log", "store deleted");
-        } catch (Exception e){
-            return new JSONObject().put("error", e.getMessage());
-        }
+        store.delete();
+        return new ResponseLog("store deleted");
     }
 
 }
