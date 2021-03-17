@@ -25,7 +25,7 @@ public class OrderController {
         User user = User.getByToken(requestParam.get("user_token"));
         Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         return store.getOrders();
@@ -65,7 +65,7 @@ public class OrderController {
         Order order = Order.getById(Integer.parseInt(requestParam.get("order_id")));
         Store store = order.getStore();
 
-        if ((!store.getSeller().equals(user) && !order.getUser().equals(user)) || !user.isAdmin())
+        if ((!store.getSeller().equals(user) && !order.getUser().equals(user)) && !user.isAdmin())
             throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
 
         return store;

@@ -91,7 +91,7 @@ public class StoreController {
 
         Response r = null;
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         //TODO changer pour store.getAddress.set***() ?
@@ -130,7 +130,7 @@ public class StoreController {
         User user = User.getByToken(token);
         Store store = Store.getById(id);
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         store.delete();
