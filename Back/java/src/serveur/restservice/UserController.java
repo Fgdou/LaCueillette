@@ -49,8 +49,8 @@ public class UserController {
     public JSONObject changePassword(@RequestParam Map<String,String> requestParams) throws Exception {
         String token = requestParams.get("token");
         String userPasswordNew = requestParams.get("password");
-        User user = User.getByToken(token);
         try{
+            User user = User.getByToken(token);
             user.changePassword(userPasswordNew);
             return new JSONObject().put("log", "password successfully changed");
         } catch (Exception e) {
@@ -73,9 +73,10 @@ public class UserController {
         String userTown = requestParams.get("ville");
         int userCP = Integer.parseInt(requestParams.get("code_postal"));
         String userToken = requestParams.get("token");
-        User user = User.getByToken(userToken);
 
         try{
+            //TODO allow other user if this token is admin
+            User user = User.getByToken(userToken);
             //Change if and only if not empty
             if (!userName.equals(""))
                 user.setName(userName);
@@ -100,11 +101,16 @@ public class UserController {
      * @return True if and only if the user has been successfully deleted
      */
     @PostMapping("/user/delete")
-    public boolean deleterUser(@RequestParam Map<String,String> requestParams) throws Exception{
+    public JSONObject deleterUser(@RequestParam Map<String,String> requestParams) throws Exception{
         String token = requestParams.get("token");
-        User user = User.getByToken(token);
-        user.delete();
-        return true;
+        try{
+            //TODO allow other user if admin
+            User user = User.getByToken(token);
+            user.delete();
+            return new JSONObject().put("log", true);
+        }catch(Exception e){
+            return new JSONObject().put("error", e.getMessage());
+        }
     }
 
     /**
@@ -116,8 +122,12 @@ public class UserController {
     public JSONObject login(@RequestParam Map<String,String> requestParams)throws Exception{
         String userEmail = requestParams.get("email");
         String userPassword = requestParams.get("password");
-        Token token = User.login(userEmail, userPassword, userEmail);
-        return new JSONObject().put("log", token.toString());
+        try{
+            Token token = User.login(userEmail, userPassword, userEmail);
+            return new JSONObject().put("log", token.toString());
+        }catch(Exception e){
+            return new JSONObject().put("error", e.getMessage());
+        }
     }
 
     /**
@@ -127,10 +137,15 @@ public class UserController {
      */
     @PostMapping("/user/logout")
     public JSONObject logout(@RequestParam Map<String,String> requestParams)throws Exception{
-        String token = requestParams.get("token");
-        User user = serveur.sql.User.getByToken(token);
-        user.logout(Token.getByValue(token));
-        return new JSONObject().put("log", "logout done");
+        try{
+            String token = requestParams.get("token");
+            User user = serveur.sql.User.getByToken(token);
+            user.logout(Token.getByValue(token));
+            return new JSONObject().put("log", "logout done");
+        }catch(Exception e){
+            return new JSONObject().put("error", e.getMessage());
+        }
+
     }
 
 }
