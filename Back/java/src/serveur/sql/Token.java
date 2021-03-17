@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 import serveur.DateTime;
 import serveur.Log;
@@ -169,12 +170,16 @@ public class Token {
     public DateTime getExpiration() {
         return expiration;
     }
+    @JsonIgnore
     public User getUser() throws Exception {
         if(userId == 0) {
             Log.warn("Get user is null in token " + id);
             return null;
         }
         return User.getById(userId);
+    }
+    public int getUserId(){
+        return userId;
     }
     public String getName() {
         return name;

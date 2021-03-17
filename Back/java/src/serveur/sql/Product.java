@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 import serveur.DateTime;
 import serveur.Log;
@@ -176,8 +177,12 @@ public class Product {
         return ProductCategory.getById(category_id);
     }
 
+    @JsonIgnore
     public Store getStore() throws Exception {
         return Store.getById(store_id);
+    }
+    public int getStoreId(){
+        return store_id;
     }
 
     public boolean canBePicked() {

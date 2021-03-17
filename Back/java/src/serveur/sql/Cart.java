@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 
 import java.sql.ResultSet;
@@ -47,8 +48,12 @@ public class Cart {
     /**
      * @return the owner of the cart
      */
+    @JsonIgnore
     public User getUser() throws Exception{
         return User.getById(user_id);
+    }
+    public int getUserId(){
+        return user_id;
     }
 
     /**

@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 
 import java.sql.ResultSet;
@@ -108,6 +109,13 @@ public class ProductCategory {
             list.add(new ProductCategory(rs));
 
         return list;
+    }
+    public int getParentId(){
+        return parent_id;
+    }
+    @JsonIgnore
+    public ProductCategory getParent() throws Exception {
+        return ProductCategory.getById(parent_id);
     }
 
     /**

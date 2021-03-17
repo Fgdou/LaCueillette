@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 import serveur.DateTime;
 import serveur.Log;
@@ -212,6 +213,7 @@ public class Store {
     /**
      * @return all the products of the store
      */
+    @JsonIgnore
     public List<Product> getProducts() throws Exception {
         return Product.getByStore(this);
     }
@@ -264,6 +266,7 @@ public class Store {
     /**
      * @return all the orders of this store
      */
+    @JsonIgnore
     public List<Order> getOrders() throws Exception{
         return Order.getByStore(this);
     }

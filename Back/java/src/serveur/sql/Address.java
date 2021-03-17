@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 
 import java.sql.ResultSet;
@@ -112,6 +113,10 @@ public class Address {
     public String getState() {
         return state;
     }
+    public int getUserId(){
+        return userId;
+    }
+    @JsonIgnore
     public User getUser() throws Exception {
         return User.getById(userId);
     }

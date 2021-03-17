@@ -1,5 +1,6 @@
 package serveur.sql;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.Common;
 import serveur.DataBase;
 import serveur.DateTime;
@@ -141,13 +142,15 @@ public class User {
     public DateTime getCreated() {
         return created;
     }
+    @JsonIgnore
     public DateTime getLastConnection() {
         return lastConnection;
     }
+    @JsonIgnore
     public List<Address> getAddresses() throws Exception {
         return Address.getByUser(this);
     }
-
+    @JsonIgnore
     public List<Store> getStores() throws Exception{
         return Store.getByUser(this);
     }
@@ -265,6 +268,7 @@ public class User {
     /**
      * @return all the valid tokens
      */
+    @JsonIgnore
     public List<Token> getTokens() throws Exception {
         return Token.getByUser(this);
     }
@@ -277,7 +281,7 @@ public class User {
         for(Token t : tokens)
             t.delete();
     }
-
+    @JsonIgnore
     public List<Order> getOrders() throws Exception {
         return Order.getByUser(this);
     }
