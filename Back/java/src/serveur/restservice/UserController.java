@@ -1,6 +1,7 @@
 package serveur.restservice;
 
 import org.springframework.web.bind.annotation.*;
+import serveur.Time;
 import serveur.sql.Address;
 import serveur.sql.Token;
 import serveur.sql.User;
@@ -49,6 +50,22 @@ public class UserController {
         user.changePassword(userPasswordNew);
         return new ResponseLog(true);
 
+    }
+
+    @PostMapping("/user/forgotPassword")
+    public Response forgotPassword(@RequestParam Map<String, String> requestParams) throws Exception{
+        String email = requestParams.get("email");
+
+        User us = User.getByEmail(email);
+
+        Token t = Token.create(Token.TOKEN_TYPE_FORGOT_PASSWORD,
+                us,
+                new Time(0, 10, 0),
+                email);
+
+        //TODO send mail with token
+
+        return new ResponseLog("Mail sent to " + email);
     }
 
     /**
