@@ -63,7 +63,7 @@ class ProductTest {
                 .20f,
                 new DateTime(0),
                 new DateTime(0),
-                new Time(0),
+                new DateTime(0),
                 "");
 
         assertTrue(Product.exist(st, "testProduct"));

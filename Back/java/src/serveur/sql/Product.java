@@ -29,7 +29,7 @@ public class Product {
     private float tva;
     private DateTime time_start;
     private DateTime time_stop;
-    private Time expiration;
+    private DateTime expiration;
     private String description;
 
     protected Product(ResultSet rs) throws Exception {
@@ -44,7 +44,7 @@ public class Product {
         tva = rs.getFloat(9);
         time_start = new DateTime(rs.getString(10));
         time_stop = new DateTime(rs.getString(11));
-        expiration = new Time(rs.getString(12));
+        expiration = new DateTime(rs.getString(12));
         description = rs.getString(13);
     }
 
@@ -66,7 +66,7 @@ public class Product {
      */
     public static Product create(String name, float price, boolean price_kg, ProductCategory category,
                                  Store store, boolean canBePicked, boolean canBeDelivered, float tva,
-                                 DateTime start, DateTime stop, Time expiration, String description) throws Exception {
+                                 DateTime start, DateTime stop, DateTime expiration, String description) throws Exception {
         String sql = "INSERT INTO Products (name, price, price_kg, category_id, store_id, canBePicked, canBeDelivered, tva, time_start, time_stop, expiration, description) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String[] tab = new String[]{
@@ -209,7 +209,7 @@ public class Product {
         return time_stop;
     }
 
-    public Time getExpiration() {
+    public DateTime getExpiration() {
         return expiration;
     }
 
@@ -262,7 +262,7 @@ public class Product {
         DataBase.getInstance().changeValue("Products", "time_stop", time_stop.toString(), id);
     }
 
-    public void setExpiration(Time expiration) throws Exception {
+    public void setExpiration(DateTime expiration) throws Exception {
         this.expiration = expiration;
         DataBase.getInstance().changeValue("Products", "expiration", expiration.toString(), id);
     }
