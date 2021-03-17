@@ -116,6 +116,8 @@ public class Store {
     public void delete() throws Exception {
         for(Product p : getProducts())
             p.delete();
+        for(Order o : getOrders())
+            o.delete();
         DataBase.getInstance().delete("Stores", id);
         Log.info("Store " + ref + " deleted");
     }

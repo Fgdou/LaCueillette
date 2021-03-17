@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import serveur.DataBase;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * This class hold the shopping list of the user
@@ -15,9 +12,9 @@ import java.util.TreeMap;
 
 public class Cart {
     //Product_id -> quantity
-    Map<Integer, Integer> products_q;
-    Map<Integer, Float> products_kg;
-    int user_id;
+    private Map<Integer, Integer> products_q;
+    private Map<Integer, Float> products_kg;
+    private int user_id;
 
     private Cart(ResultSet rs) throws Exception {
         products_kg = new TreeMap<>();
@@ -255,6 +252,26 @@ public class Cart {
         }
 
         return new LinkedList(orders.values());
+    }
+
+    public Map<SubProduct, Integer> getProductQuantity() throws Exception {
+        Map<SubProduct, Integer> m = new HashMap<>();
+
+        for(int k : products_q.keySet())
+            m.put(SubProduct.getById(k), products_q.get(k));
+
+        return m;
+    }
+    public Map<SubProduct, Float> getProductKg() throws Exception {
+        Map<SubProduct, Float> m = new TreeMap<>();
+
+        for(int k : products_kg.keySet())
+            m.put(SubProduct.getById(k), products_kg.get(k));
+
+        return m;
+    }
+    public int count(){
+        return products_q.size() + products_kg.size();
     }
 
     /**

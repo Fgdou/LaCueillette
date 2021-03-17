@@ -12,7 +12,7 @@ import java.util.List;
  * The special_tag represent the information, like the size or the color
  */
 
-public class SubProduct {
+public class SubProduct implements Comparable {
     private int id;
     private int quantity;
     private String special_tag;
@@ -51,16 +51,18 @@ public class SubProduct {
      * @return the new subproduct
      */
     public static SubProduct create(int quantity, String special_tag, Product p) throws Exception{
-        String sql = "INSERT INTO SubProducts (quantity, special_tag, created, product_id, kg) VALUES (?, ?, NOW(), ?, 0); SELECT MAX(id) FROM SubProducts";
+        if(p.isPrice_kg())
+            throw new Exception("Price is kg");
+
+        String sql = "INSERT INTO SubProducts (quantity, special_tag, created, product_id, kg) VALUES (?, ?, NOW(), ?, 0)";
         String[] tab = new String[]{
                 String.valueOf(quantity),
                 special_tag,
                 String.valueOf(p.getId())
         };
-        ResultSet rs = DataBase.getInstance().query(sql, tab);
-        int max = rs.getInt(1);
+        DataBase.getInstance().query(sql, tab);
 
-        return getById(max);
+        return getById(DataBase.getInstance().getLastId("SubProducts"));
     }
     /**
      * Create the subproduct in the database
@@ -70,6 +72,9 @@ public class SubProduct {
      * @return the new subproduct
      */
     public static SubProduct create(float kg, String special_tag, Product p) throws Exception{
+        if(!p.isPrice_kg())
+            throw new Exception("Price is not kg");
+
         String sql = "INSERT INTO SubProducts (quantity, special_tag, created, product_id, kg) VALUES (0, ?, NOW(), ?, ?); SELECT MAX(id) FROM SubProducts";
         String[] tab = new String[]{
                 special_tag,
@@ -172,5 +177,12 @@ public class SubProduct {
 
     public boolean equals(Object o){
         return (o instanceof SubProduct && ((SubProduct)o).id == id);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(!(o instanceof SubProduct))
+            return -1;
+        return ((SubProduct)o).id - id;
     }
 }

@@ -153,6 +153,10 @@ public class Product {
      * Delete the product on the database
      */
     public void delete() throws Exception {
+
+        for(SubProduct sp : getSubProducts())
+            sp.delete();
+
         DataBase.getInstance().delete("Products", id);
         Log.info("Product " + name + " on " + getStore().getId() + " deleted");
     }

@@ -15,6 +15,10 @@ public class Time extends DateTime {
         super("0000-00-00 " + str);
     }
 
+    public Time(long time) throws Exception{
+        super(time);
+    }
+
     /**
      * @param hour 0 to 23
      * @param min  0 to 59
