@@ -1,7 +1,5 @@
 package serveur.restservice;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import serveur.Common;
 import serveur.sql.Address;
@@ -10,7 +8,6 @@ import serveur.sql.StoreType;
 import serveur.sql.User;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -42,7 +39,7 @@ public class StoreController {
     /**
      * Create a store
      * @param requestParam Parameters requested
-     * @return JSONObject : error or log
+     * @return Store created
      */
     @PostMapping("/store/new")
     public Store createStore(@RequestParam Map<String, String> requestParam) throws Exception {
@@ -76,7 +73,7 @@ public class StoreController {
     /**
      * Change infos about a store
      * @param requestParam Parameters requested
-     * @return JSONObject : error or log
+     * @return Reponse : error or log
      */
     @PostMapping("/store/change")
     public Response modifyStore(@RequestParam Map<String, String> requestParam) throws Exception {
@@ -94,8 +91,8 @@ public class StoreController {
 
         Response r = null;
 
-        if(!store.getSeller().equals(user))
-            throw new Exception("You are not the owner of this store");
+        if (!store.getSeller().equals(user) || !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
 
         //TODO changer pour store.getAddress.set***() ?
         if (!way.equals("") && !town.equals("")){
@@ -124,7 +121,7 @@ public class StoreController {
     /**
      * Delete a store
      * @param requestParam Parameters requested
-     * @return JSONObject : error or log
+     * @return Response : error or log
      */
     @PostMapping("/store/delete")
     public Response deleteStore(@RequestParam Map<String, String> requestParam) throws Exception {
@@ -133,8 +130,8 @@ public class StoreController {
         User user = User.getByToken(token);
         Store store = Store.getById(id);
 
-        if(!store.getSeller().equals(user))
-            throw new Exception("You are not the owner of this store");
+        if (!store.getSeller().equals(user) || !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
 
         store.delete();
         return new ResponseLog("store deleted");
