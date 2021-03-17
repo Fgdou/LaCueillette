@@ -79,6 +79,19 @@ public class ProductCategory {
         return new ProductCategory(rs);
     }
 
+    public static List<ProductCategory> getAll() throws Exception {
+        String sql = "SELECT * FROM ProductsCategory";
+
+        ResultSet rs = DataBase.getInstance().query(sql);
+
+        List<ProductCategory> list = new LinkedList<>();
+
+        while(rs.next())
+            list.add(new ProductCategory(rs));
+
+        return list;
+    }
+
     /**
      * @param id    the id
      * @return the class
