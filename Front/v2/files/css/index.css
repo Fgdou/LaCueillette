@@ -1,0 +1,153 @@
+*{
+    font-family: Roboto, sans-serif;
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+header .logo img{
+    height: 54px;
+}
+header img{
+    margin-right: 10px;
+    vertical-align: middle;
+    height: 30px;
+}
+header{
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-areas:
+        "logo  . account cart"
+        "search search search search"
+        "address address address address";
+    grid-template-columns: 60px auto 100px 60px;
+    background: #58391C;
+    color: white;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+header .logo{
+    grid-area: logo;
+    margin: 5px 0 0 5px;
+}
+header .account{
+    grid-area: account;
+    text-align: center;
+}
+header .account img{
+    display: none;
+}
+header .cart{
+    grid-area: cart;
+    text-align: center;
+    margin: 5px 20px 0 0;
+}
+header .cart span{
+    display: none;
+}
+header .cart img{
+    height: 38px;
+}
+header .search{
+    grid-area: search;
+    text-align: center;
+    margin: 0 10px 5px 10px;
+}
+header .address{
+    grid-area: address;
+    background: #6A492B;
+    padding: 5px 20px;
+}
+header .address img{
+    height: 20px;
+}
+
+header .search{
+    background: white;
+    border-radius: 9px;
+    padding: 5px 10px;
+}
+header .search img{
+    margin-right: 0;
+    margin-left: 10px;
+    float: right;
+}
+header .search input{
+    font-size: 25px;
+    color: #58391C;
+    text-align: center;
+    width: calc(100% - 40px);
+    height: 100%;
+    border: none;
+    display: inline-block;
+}
+header .search input:focus{
+    outline: none;
+}
+header .search input:focus::placeholder{
+    font-size: 0;
+}
+header .search input::placeholder{
+    font-weight: bold;
+    color: #6A492B;
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2px 5px;
+    border-radius: 3px 0 0 0;
+    color: white;
+}
+
+.clickable{
+    cursor: pointer;
+    transition: transform;
+}
+
+@media(min-width: 800px) {
+    .clickable:hover{
+        transform: scale(1.05);
+    }
+    header{
+        grid-template-areas: "logo address search account cart";
+        grid-template-columns: max-content max-content auto max-content max-content;
+        padding: 5px 20px;
+    }
+    header div{
+        margin: 10px;
+    }
+    header img{
+        height: 30px !important;
+    }
+    header .logo img{
+        height: 45px !important;
+    }
+    header .cart span{
+        display: inline-block;
+    }
+    header .account img{
+        display: inline-block;
+    }
+    header .address{
+        background: none;
+        padding: 0;
+    }
+    header .cart{
+        margin: 0;
+    }
+
+    header .search{
+        margin: 0 10px 0 10px;
+    }
+    header .logo{
+        margin: 0;
+    }
+}

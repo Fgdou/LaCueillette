@@ -1,0 +1,79 @@
+.search.window{
+    display: grid;
+    overflow: hidden;
+    grid-template-areas: "searchList";
+}
+
+.searchList{
+    grid-area: searchList;
+    height: 100%;
+}
+.map{
+    grid-area: map;
+    display: none;
+    overflow: hidden;
+}
+.map img{
+    height: 100%;
+}
+
+.searchElement{
+    background: #6A492B;
+    margin: 15px;
+    border-radius: 32px;
+    display: grid;
+    grid-template-areas:
+        "icon content";
+    grid-template-columns: max-content auto;
+    padding: 10px;
+    color: white;
+}
+.searchElement img{
+    grid-area: icon;
+    background: white;
+    border-radius: 25px;
+    padding: 5px;
+    height: 117px;
+}
+.searchElement .content{
+    grid-area: content;
+    padding: 0 10px;
+}
+.searchElement .content > div{
+    margin: 2px 0;
+}
+.searchElement .content span{
+    white-space: nowrap;
+    overflow: hidden;
+}
+.searchElement .content .name{
+    font-weight: bold;
+    font-size: 35px;
+}
+.searchElement .content .infos{
+    display: flex;
+    justify-content: space-between;
+    color: #BFBFBF;
+}
+.searchElement .content .address{
+
+}
+.searchElement .content .address, .searchElement .content .opening{
+
+}
+
+
+@media (min-width: 800px) {
+    .search.window{
+        grid-template-areas: "map searchList";
+        grid-template-columns: auto 500px;
+        height: calc(100vh - 60px);
+        overflow: hidden;
+    }
+    .map{
+        display: block;
+    }
+    .searchList{
+        overflow: scroll;
+    }
+}
