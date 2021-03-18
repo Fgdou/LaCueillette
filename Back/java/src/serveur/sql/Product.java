@@ -17,8 +17,6 @@ import java.util.List;
  * A subproduct is used for referencing for example the size S / M / L
  */
 
-//TODO remove kg
-
 public class Product {
     private int id;
     private String name;

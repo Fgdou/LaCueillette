@@ -4,6 +4,8 @@ import serveur.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -80,6 +82,19 @@ public class StoreType {
      */
     public void delete() throws Exception {
         DataBase.getInstance().delete("StoreType", id);
+    }
+
+    public static List<StoreType> getAll() throws Exception {
+        List<StoreType> list = new LinkedList<>();
+
+        String sql = "SELECT * FROM StoreType";
+
+        ResultSet rs = DataBase.getInstance().query(sql);
+
+        while(rs.next())
+            list.add(new StoreType(rs));
+
+        return list;
     }
 
     @Override
