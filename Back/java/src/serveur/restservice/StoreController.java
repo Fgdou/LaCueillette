@@ -15,16 +15,18 @@ public class StoreController {
 
     /**
      * Get informations about a store
+     *
      * @param id Store id
      * @return The store associated
      */
     @GetMapping("/store/get/infos")
-    public Store getInformations(@RequestParam(value = "id") int id) throws Exception{
+    public Store getInformations(@RequestParam(value = "id") int id) throws Exception {
         return Store.getById(id);
     }
 
     /**
      * Get stores by user
+     *
      * @param requestParam Parameters requested
      * @return JSONObject : error or list of id+name
      */
@@ -38,6 +40,7 @@ public class StoreController {
 
     /**
      * Create a store
+     *
      * @param requestParam Parameters requested
      * @return Store created
      */
@@ -60,18 +63,20 @@ public class StoreController {
 
     /**
      * Create ref for the Store
-     * @param name String the name of the store
-     * @param cp int the postal code of the store
+     *
+     * @param name  String the name of the store
+     * @param cp    int the postal code of the store
      * @param State String the state of the store
-     * @param id int the id of the store
+     * @param id    int the id of the store
      * @return The ref of the store
      */
-    private String generateRef(String name, int cp, String State, int id){
+    private String generateRef(String name, int cp, String State, int id) {
         return ("COM" + State.charAt(0) + State.charAt(1) + Common.format(cp, 5) + name.charAt(0) + name.charAt(1) + Common.format(id, 10)).toUpperCase();
     }
 
     /**
      * Change infos about a store
+     *
      * @param requestParam Parameters requested
      * @return Reponse : error or log
      */
@@ -94,27 +99,27 @@ public class StoreController {
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
-        if (!way.equals("") && !town.equals("")){
+        if (!way.equals("") && !town.equals("")) {
             store.getAddress().setNumber(number);
             store.getAddress().setWay(way);
             store.getAddress().setPostalcode(cp);
             store.getAddress().setCity(town);
             r = new ResponseLog<>("address updated");
         }
-        if (!name.equals("")){
+        if (!name.equals("")) {
             store.setName(name);
             r = new ResponseLog<>("name updated");
         }
-        if (!email.equals("")){
+        if (!email.equals("")) {
             store.setMail(email);
             r = new ResponseLog<>("email updated");
         }
-        if (!tel.equals("")){
+        if (!tel.equals("")) {
             store.setTel(tel);
             r = new ResponseLog<>("tel updated");
         }
 
-        if(r == null)
+        if (r == null)
             throw new Exception("nothing updated");
 
         return r;
@@ -122,6 +127,7 @@ public class StoreController {
 
     /**
      * Delete a store
+     *
      * @param requestParam Parameters requested
      * @return Response : error or log
      */
@@ -138,5 +144,18 @@ public class StoreController {
         store.delete();
         return new ResponseLog("store deleted");
     }
+
+    /**
+     * Get stores for a user
+     *
+     * @param requestParam Parameters required : user_token
+     * @return List of store
+     * @throws Exception
+     */
+    public List<Store> getStoreByUser(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        return user.getStores();
+    }
+
 
 }

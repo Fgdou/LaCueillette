@@ -148,6 +148,7 @@ public class UserController {
 
     /**
      * Get all addresses for a user
+     *
      * @param requestParams Paramètre requis : user_token
      * @return List of addresses
      * @throws Exception
