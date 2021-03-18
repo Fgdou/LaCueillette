@@ -97,6 +97,11 @@ header .search input::placeholder{
     color: #6A492B;
 }
 
+.container{
+    position: relative;
+    min-height: calc(100vh - 136px);
+}
+
 footer{
     position: absolute;
     bottom: 0;
@@ -109,12 +114,15 @@ footer{
 
 .clickable{
     cursor: pointer;
-    transition: transform;
+    transition: transform .2s;
 }
 
 @media(min-width: 800px) {
     .clickable:hover{
         transform: scale(1.05);
+    }
+    .container{
+        min-height: calc(100vh - 60px);
     }
     header{
         grid-template-areas: "logo address search account cart";

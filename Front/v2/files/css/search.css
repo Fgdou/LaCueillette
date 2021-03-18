@@ -1,5 +1,6 @@
 .search.window{
     display: grid;
+    display: none;
     overflow: hidden;
     grid-template-areas: "searchList";
 }
@@ -7,6 +8,7 @@
 .searchList{
     grid-area: searchList;
     height: 100%;
+    margin: 0 auto;
 }
 .map{
     grid-area: map;
@@ -19,7 +21,7 @@
 
 .searchElement{
     background: #6A492B;
-    margin: 15px;
+    margin: 5px;
     border-radius: 32px;
     display: grid;
     grid-template-areas:
@@ -27,13 +29,15 @@
     grid-template-columns: max-content auto;
     padding: 10px;
     color: white;
+    align-items: center;
+    max-width: 423px;
 }
 .searchElement img{
     grid-area: icon;
     background: white;
     border-radius: 25px;
     padding: 5px;
-    height: 117px;
+    height: 100px;
 }
 .searchElement .content{
     grid-area: content;
@@ -48,18 +52,12 @@
 }
 .searchElement .content .name{
     font-weight: bold;
-    font-size: 35px;
+    font-size: 25px;
 }
 .searchElement .content .infos{
     display: flex;
     justify-content: space-between;
     color: #BFBFBF;
-}
-.searchElement .content .address{
-
-}
-.searchElement .content .address, .searchElement .content .opening{
-
 }
 
 
@@ -75,5 +73,17 @@
     }
     .searchList{
         overflow: scroll;
+        margin: 0;
+    }
+    .searchElement {
+        margin: 15px;
+        max-width: none;
+    }
+
+    .searchElement img{
+        height: 117px;
+    }
+    .searchElement .content .name{
+        font-size: 35px;
     }
 }

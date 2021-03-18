@@ -1,0 +1,49 @@
+.window.login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.window.login .login{
+    display: grid;
+    grid-template-areas:
+        "email email"
+        "password password"
+        "register submit";
+    grid-template-columns: 30% 70%;
+    grid-gap: 5px;
+    width: 400px;
+    font-size: 20px;
+}
+.window.login .login .email{
+    grid-area: email;
+}
+.window.login .login .password{
+    grid-area: password;
+}
+.window.login .login .submit{
+    grid-area: submit;
+}
+.window.login .login .register{
+    grid-area: register;
+}
+.window.login .login button{
+    width: 100%;
+    font-size: inherit;
+    background: #58391C;
+    color: white;
+    font-weight: bold;
+    border:none;
+    padding: 7px;
+    border-radius: 10px;
+}
+.window.login .login button:focus{
+    outline: none;
+}
+.window.login .login button:hover{
+}
+.window.login .login input{
+    width: 100%;
+    font-size: inherit;
+}
