@@ -207,8 +207,6 @@ public class StoreController {
         Time time_to = new Time(requestParam.get("time_to"));
         int day = Integer.parseInt(requestParam.get("day"));
 
-        //TODO Set in TimeTable
-
         store.getTimeTable().addInterval(time_from, time_to, day);
 
         return new ResponseLog("TimeTable added to " + store.getRef());
