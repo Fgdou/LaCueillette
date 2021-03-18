@@ -22,7 +22,6 @@ public class Order {
     public static int ORDER_CANCELED = -1;
 
     Map<Integer, Integer> products_q;
-    Map<Integer, Float> products_kg;
 
     private int id;
     private int store_id;
@@ -34,7 +33,6 @@ public class Order {
     private int user_id;
 
     private Order(ResultSet rs) throws Exception {
-        products_kg = new TreeMap<>();
         products_q = new TreeMap<>();
 
         id = rs.getInt(1);
@@ -55,10 +53,7 @@ public class Order {
             int quantity = rss.getInt(5);
             float kg = rss.getFloat(6);
 
-            if(kg == 0)
-                products_q.put(subproduct_id, quantity);
-            else
-                products_kg.put(subproduct_id, kg);
+            products_q.put(subproduct_id, quantity);
         }
     }
 
@@ -142,22 +137,6 @@ public class Order {
         };
         DataBase.getInstance().query(sql, tab);
     }
-    /**
-     * Add product to the order
-     * @param sp SubProduct
-     * @param kg quantity
-     */
-    protected void addSubProduct(SubProduct sp, float kg) throws Exception {
-        products_kg.put(sp.getId(), kg);
-
-        String sql = "INSERT INTO OrdersProducts (subproduct_id, order_id, quantity, kg) VALUES (?, ?, 0, ?)";
-        String[] tab = new String[]{
-                String.valueOf(sp.getId()),
-                String.valueOf(id),
-                String.valueOf(kg)
-        };
-        DataBase.getInstance().query(sql, tab);
-    }
 
     /**
      * update the state of the order
@@ -186,12 +165,6 @@ public class Order {
 
                 s.setQuantity(s.getQuantity()+q);
             }
-            for(int i : products_kg.keySet()){
-                SubProduct s = SubProduct.getById(i);
-                float q = products_kg.get(i);
-
-                s.setKg(s.getQuantity()+q);
-            }
         }
     }
 
@@ -208,12 +181,6 @@ public class Order {
 
             s.setQuantity(s.getQuantity()-q);
         }
-        for(int i : products_kg.keySet()){
-            SubProduct s = SubProduct.getById(i);
-            float q = products_kg.get(i);
-
-            s.setKg(s.getQuantity()-q);
-        }
     }
 
     /**
@@ -224,13 +191,6 @@ public class Order {
 
         for(Integer sub : products_q.keySet()){
             int q = products_q.get(sub);
-            SubProduct sp = SubProduct.getById(sub);
-            Product product = sp.getProduct();
-
-            sum += q*product.getPrice();
-        }
-        for(Integer sub : products_kg.keySet()){
-            float q = products_kg.get(sub);
             SubProduct sp = SubProduct.getById(sub);
             Product product = sp.getProduct();
 
@@ -252,13 +212,6 @@ public class Order {
 
             sum += q*product.getTva()*product.getPrice();
         }
-        for(Integer sub : products_kg.keySet()){
-            float q = products_kg.get(sub);
-            SubProduct sp = SubProduct.getById(sub);
-            Product product = sp.getProduct();
-
-            sum += q*product.getTva()*product.getPrice();
-        }
 
         return sum;
     }
@@ -270,13 +223,6 @@ public class Order {
 
         for(Integer sub : products_q.keySet()){
             int q = products_q.get(sub);
-            SubProduct sp = SubProduct.getById(sub);
-            Product product = sp.getProduct();
-
-            sum += q*product.getPrice() * (1 + product.getTva());
-        }
-        for(Integer sub : products_kg.keySet()){
-            float q = products_kg.get(sub);
             SubProduct sp = SubProduct.getById(sub);
             Product product = sp.getProduct();
 
