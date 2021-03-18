@@ -33,7 +33,7 @@ public class TimeTableInterval {
         store_id = store;
     }
 
-    public TimeTableInterval getById(int id) throws Exception {
+    public static TimeTableInterval getById(int id) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("TimeTable", "id", String.valueOf(id));
         if(!rs.next())
             throw new Exception("Interval not found");
