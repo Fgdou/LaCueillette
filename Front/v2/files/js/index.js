@@ -1,7 +1,8 @@
 let user = null
 let page = null
+let token = null
 let url = "https://lacueillette.ml/v2/"
-let api = "https://localhost:8080/"
+let api = "https://lacueillette.ml/api/"
 
 $(()=>{
     closeWindows();
@@ -28,16 +29,6 @@ $(()=>{
         else{
             bt.prop("disabled", true);
 
-            $.ajax({
-                type: 'POST',
-                crossDomain: true,
-                dataType: 'jsonp',
-                url: api + "user/login",
-                success: function(jsondata){
-
-                }
-            })
-
             $.post(api + "user/login", {
                 email: email,
                 password: password
@@ -51,7 +42,8 @@ $(()=>{
                     else
                         errorPopup(data.error)
                 }else{
-                    user = data
+                    token = data
+                    user = data.user
                     closeWindows()
                 }
             },"json");
