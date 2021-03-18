@@ -91,12 +91,13 @@ public class OrderController {
     }
 
     /**
-     * Get PriceHT and TVA of an order
+     * Get informations for an order
+     *
      * @param requestParam Parameters required : user_token, order_id
-     * @return Pair of the priceHT and priceTTC
+     * @return Error or the order
      * @throws Exception
      */
-    public Pair<Float, Float> getPriceAndTVA(@RequestParam Map<String, String> requestParam) throws Exception {
+    public Order getInfos(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
         Order order = Order.getById(Integer.parseInt(requestParam.get("order_id")));
         Store store = order.getStore();
@@ -104,15 +105,43 @@ public class OrderController {
         if ((!store.getSeller().equals(user) && !order.getUser().equals(user)) || !user.isAdmin())
             throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
 
-        return Pair.of(order.getPriceHT(), order.getPriceTTC());
+        return order;
     }
 
     //TODO Set Paid
 
+    /**
+     * Get all the orders for a user
+     *
+     * @param requestParam Parameter requested : user_token
+     * @return User's list of orders
+     * @throws Exception
+     */
     @PostMapping("/order/getAll")
-    public List<Order> getByUser(@RequestParam Map<String, String> requestParam) throws Exception{
+    public List<Order> getByUser(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
         return user.getOrders();
+    }
+
+    /**
+     * Pay an order
+     *
+     * @param requestParam Parameters requested : user_token, order_id
+     * @return Response : error or log
+     * @throws Exception
+     */
+    @PostMapping("/order/pay")
+    public Response pay(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Order order = Order.getById(Integer.parseInt(requestParam.get("order_id")));
+        Store store = order.getStore();
+
+        if (!store.getSeller().equals(user) || !user.isAdmin()) //Only seller and admin can set an order paid
+            throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
+
+        order.pay();
+
+        return new ResponseLog("order paid");
     }
 
 }
