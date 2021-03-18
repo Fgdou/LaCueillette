@@ -217,25 +217,23 @@ public class StoreController {
     /**
      * Modify a Store's timetable
      *
-     * @param requestParam Required parameters : user_token, store_id, time_from (hh-mm-ss), time_to (hh-mm-ss), time_id
+     * @param requestParam Required parameters : user_token, store_id, time_id
      * @return Response : error or log
      * @throws Exception
      */
-    @PostMapping("/store/timetable/modify")
-    public Response modifyTimeTable(@RequestParam Map<String, String> requestParam) throws Exception {
+    @PostMapping("/store/timetable/delete")
+    public Response deleteTimeTable(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
         Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
 
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
-        Time time_from = new Time(requestParam.get("time_from"));
-        Time time_to = new Time(requestParam.get("time_to"));
-        int day = Integer.parseInt(requestParam.get("day"));
+        int time_id = Integer.parseInt(requestParam.get("time_id"));
 
-        TimeTableInterval.getById(Integer.parseInt(requestParam.get("time_id")));
+        TimeTableInterval.getById(time_id).delete();
 
-        return null;
+        return new ResponseLog("TimeTable delete successfully");
     }
 
 
