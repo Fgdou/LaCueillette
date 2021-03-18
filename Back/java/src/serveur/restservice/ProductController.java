@@ -17,7 +17,7 @@ public class ProductController {
      * @return Response : error or log with the id
      * @throws Exception
      */
-    @PutMapping("/product/new")
+    @PostMapping("/product/new")
     public Response addProduct(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
@@ -119,7 +119,7 @@ public class ProductController {
      * @return List of products
      * @throws Exception
      */
-    @GetMapping("/product/get/byStore")
+    @PostMapping("/product/get/byStore")
     public List<Product> getProductByStore(@RequestParam Map<String, String> requestParam) throws Exception {
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         Store store = Store.getById(store_id);
@@ -133,7 +133,7 @@ public class ProductController {
      * @return Error or product
      * @throws Exception
      */
-    @GetMapping("/product/get/infos")
+    @PostMapping("/product/get/infos")
     public Product getProductInfos(@RequestParam Map<String, String> requestParam) throws Exception {
         int product_id = Integer.parseInt(requestParam.get("product_id"));
         return Product.getById(product_id);

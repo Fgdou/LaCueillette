@@ -60,6 +60,7 @@ public class CartController {
      * @return List of the order generated
      * @throws Exception
      */
+    @PostMapping("/cart/validate")
     public List<Order> validateCart(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
         Cart cart = Cart.getByUser(user);
