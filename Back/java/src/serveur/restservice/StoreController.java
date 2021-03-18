@@ -2,10 +2,8 @@ package serveur.restservice;
 
 import org.springframework.web.bind.annotation.*;
 import serveur.Common;
-import serveur.sql.Address;
-import serveur.sql.Store;
-import serveur.sql.StoreType;
-import serveur.sql.User;
+import serveur.Time;
+import serveur.sql.*;
 
 import java.util.List;
 import java.util.Map;
@@ -185,7 +183,59 @@ public class StoreController {
         User user = User.getByToken(requestParam.get("user_token"));
         String name = requestParam.get("name");
 
-        StoreType.create(name);
+        return StoreType.create(name);
+    }
+
+    //TimeTable
+
+    /**
+     * Add a TimeTable to a store
+     *
+     * @param requestParam Required parameters : user_token, store_id, time_from (hh-mm-ss), time_to (hh-mm-ss), day (0 to 6)
+     * @return Response : error or log
+     * @throws Exception
+     */
+    @PostMapping("/store/timetable/new")
+    public Response addTimeTable(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
+
+        if (!store.getSeller().equals(user) && !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
+
+        Time time_from = new Time(requestParam.get("time_from"));
+        Time time_to = new Time(requestParam.get("time_to"));
+        int day = Integer.parseInt(requestParam.get("day"));
+
+        //TODO Set in TimeTable
+
+        store.getTimeTable().addInterval(time_from, time_to, day);
+
+        return new ResponseLog("TimeTable added to " + store.getRef());
+    }
+
+    /**
+     * Modify a Store's timetable
+     *
+     * @param requestParam Required parameters : user_token, store_id, time_from (hh-mm-ss), time_to (hh-mm-ss), time_id
+     * @return Response : error or log
+     * @throws Exception
+     */
+    @PostMapping("/store/timetable/modify")
+    public Response modifyTimeTable(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
+
+        if (!store.getSeller().equals(user) && !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
+
+        Time time_from = new Time(requestParam.get("time_from"));
+        Time time_to = new Time(requestParam.get("time_to"));
+        int day = Integer.parseInt(requestParam.get("day"));
+
+        TimeTableInterval.getById(Integer.parseInt(requestParam.get("time_id")));
+
+        return null;
     }
 
 
