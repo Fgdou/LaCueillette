@@ -49,6 +49,7 @@ $(()=>{
             },"json");
         }
     })
+    $(".login").submit(e => e.preventDefault())
 })
 
 function openWindow(name){
@@ -61,6 +62,7 @@ function closeWindows(){
 }
 function inputError(name){
     $(".input."+name).addClass("error")
+    $(".input."+name + " input").focus()
 }
 function clearInputError(){
     $(".input").removeClass("error")
