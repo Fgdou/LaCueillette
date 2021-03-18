@@ -59,7 +59,6 @@ public class ProductController {
         double price = Double.parseDouble(requestParam.get("price"));
         double tva = Double.parseDouble(requestParam.get("tva"));
         String description = requestParam.get("description");
-        boolean price_kg = requestParam.get("price_kg").toLowerCase().equals("true") ? true : false;
         boolean canBeDelivered = requestParam.get("canBeDelivered").toLowerCase().equals("true") ? true : false;
         boolean canBePicked = requestParam.get("canBePicked").toLowerCase().equals("true") ? true : false;
         String time_start = requestParam.get("time_start");
@@ -79,7 +78,6 @@ public class ProductController {
         product.setTva((float) tva);
         if (!description.equals(""))
             product.setDescription(description);
-        product.setPrice_kg(price_kg);
         product.setCanBeDelivered(canBeDelivered);
         product.setCanBePicked(canBePicked);
         if (!time_start.equals(""))

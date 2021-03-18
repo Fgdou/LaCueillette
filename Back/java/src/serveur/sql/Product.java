@@ -17,6 +17,8 @@ import java.util.List;
  * A subproduct is used for referencing for example the size S / M / L
  */
 
+//TODO remove kg
+
 public class Product {
     private int id;
     private String name;
@@ -173,10 +175,6 @@ public class Product {
         return price;
     }
 
-    public boolean isPrice_kg() {
-        return price_kg;
-    }
-
     public ProductCategory getCategory() throws Exception {
         return ProductCategory.getById(category_id);
     }
@@ -225,11 +223,6 @@ public class Product {
     public void setPrice(float price) throws Exception {
         this.price = price;
         DataBase.getInstance().changeValue("Products", "price", String.valueOf(price), id);
-    }
-
-    public void setPrice_kg(boolean price_kg) throws Exception {
-        this.price_kg = price_kg;
-        DataBase.getInstance().changeValue("Products", "price_kg", (price_kg) ? "1" : "0", id);
     }
 
     public void setCategory(ProductCategory category) throws Exception {
@@ -331,8 +324,19 @@ public class Product {
     /**
      * @return all the subproducts related
      */
+    @JsonIgnore
     public List<SubProduct> getSubProducts() throws Exception {
         return SubProduct.getByProduct(this);
+    }
+
+    public int getNumberSubproducts() throws Exception{
+
+        int n = 0;
+
+        for(SubProduct p : getSubProducts())
+            n += p.getQuantity();
+
+        return n;
     }
 
     public boolean equals(Object o){

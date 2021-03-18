@@ -13,23 +13,18 @@ import java.util.*;
 public class Cart {
     //Product_id -> quantity
     private Map<Integer, Integer> products_q;
-    private Map<Integer, Float> products_kg;
     private int user_id;
 
     private Cart(ResultSet rs) throws Exception {
-        products_kg = new TreeMap<>();
         products_q = new TreeMap<>();
 
         while(rs.next()){
             user_id = rs.getInt(2);
             int subproduct_id = rs.getInt(3);
             int quantity = rs.getInt(4);
-            float kg = rs.getFloat(5);
 
-            if(kg == 0)
-                products_q.put(subproduct_id, quantity);
-            else
-                products_kg.put(subproduct_id, kg);
+
+            products_q.put(subproduct_id, quantity);
         }
     }
 
@@ -69,22 +64,6 @@ public class Cart {
 
         products_q.put(p.getId(), quantity);
     }
-    /**
-     * Add a product to the order
-     * @param p the subproduct
-     * @param kg the quantity in kg
-     */
-    public void addProduct(SubProduct p, float kg) throws Exception {
-        String sql = "INSERT INTO Cart (user_id, subproduct_id, quantity, kg) VALUES (?, ?, 0, ?)";
-        String[] tab = new String[]{
-                String.valueOf(user_id),
-                String.valueOf(p.getId()),
-                String.valueOf(kg)
-        };
-        DataBase.getInstance().query(sql, tab);
-
-        products_kg.put(p.getId(), kg);
-    }
 
     /**
      * Remove a product from the Cart of the user
@@ -100,7 +79,6 @@ public class Cart {
         DataBase.getInstance().query(sql, tab);
 
         products_q.remove(p.getId());
-        products_kg.remove(p.getId());
     }
     /**
      * Change the quantity of the product
@@ -120,24 +98,6 @@ public class Cart {
         products_q.put(p.getId(), quantity);
 
     }
-    /**
-     * Change the quantity of the product
-     * @param p the product to update
-     * @param kg the new quantity
-     */
-    public void changeQuantity(SubProduct p, float kg) throws Exception {
-        //TODO check availability
-        String sql = "UPDATE Cart SET kg = ? WHERE user_id = ? AND subproduct_id = ?";
-        String[] tab = new String[]{
-                String.valueOf(kg),
-                String.valueOf(user_id),
-                String.valueOf(p.getId())
-        };
-        DataBase.getInstance().query(sql, tab);
-
-        products_kg.put(p.getId(), kg);
-
-    }
 
     /**
      * @return the HT price
@@ -147,13 +107,6 @@ public class Cart {
 
         for(Integer sub : products_q.keySet()){
             int q = products_q.get(sub);
-            SubProduct sp = SubProduct.getById(sub);
-            Product product = sp.getProduct();
-
-            sum += q*product.getPrice();
-        }
-        for(Integer sub : products_kg.keySet()){
-            float q = products_kg.get(sub);
             SubProduct sp = SubProduct.getById(sub);
             Product product = sp.getProduct();
 
@@ -176,13 +129,6 @@ public class Cart {
 
             sum += q*product.getTva()*product.getPrice();
         }
-        for(Integer sub : products_kg.keySet()){
-            float q = products_kg.get(sub);
-            SubProduct sp = SubProduct.getById(sub);
-            Product product = sp.getProduct();
-
-            sum += q*product.getTva()*product.getPrice();
-        }
 
         return sum;
     }
@@ -200,13 +146,6 @@ public class Cart {
 
             sum += q*product.getPrice() * (1 + product.getTva());
         }
-        for(Integer sub : products_kg.keySet()){
-            float q = products_kg.get(sub);
-            SubProduct sp = SubProduct.getById(sub);
-            Product product = sp.getProduct();
-
-            sum += q*product.getPrice() * (1 + product.getTva());
-        }
 
         return sum;
     }
@@ -217,7 +156,7 @@ public class Cart {
      * @return
      * @throws Exception
      */
-    List<Order> buy(Address address) throws Exception {
+    public List<Order> buy(Address address) throws Exception {
 
         //TODO check availability
         Map<Integer, Order> orders = new TreeMap<>();
@@ -236,20 +175,6 @@ public class Cart {
 
             order.addSubProduct(subProduct, quantity);
         }
-        for(int si : products_kg.keySet()){
-            SubProduct subProduct = SubProduct.getById(si);
-            float kg = products_kg.get(si);
-            Store store = subProduct.getProduct().getStore();
-
-            Order order = orders.get(store.getId());
-
-            if(order == null){
-                order = Order.create(store, address, null, getUser());
-                orders.put(store.getId(), order);
-            }
-
-            order.addSubProduct(subProduct, kg);
-        }
 
         return new LinkedList(orders.values());
     }
@@ -262,16 +187,8 @@ public class Cart {
 
         return m;
     }
-    public Map<SubProduct, Float> getProductKg() throws Exception {
-        Map<SubProduct, Float> m = new TreeMap<>();
-
-        for(int k : products_kg.keySet())
-            m.put(SubProduct.getById(k), products_kg.get(k));
-
-        return m;
-    }
     public int count(){
-        return products_q.size() + products_kg.size();
+        return products_q.size();
     }
 
     /**

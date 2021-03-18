@@ -4,6 +4,8 @@ import serveur.DataBase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -93,5 +95,18 @@ public class Tag {
     }
     public boolean equals(Object o){
         return (o instanceof Tag && ((Tag)o).name.equals(name));
+    }
+
+    public static List<Tag> getAll() throws Exception {
+        List<Tag> list = new LinkedList<>();
+
+        String sql = "SELECT * FROM Tags";
+
+        ResultSet rs = DataBase.getInstance().query(sql);
+
+        while(rs.next())
+            list.add(new Tag(rs));
+
+        return list;
     }
 }
