@@ -6,6 +6,7 @@ import serveur.sql.Address;
 import serveur.sql.Token;
 import serveur.sql.User;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -143,6 +144,18 @@ public class UserController {
         User user = serveur.sql.User.getByToken(token);
         user.logout(Token.getByValue(token));
         return new ResponseLog(true);
+    }
+
+    /**
+     * Get all addresses for a user
+     * @param requestParams Paramètre requis : user_token
+     * @return List of addresses
+     * @throws Exception
+     */
+    @PostMapping("/user/get/allAddresses")
+    public List<Address> getAddresses(@RequestParam Map<String, String> requestParams) throws Exception {
+        User user = User.getById(Integer.parseInt(requestParams.get("user_token")));
+        return user.getAddresses();
     }
 
 }
