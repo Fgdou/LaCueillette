@@ -331,6 +331,7 @@ public class Product {
     /**
      * @return all the subproducts related
      */
+    @JsonIgnore
     public List<SubProduct> getSubProducts() throws Exception {
         return SubProduct.getByProduct(this);
     }
