@@ -32,29 +32,6 @@ public class OrderController {
     }
 
     /**
-     * Get a list of products in an order
-     *
-     * @param requestParam Parameters required : user_token, order_id
-     * @return
-     * @throws Exception
-     */
-    /*
-    @GetMapping("/order/get/products")
-    public Map<Integer, Integer> getProductsInOrder(@RequestParam Map<String, String> requestParam) throws Exception {
-        User user = User.getByToken(requestParam.get("user_token"));
-        Order order = Order.getById(Integer.parseInt(requestParam.get("order_id")));
-        Store store = order.getStore();
-
-        if ((!store.getSeller().equals(user) && !order.getUser().equals(user)) || !user.isAdmin())
-            throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
-
-        //TODO getProductsInOrder
-
-        return null;
-    }
-    */
-
-    /**
      * Get the store who prepares the order
      *
      * @param requestParam Parameters required : user_token, order_id
@@ -71,6 +48,23 @@ public class OrderController {
             throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
 
         return store;
+    }
+
+    /**
+     * Get order
+     * @param requestParam Parameters required : user_token, order_id
+     * @return The order
+     * @throws Exception
+     */
+    public Order getOrder(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Order order = Order.getById(Integer.parseInt(requestParam.get("order_id")));
+        Store store = order.getStore();
+
+        if ((!store.getSeller().equals(user) && !order.getUser().equals(user)) && !user.isAdmin())
+            throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
+
+        return order;
     }
 
     /**

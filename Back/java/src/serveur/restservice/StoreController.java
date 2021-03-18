@@ -94,9 +94,11 @@ public class StoreController {
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
-        //TODO changer pour store.getAddress.set***() ?
         if (!way.equals("") && !town.equals("")){
-            store.setAddress(Address.create(number, way, town, cp, "France", user));
+            store.getAddress().setNumber(number);
+            store.getAddress().setWay(way);
+            store.getAddress().setPostalcode(cp);
+            store.getAddress().setCity(town);
             r = new ResponseLog<>("address updated");
         }
         if (!name.equals("")){

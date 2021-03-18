@@ -40,7 +40,7 @@ public class AdminController {
     /**
      * Change one or more user informations with an admin account
      *
-     * @param requestParams Map of Strings : user_admin_token, name, surname, tel, adresse, ville, code_postal, turn_it_admin
+     * @param requestParams Map of Strings : user_admin_token, name, surname, tel, adresse, ville, code_postal, turn_it_admin, address_id
      * @return Response of error or log
      */
     @PostMapping("/user/admin/changeUser")
@@ -60,7 +60,8 @@ public class AdminController {
         String userWay = requestParams.get("way");
         String userTown = requestParams.get("ville");
         int userCP = Integer.parseInt(requestParams.get("code_postal"));
-        boolean turnAdmin = requestParams.get("turn_it_admin").equals("true") ? true : false;
+        boolean turnAdmin = requestParams.get("turn_it_admin").equals("true");
+        Address address = Address.getById(Integer.parseInt(requestParams.get("address_id")));
 
         //Change if and only if not empty
         if (!userName.equals(""))
@@ -69,9 +70,11 @@ public class AdminController {
             user.setSurname(userSurname);
         if (!userTel.equals(""))
             user.setTel(userTel);
-        //TODO update address without creating one ?
         if (!userWay.equals("") || !userTown.equals("")) {
-            user.getAddresses().add(Address.create(userNumber, userWay, userTown, userCP, "France", user));
+            address.setNumber(userNumber);
+            address.setWay(userWay);
+            address.setPostalcode(userCP);
+            address.setCity(userTown);
         }
         user.setAdmin(turnAdmin);
         return new ResponseLog(true);
