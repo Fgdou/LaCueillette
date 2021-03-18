@@ -38,6 +38,7 @@ public class OrderController {
      * @return
      * @throws Exception
      */
+    /*
     @GetMapping("/order/get/products")
     public Map<Integer, Integer> getProductsInOrder(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
@@ -51,6 +52,7 @@ public class OrderController {
 
         return null;
     }
+    */
 
     /**
      * Get the store who prepares the order
@@ -107,8 +109,6 @@ public class OrderController {
 
         return order;
     }
-
-    //TODO Set Paid
 
     /**
      * Get all the orders for a user
