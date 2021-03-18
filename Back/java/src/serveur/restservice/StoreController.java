@@ -19,7 +19,7 @@ public class StoreController {
      * @param id Store id
      * @return The store associated
      */
-    @GetMapping("/store/get/infos")
+    @PostMapping("/store/get/infos")
     public Store getInformations(@RequestParam(value = "id") int id) throws Exception {
         return Store.getById(id);
     }
@@ -30,7 +30,7 @@ public class StoreController {
      * @param requestParam Parameters requested
      * @return JSONObject : error or list of id+name
      */
-    @GetMapping("/store/get/byUser")
+    @PostMapping("/store/get/byUser")
     public List<Store> getStoresByUser(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("user_token");
         User user;
@@ -152,9 +152,40 @@ public class StoreController {
      * @return List of store
      * @throws Exception
      */
+    @PostMapping("/store/get/byUser")
     public List<Store> getStoreByUser(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
         return user.getStores();
+    }
+
+    //StoreType
+
+    /**
+     * Get all store type
+     *
+     * @param requestParam Parameters required : user_token
+     * @return List of storetype
+     * @throws Exception
+     */
+    @PostMapping("/store/type/getAll")
+    public List<StoreType> getStoreType(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        return StoreType.getAll();
+    }
+
+    /**
+     * Create a new store type
+     *
+     * @param requestParam Parameters required : user_token, name
+     * @return Storetype created
+     * @throws Exception
+     */
+    @PostMapping("/store/type/new")
+    public StoreType createNewStoreType(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        String name = requestParam.get("name");
+
+        StoreType.create(name);
     }
 
 
