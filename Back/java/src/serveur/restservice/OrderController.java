@@ -14,24 +14,6 @@ import java.util.Map;
 public class OrderController {
 
     /**
-     * Get a list of order liked with a store
-     *
-     * @param requestParam Parameters required : user_token, store_id
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/order/get/byStore")
-    public List<Order> getOrderByStore(@RequestParam Map<String, String> requestParam) throws Exception {
-        User user = User.getByToken(requestParam.get("user_token"));
-        Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
-
-        if (!store.getSeller().equals(user) && !user.isAdmin())
-            throw new Exception("You are not the owner of this store or you are not admin");
-
-        return store.getOrders();
-    }
-
-    /**
      * Get the store who prepares the order
      *
      * @param requestParam Parameters required : user_token, order_id

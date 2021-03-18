@@ -3,6 +3,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 90%;
 }
 
 .window.login .login{
@@ -13,14 +14,22 @@
         "register submit";
     grid-template-columns: 30% 70%;
     grid-gap: 5px;
-    width: 400px;
+    width: 100%;
     font-size: 20px;
 }
 .window.login .login .email{
     grid-area: email;
+    position: relative;
+    border-bottom: 2px solid #BFBFBF;
+    margin: 7px;
+
 }
-.window.login .login .password{
+.window.login .login .password {
     grid-area: password;
+    position: relative;
+    border-bottom: 2px solid #BFBFBF;
+    margin: 7px;
+
 }
 .window.login .login .submit{
     grid-area: submit;
@@ -35,36 +44,23 @@
     color: white;
     font-weight: bold;
     border:none;
-    padding: 7px;
     border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
 }
 .window.login .login button:focus{
     outline: none;
 }
-.window.login .login button:hover{
-}
-.window.login .login input{
-    width: 100%;
-    border: none;
-    margin: 5px;
-    font-size: inherit;
-    border-bottom: 2px solid #BFBFBF;
-    transition: border .2s;
-    position: relative;
-}
-.window.login .login input:focus{
-    outline: none;
-}
-.window.login .login input::after{
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 0;
-    height: 100%;
-    border-bottom: 2px solid #58391C;
-}
-.window.login .login input:focus::after{
-    width: 100%;
+
+@media (min-width: 800px) {
+    .window.login{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: auto;
+    }
+    .window.login .login{
+        width: 400px;
+    }
 }

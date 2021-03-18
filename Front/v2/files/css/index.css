@@ -113,8 +113,41 @@ footer{
 }
 
 .clickable{
-    cursor: pointer;
+    cursor: pointer !important;
     transition: transform .2s;
+}
+
+.input{
+    position: relative;
+}
+.input input{
+    width: 100%;
+    border: none;
+    margin: 5px;
+    font-size: inherit;
+    position: relative;
+    color: #58391C;
+}
+.input input:focus{
+    outline: none;
+}
+.input::after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    transition: width .2s ease-out;
+    height: 100%;
+    border-bottom: 2px solid #58391C;
+}
+.input:focus-within::after{
+    width: 100%;
+}
+.input.error::after{
+    border-bottom: 2px solid #9c0e21;
+    width: 100%;
 }
 
 @media(min-width: 800px) {

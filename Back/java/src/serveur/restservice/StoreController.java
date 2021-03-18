@@ -23,20 +23,6 @@ public class StoreController {
     }
 
     /**
-     * Get stores by user
-     *
-     * @param requestParam Parameters requested
-     * @return JSONObject : error or list of id+name
-     */
-    @PostMapping("/store/get/byUser")
-    public List<Store> getStoresByUser(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("user_token");
-        User user;
-        user = User.getByToken(token);
-        return Store.getByUser(user);
-    }
-
-    /**
      * Create a store
      *
      * @param requestParam Parameters requested
