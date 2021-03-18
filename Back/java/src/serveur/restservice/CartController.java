@@ -1,10 +1,7 @@
 package serveur.restservice;
 
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
-import serveur.sql.Cart;
-import serveur.sql.Store;
-import serveur.sql.User;
+import serveur.sql.*;
 
 import java.util.*;
 
@@ -14,7 +11,7 @@ public class CartController {
     /**
      * Add a product to user's cart
      *
-     * @param requestParam Parameters requested : user_token, product_id, quantity (g or unity)
+     * @param requestParam Parameters requested : user_token, subproduct_id, quantity (g or unity)
      * @return The cart
      * @throws Exception
      */
@@ -23,17 +20,19 @@ public class CartController {
         String token = requestParam.get("user_token");
         User user = User.getByToken(token);
 
-        int product_id = Integer.parseInt(requestParam.get("product_id"));
+        int subproduct_id = Integer.parseInt(requestParam.get("subproduct_id"));
         int quantity = Integer.parseInt(requestParam.get("quantity"));
 
-        //TODO setCart(product, quantity)
-        return null;
+        Cart cart = Cart.getByUser(user);
+        cart.addProduct(SubProduct.getById(subproduct_id), quantity);
+
+        return cart;
     }
 
     /**
      * Modify or delete a product in user's cart
      *
-     * @param requestParam Parameters requested : user_token, product_id, quantity (g or unity)
+     * @param requestParam Parameters requested : user_token, subproduct_id, quantity (g or unity)
      * @return The cart
      * @throws Exception
      */
@@ -41,34 +40,35 @@ public class CartController {
     public Cart modifyProduct(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("user_token");
         User user = User.getByToken(token);
+        Cart cart = Cart.getByUser(user);
 
-        int product_id = Integer.parseInt(requestParam.get("product_id"));
+        int subproduct_id = Integer.parseInt(requestParam.get("subproduct_id"));
         int quantity = Integer.parseInt(requestParam.get("quantity"));
 
-        //if (quantity == 0)
-        //On supprime l'article
-        //else
-        //On modifie juste la quantité
+        if (quantity == 0)
+            cart.removeProduct(SubProduct.getById(subproduct_id));
+        else
+            cart.changeQuantity(SubProduct.getById(subproduct_id), quantity);
 
-        //TODO setCart -> même chose
-        return null;
+        return cart;
     }
 
     /**
      * Validate a cart : create order for each store
      *
-     * @param requestParam Parameters requested : user_token
-     * @return List of the order_id generated
+     * @param requestParam Parameters requested : user_token, address_id
+     * @return List of the order generated
      * @throws Exception
      */
-    public List<Integer> validateCart(@RequestParam Map<String, String> requestParam) throws Exception {
+    public List<Order> validateCart(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
-
         Cart cart = Cart.getByUser(user);
+        Address address = Address.getById(Integer.parseInt(requestParam.get("address_id")));
 
-        //Pour chaque produit, assigner à un store puis créer les commandes en fonction des assignations
+        if (!address.getUser().equals(user))
+            throw new Exception("The address not belong to the user");
 
-        return new ArrayList<>();
+        return cart.buy(address);
     }
 
 }

@@ -6,6 +6,7 @@ import serveur.sql.Address;
 import serveur.sql.Token;
 import serveur.sql.User;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/user/forgotPassword")
-    public Response forgotPassword(@RequestParam Map<String, String> requestParams) throws Exception{
+    public Response forgotPassword(@RequestParam Map<String, String> requestParams) throws Exception {
         String email = requestParams.get("email");
 
         User us = User.getByEmail(email);
@@ -71,7 +72,7 @@ public class UserController {
     /**
      * Change one or more user informations
      *
-     * @param requestParams Map of Strings : name, surname, tel, adresse, ville, code_postal
+     * @param requestParams Map of Strings : name, surname, tel, adresse, ville, code_postal, address_id
      * @return Response of error or log
      */
     @PostMapping("/user/change")
@@ -84,6 +85,7 @@ public class UserController {
         String userTown = requestParams.get("ville");
         int userCP = Integer.parseInt(requestParams.get("code_postal"));
         String userToken = requestParams.get("user_token");
+        Address address = Address.getById(Integer.parseInt(requestParams.get("address_id")));
 
         User user = User.getByToken(userToken);
         //Change if and only if not empty
@@ -93,9 +95,11 @@ public class UserController {
             user.setSurname(userSurname);
         if (!userTel.equals(""))
             user.setTel(userTel);
-        //TODO update address without creating one ?
         if (!userWay.equals("") || !userTown.equals("")) {
-            user.getAddresses().add(Address.create(userNumber, userWay, userTown, userCP, "France", user));
+            address.setNumber(userNumber);
+            address.setWay(userWay);
+            address.setPostalcode(userCP);
+            address.setCity(userTown);
         }
         return new ResponseLog(true);
     }
@@ -140,6 +144,19 @@ public class UserController {
         User user = serveur.sql.User.getByToken(token);
         user.logout(Token.getByValue(token));
         return new ResponseLog(true);
+    }
+
+    /**
+     * Get all addresses for a user
+     *
+     * @param requestParams Paramètre requis : user_token
+     * @return List of addresses
+     * @throws Exception
+     */
+    @PostMapping("/user/get/allAddresses")
+    public List<Address> getAddresses(@RequestParam Map<String, String> requestParams) throws Exception {
+        User user = User.getById(Integer.parseInt(requestParams.get("user_token")));
+        return user.getAddresses();
     }
 
 }

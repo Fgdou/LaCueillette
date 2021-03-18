@@ -2,10 +2,7 @@ package serveur.restservice;
 
 import org.springframework.web.bind.annotation.*;
 import serveur.DateTime;
-import serveur.sql.Product;
-import serveur.sql.Store;
-import serveur.sql.SubProduct;
-import serveur.sql.User;
+import serveur.sql.*;
 
 import java.util.List;
 import java.util.Map;
@@ -13,12 +10,10 @@ import java.util.Map;
 @RestController
 public class ProductController {
 
-    //TODO Gestions des admins
-
     /**
      * Create a new product in the DataBase
      *
-     * @param requestParam Parameters requested : token, name, price, price_kg, category_id, store_id, canBePicked, canBeDelivered, tva, time_start, time_stop, expiration, description
+     * @param requestParam Parameters requested : token, name, price, price_kg, category_id, store_id, canBePicked, canBeDelivered, tva, time_start, time_stop, expiration, description, parent_id
      * @return Response : error or log with the id
      * @throws Exception
      */
@@ -39,11 +34,12 @@ public class ProductController {
         String expiration = requestParam.get("expiration");
         User user = User.getByToken(token);
         Store store = Store.getById(store_id);
+        ProductCategory productCategory = ProductCategory.getById(Integer.parseInt(requestParam.get("parent_id")));
 
         if (!store.getSeller().equals(user) || !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
-        //TODO addProductCategory
-        Product product = Product.create(name, (float) price, price_kg, null, store, canBePicked, canBeDelivered, (float) tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
+
+        Product product = Product.create(name, (float) price, price_kg, productCategory, store, canBePicked, canBeDelivered, (float) tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
         return new ResponseLog("product created: " + product.getId());
     }
 
@@ -117,27 +113,10 @@ public class ProductController {
     }
 
     /**
-     * Getting the quantity available of a ptoduct
-     *
-     * @param requestParam Parameters required : token, id
-     * @return JSONObject : error or log + the quantity available of a ptoduct
-     * @throws Exception
-     */
-    @GetMapping("/product/get/quantityAvailable")
-    public int getQuantityAvailable(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
-        int id = Integer.parseInt(requestParam.get("id"));
-        User user = User.getByToken(token);
-        Product product = Product.getById(id);
-        return 0;
-        //TODO Product.getQuantity()
-    }
-
-    /**
      * Getting every product for a given store
      *
      * @param requestParam Parameters requested : store_id
-     * @return JSONObject : error or log + list
+     * @return List of products
      * @throws Exception
      */
     @GetMapping("/product/get/byStore")
@@ -158,6 +137,40 @@ public class ProductController {
     public Product getProductInfos(@RequestParam Map<String, String> requestParam) throws Exception {
         int product_id = Integer.parseInt(requestParam.get("product_id"));
         return Product.getById(product_id);
+    }
+
+    /**
+     * Get all categories in the database
+     *
+     * @param requestParam Parameter requested : user_token
+     * @return List of all categories
+     * @throws Exception
+     */
+    @PostMapping("/product/category/getAll")
+    public List<ProductCategory> getAllCategories(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        return ProductCategory.getAll();
+    }
+
+    /**
+     * Create a new ProductCategory in the database
+     *
+     * @param requestParam Parameter requested : user_token, store_id, name, parent_id
+     * @return The new category
+     * @throws Exception
+     */
+    @PostMapping("/product/category/new")
+    public ProductCategory createCategory(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
+        String name = requestParam.get("name");
+
+        if (!store.getSeller().equals(user) || !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
+
+        ProductCategory parent = (!requestParam.get("parent_id").equals("")) ? ProductCategory.getById(Integer.parseInt(requestParam.get("parent_id"))) : null;
+
+        return ProductCategory.create(name, parent);
     }
 
 
