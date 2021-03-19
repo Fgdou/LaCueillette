@@ -30,6 +30,7 @@ header{
     align-items: center;
     font-weight: bold;
     font-size: 16px;
+    z-index: 1;
 }
 header .logo{
     grid-area: logo;
@@ -100,6 +101,7 @@ header .search input::placeholder{
 .container{
     position: relative;
     min-height: calc(100vh - 136px);
+    z-index: 0;
 }
 
 footer{
