@@ -44,7 +44,7 @@ public class DateTime {
      */
     public DateTime(DateTime dt){
         year = dt.year;
-        month = dt.year;
+        month = dt.month;
         day = dt.day;
         hour = dt.hour;
         minute = dt.minute;
