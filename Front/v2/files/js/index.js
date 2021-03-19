@@ -47,7 +47,7 @@ $(()=>{
                     user = data.user
                     login(user)
                     openWindow(lastPage)
-                    document.cookie = "token="+token.value + "; expires="+dateToString(token.expiration)
+                    document.cookie = "token="+token.value + "; expires="+dateToString(data.expiration)
                 }
             },"json");
         }
