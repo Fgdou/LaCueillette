@@ -80,12 +80,7 @@ public class UserController {
         String userName = requestParams.get("new_name");
         String userSurname = requestParams.get("new_surname");
         String userTel = requestParams.get("new_tel");
-        int userNumber = Integer.parseInt(requestParams.get("number"));
-        String userWay = requestParams.get("way");
-        String userTown = requestParams.get("ville");
-        int userCP = Integer.parseInt(requestParams.get("code_postal"));
         String userToken = requestParams.get("user_token");
-        Address address = Address.getById(Integer.parseInt(requestParams.get("address_id")));
 
         User user = User.getByToken(userToken);
         //Change if and only if not empty
@@ -95,12 +90,6 @@ public class UserController {
             user.setSurname(userSurname);
         if (!userTel.equals(""))
             user.setTel(userTel);
-        if (!userWay.equals("") || !userTown.equals("")) {
-            address.setNumber(userNumber);
-            address.setWay(userWay);
-            address.setPostalcode(userCP);
-            address.setCity(userTown);
-        }
         return new ResponseLog(true);
     }
 
