@@ -473,22 +473,25 @@
             <div class="newProduct window">
                 <form>
                     <div class="input name"><input type="text" placeholder="Nom"></div>
-                    <div class="input type"><input type="text" placeholder="Type"></div>
+                    <div class="type"><label for="type">Catégorie </label><select></select></div>
                     <div class="input price"><input type="number" placeholder="Prix"></div>
-                    <div class="price_kg">
-                        <input type="checkbox" id="box_price_kg" name="price_kg">
-                        <label for="box_price_kg">Prix/kg</label>
-                    </div>
-                    <div class="picked">
-                        <input type="checkbox" id="box_picked" name="picked">
-                        <label for="box_picked">Click&Collect</label>
-                    </div>
-                    <div class="delivered">
-                        <input type="checkbox" id="box_delivered" >
-                        <label for="box_delivered">Livrable</label>
-                    </div>
                     <div class="input tva"><input type="number" placeholder="TVA"></div>
                     <div class="input description"><input type="text" placeholder="Descripton"></div>
+                    
+                        <div class="price_kg">
+                            <label for="box_price_kg">Prix/kg</label>
+                            <input type="checkbox" id="box_price_kg" name="price_kg">
+                        </div>
+                        <div class="picked">
+                            <label for="box_picked">Click&Collect</label>
+                            <input type="checkbox" id="box_picked" name="picked"> 
+                        </div>
+                        <div class="delivered">
+                            <label for="box_delivered">Livrable</label>
+                            <input type="checkbox" id="box_delivered" >
+                        </div>
+                    
+                    
                     <button type="submit" class="clickable button submit">Valider</button>
                     <button class="clickable button cancel">Annuler</button>
                 </form>

@@ -1,6 +1,6 @@
 let user = null
 let page = null
-let lastPage = "search"
+let lastPage = "shopadmin"
 let token = null
 let url = "https://lacueillette.ml/v2/"
 let api = "https://lacueillette.ml/api/"

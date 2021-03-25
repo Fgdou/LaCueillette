@@ -32,12 +32,12 @@
     padding: 10px;
 
     grid-template-areas:
-    "name name type"
-    "price price price_kg"
-    "picked delivered tva"
-    "description description description"
+    "name price type"
+    "tva description description"
+    "price_kg picked delivered"
     "cancel submit submit";
     grid-template-columns: 30% auto;
+    grid-gap:10px;
 }
 .window.shopadmin .newProduct{
     background: rgba(0, 0, 0, .3);
@@ -49,4 +49,7 @@
     padding: 20px;
     padding-top: 200px;
     z-index: 10;
+}
+.window.shopadmin .newProduct{
+    text-align: center;
 }
