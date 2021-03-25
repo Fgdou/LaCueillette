@@ -12,7 +12,7 @@ public class AliveController {
      *
      * @return Log if API is alive
      */
-    @PostMapping
+    @PostMapping("/alive")
     public Response isApiAlive() {
         return new ResponseLog<>("alive");
     }
