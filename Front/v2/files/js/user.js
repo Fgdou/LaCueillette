@@ -1,4 +1,5 @@
 address = null
+user_edit = false
 
 $(()=>{
     $(".window.user .logout").click(()=>logout())
@@ -6,6 +7,8 @@ $(()=>{
     $(".window.newAddress > form").submit(e => e.preventDefault())
     $(".window.newAddress .submit").click(()=>createChangeAddress())
     $(".window.newAddress .cancel").click(()=>$(".window.newAddress").css("display", "none"))
+
+    $(".window.user .infos .edit").click(()=>editUser())
 
     $(".window.user .shops .new").click(()=>{
         $(".window.newShop input").val("")
@@ -99,6 +102,40 @@ function newShopAct(fun) {
                 fun()
         }
     }, "json")
+}
+
+function editUser(){
+    let btn = $(".window.user .infos .edit")
+    let inputs = $(".window.user .infos input")
+
+    if(user_edit){
+
+        let name = $(".window.user .infos .name input").val()
+        let surname = $(".window.user .infos .surname input").val()
+        let tel = $(".window.user .infos .tel input").val()
+
+        if(name === "")
+            inputError("name")
+        else if(surname === "")
+            inputError("surname")
+        else{
+            $.post(api + "user/change", {
+                user_token: token,
+                name: name,
+                surname: surname
+            }, data=>{
+                if(data.error)
+                    errorPopup(data.error)
+                userAct()
+            }, "json")
+        }
+
+        btn.html("Modifier")
+    }else{
+        btn.html("Enregistrer")
+    }
+    inputs.prop("disabled", user_edit)
+    user_edit = !user_edit
 }
 
 function createChangeAddress(){
