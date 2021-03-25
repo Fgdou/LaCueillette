@@ -35,6 +35,7 @@ function renewToken(){
         if(data.error)
             errorPopup(data.error)
         else{
+            token = data.value
             document.cookie = "token="+data.value + "; expires="+dateToString(data.expiration)
         }
     }, "json")
