@@ -7,11 +7,20 @@
 .window.shopadmin .newProduct .price{
     grid-area: price;
 }
-.window.shopadmin .newProduct .code{
-    grid-area: code;
+.window.shopadmin .newProduct .price_kg{
+    grid-area: price_kg;
 }
-.window.shopadmin .newProduct .cancel{
-    grid-area: cancel;
+.window.shopadmin .newProduct .picked{
+    grid-area: picked;
+}
+.window.shopadmin .newProduct .delivered{
+    grid-area: delivered;
+}
+.window.shopadmin .newProduct .tva{
+    grid-area: tva;
+}
+.window.shopadmin .newProduct .description{
+    grid-area: description;
 }
 .window.shopadmin .newProduct .submit{
     grid-area: submit;
@@ -23,9 +32,11 @@
     padding: 10px;
 
     grid-template-areas:
-    "name type"
-    "price code"
-    "cancel submit";
+    "name name type"
+    "price price price_kg"
+    "picked delivered tva"
+    "description description description"
+    "cancel submit submit";
     grid-template-columns: 30% auto;
 }
 .window.shopadmin .newProduct{
