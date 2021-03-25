@@ -104,6 +104,10 @@ header .search input::placeholder{
     z-index: 0;
 }
 
+input{
+    background: none;
+}
+
 footer{
     position: absolute;
     bottom: 0;

@@ -396,12 +396,23 @@
                 </div>
                 <div class="clickable"><button class="button">Edit</button></div>
             </div>
-            <div class="addresses"></div>
+            <div class="addresses"><div class="list"></div><button class="clickable button new">Ajouter</button></div>
             <div class="shops"></div>
             <div class="orders"></div>
             <div class="actions">
                 <button class="delete button clickable">Supprimer le compte</button>
                 <button class="logout button clickable">Déconnection</button>
+            </div>
+            <div class="newAddress window">
+                <form>
+                    <div class="input number"><input type="number" placeholder="Numéro"></div>
+                    <div class="input way"><input type="text" placeholder="Rue"></div>
+                    <div class="input city"><input type="text" placeholder="Ville"></div>
+                    <div class="input postalcode"><input type="number" placeholder="Code Postal"></div>
+                    <div class="input state"><input type="text" placeholder="Pays" value="France"></div>
+                    <button class="clickable button submit">Valider</button>
+                    <button class="clickable button cancel">Annuler</button>
+                </form>
             </div>
         </div>
     </div>

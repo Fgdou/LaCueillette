@@ -1,0 +1,50 @@
+.window.user{
+    padding: 10px;
+}
+.window.user .newAddress{
+    background: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    padding: 20px;
+    padding-top: 200px;
+    z-index: 10;
+}
+.window.user .newAddress > form{
+    display: grid;
+    background: white;
+    height: auto;
+    padding: 10px;
+
+    grid-template-areas:
+        "number way"
+        "postalcode city"
+        ". state"
+        "cancel submit";
+    grid-template-columns: 30% auto;
+}
+
+.window.user .newAddress .number{
+    grid-area: number;
+}
+.window.user .newAddress .way{
+    grid-area: way;
+}
+.window.user .newAddress .city{
+    grid-area: city;
+}
+.window.user .newAddress .postalcode{
+    grid-area: postalcode;
+}
+.window.user .newAddress .state{
+    grid-area: state;
+}
+
+.window.user .newAddress .cancel{
+    grid-area: cancel;
+}
+.window.user .newAddress .submit{
+    grid-area: submit;
+}
