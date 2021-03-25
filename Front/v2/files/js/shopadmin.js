@@ -156,6 +156,7 @@ function openProduct(product_){
         $(".window.newProduct .price_kg input").val(false)
         $(".window.newProduct .picked input").val(false)
         $(".window.newProduct .delivered input").val(false)
+        listProductCategoryAct()
     }else{
         listProductCategoryAct(()=>{
             $(".window.newProduct .type select").val(product.category.id)
