@@ -26,7 +26,10 @@ $(()=>{
             inputError("email")
         else if(pass1 === "")
             inputError("pass1")
-
+        else if(tel.length > 10){
+            inputError("tel")
+            errorPopup("Le téléphone ne doit pas excéder 10 chiffres")
+        }
         else if(pass1 !== pass2)
             inputError("password2")
         else{

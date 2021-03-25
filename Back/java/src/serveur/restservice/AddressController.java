@@ -55,9 +55,10 @@ public class AddressController {
         User user = User.getByToken(requestParam.get("user_token"));
         int number = Integer.parseInt(requestParam.get("number"));
         String way = requestParam.get("way");
-        int cp = Integer.parseInt(requestParam.get("postal_code"));
-        String city = requestParam.get("town");
-        return Address.create(number, way, city, cp, "France", user);
+        int cp = Integer.parseInt(requestParam.get("postalcode"));
+        String city = requestParam.get("city");
+        String state = requestParam.get("state");
+        return Address.create(number, way, city, cp, state, user);
     }
 
     /**
@@ -77,8 +78,8 @@ public class AddressController {
 
         int number = Integer.parseInt(requestParam.get("number"));
         String way = requestParam.get("way");
-        int cp = Integer.parseInt(requestParam.get("postal_code"));
-        String city = requestParam.get("town");
+        int cp = Integer.parseInt(requestParam.get("postalcode"));
+        String city = requestParam.get("city");
 
         if (!way.equals("") && !city.equals("")) {
             address.setNumber(number);

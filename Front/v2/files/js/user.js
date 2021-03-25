@@ -14,7 +14,21 @@ function createChangeAddress(){
     let state = $(".window.user .newAddress .state input").val()
 
     if(address === null){
-
+        $.post(api + "/address/new", {
+            user_token: token,
+            number: number,
+            way: way,
+            city: city,
+            postalcode: postalcode,
+            state: state
+        }, data=>{
+            if(data.error)
+                errorPopup(data.error)
+            else{
+                $(".window.user .newAddress").css("display", "none")
+                userAct()
+            }
+        }, "json")
     }
 }
 function userAct(){
