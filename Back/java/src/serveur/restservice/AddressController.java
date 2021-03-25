@@ -80,12 +80,14 @@ public class AddressController {
         String way = requestParam.get("way");
         int cp = Integer.parseInt(requestParam.get("postalcode"));
         String city = requestParam.get("city");
+        String state = requestParam.get("state");
 
         if (!way.equals("") && !city.equals("")) {
             address.setNumber(number);
             address.setWay(way);
             address.setPostalcode(cp);
             address.setCity(city);
+            address.setState(state);
         }
 
         return new ResponseLog<>("Address modified: " + address.getId());

@@ -2,7 +2,8 @@ address = null
 user_edit = false
 
 $(()=>{
-    $(".window.user .logout").click(()=>logout())
+    $(".window.user .actions .logout").click(()=>logout())
+    $(".window.user .actions .delete").click(()=>deleteAccount())
     $(".window.user .addresses .new").click(()=>openAddress(null))
     $(".window.newAddress > form").submit(e => e.preventDefault())
     $(".window.newAddress .submit").click(()=>createChangeAddress())
@@ -146,7 +147,7 @@ function createChangeAddress(){
     let state = $(".window.newAddress .state input").val()
 
     if(address === null){
-        $.post(api + "/address/new", {
+        $.post(api + "address/new", {
             user_token: token,
             number: number,
             way: way,
@@ -157,6 +158,23 @@ function createChangeAddress(){
             if(data.error)
                 errorPopup(data.error)
             else{
+                $(".window.newAddress").css("display", "none")
+                userAct()
+            }
+        }, "json")
+    }else{
+        $.post(api + "address/modify", {
+            user_token: token,
+            address_id: address.id,
+            number: number,
+            way: way,
+            city: city,
+            postalcode: postalcode,
+            state: state
+        }, data=>{
+            if(data.error){
+                errorPopup(data.error)
+            }else{
                 $(".window.newAddress").css("display", "none")
                 userAct()
             }
@@ -257,8 +275,6 @@ function fillAddresses(addresses){
 
         let tr = $("<tr></tr>")
 
-        console.log(address)
-
         tr.append($("<td></td>").addClass("number").html(address.number))
         tr.append($("<td></td>").addClass("way").html(address.way))
         tr.append($("<td></td>").addClass("city").html(address.city))
@@ -279,6 +295,18 @@ function fillAddresses(addresses){
 
         list.append(tr)
     }
+}
+function deleteAccount(){
+    if(confirm("Êtes-vous sûr de vouloir supprimer ce compte ?"))
+        $.post(api + "user/delete", {
+            user_token: token
+        }, data=>{
+            if(data.error)
+                errorPopup(data.error)
+            else {
+                logout()
+            }
+        }, "json")
 }
 function openAddress(address_){
     address = address_
