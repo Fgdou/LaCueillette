@@ -21,7 +21,7 @@ public class ProductController {
      */
     @PostMapping("/product/new")
     public Response addProduct(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
+        String token = requestParam.get("user_token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         String name = requestParam.get("name");
         int quantity = Integer.parseInt(requestParam.get("quantity"));
@@ -38,7 +38,7 @@ public class ProductController {
         Store store = Store.getById(store_id);
         ProductCategory productCategory = ProductCategory.getById(Integer.parseInt(requestParam.get("parent_id")));
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         Product product = Product.create(name, (float) price, price_kg, productCategory, store, canBePicked, canBeDelivered, (float) tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
@@ -54,7 +54,7 @@ public class ProductController {
      */
     @PostMapping("/product/modify")
     public Product modifyProduct(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
+        String token = requestParam.get("user_token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         int product_id = Integer.parseInt(requestParam.get("product_id"));
         String name = requestParam.get("name");
@@ -69,7 +69,7 @@ public class ProductController {
         User user = User.getByToken(token);
         Store store = Store.getById(store_id);
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         Product product = Product.getById(product_id);
@@ -100,13 +100,13 @@ public class ProductController {
      */
     @PostMapping("/product/delete")
     public Response deleteProduct(@RequestParam Map<String, String> requestParam) throws Exception {
-        String token = requestParam.get("token");
+        String token = requestParam.get("user_token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         int product_id = Integer.parseInt(requestParam.get("product_id"));
         User user = User.getByToken(token);
         Store store = Store.getById(store_id);
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         Product product = Product.getById(product_id);
@@ -187,7 +187,7 @@ public class ProductController {
         Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
         String name = requestParam.get("name");
 
-        if (!store.getSeller().equals(user) || !user.isAdmin())
+        if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
         ProductCategory parent = (!requestParam.get("parent_id").equals("")) ? ProductCategory.getById(Integer.parseInt(requestParam.get("parent_id"))) : null;
