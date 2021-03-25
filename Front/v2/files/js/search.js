@@ -10,7 +10,7 @@ $(()=>{
         if(txt === "")
             return
 
-        $.post("product/searchTag", {
+        $.post(api + "product/searchTag", {
             tags: txt.split(" "),
             city: city,
             postalcode: postalcode
