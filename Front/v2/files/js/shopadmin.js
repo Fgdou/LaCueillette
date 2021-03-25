@@ -3,10 +3,52 @@ let shop = null
 
 $(()=>{
     $(".window.newProduct > form").submit(e => e.preventDefault())
+    $(".window.newProduct .submit").click(()=>createChangeProduct())
     $(".window.shopadmin .products .new").click(()=>openProduct())
     $(".window.newProduct .cancel").click(()=>$(".window.newProduct").css("display", "none"))
 })
 
+function createChangeProduct(){
+
+    let name = $(".window.newProduct .name input").val()
+    let price = $(".window.newProduct .price input").val()
+    let tva = $(".window.newProduct .tva input").val()
+    let description = $(".window.newProduct .description input").val()
+
+    let category = $(".window.newProduct .type select").val()
+    let price_kg = $(".window.newProduct .price_kg input").val()
+    let picked = $(".window.newProduct .picked input").val()
+    let delivered = $(".window.newProduct .delivered input").val()
+
+    if(product === null){
+        $.post(api + "product/new", {
+            user_token: token,
+            store_id: shop.id,
+            name: name,
+            price: price,
+            tva: tva,
+            description: description,
+            price_kg: price_kg,
+            canBeDelivered: delivered,
+            canBePicked: picked,
+            time_start: "0000-00-00 00:00:00",
+            time_stop: "0000-00-00 00:00:00",
+            expiration: "0000-00-00 00:00:00",
+            category_id: category
+        }, data=>{
+            if(data.error){
+                errorPopup(data.error)
+            }else{
+                $(".window.newProduct").css("display", "none")
+                shopAdminAct(shop)
+            }
+        }, "json")
+    }else{
+
+    }
+    $(".window.newProduct").css("display", "none")
+    shopAdminAct(shop)
+}
 function shopAdminAct(shop_){
     shop = shop_
     $.post(api + "product/get/byStore", {

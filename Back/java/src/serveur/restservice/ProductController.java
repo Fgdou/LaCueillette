@@ -24,7 +24,6 @@ public class ProductController {
         String token = requestParam.get("user_token");
         int store_id = Integer.parseInt(requestParam.get("store_id"));
         String name = requestParam.get("name");
-        int quantity = Integer.parseInt(requestParam.get("quantity"));
         double price = Double.parseDouble(requestParam.get("price"));
         double tva = Double.parseDouble(requestParam.get("tva"));
         String description = requestParam.get("description");
@@ -36,7 +35,7 @@ public class ProductController {
         String expiration = requestParam.get("expiration");
         User user = User.getByToken(token);
         Store store = Store.getById(store_id);
-        ProductCategory productCategory = ProductCategory.getById(Integer.parseInt(requestParam.get("parent_id")));
+        ProductCategory productCategory = ProductCategory.getById(Integer.parseInt(requestParam.get("category_id")));
 
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
