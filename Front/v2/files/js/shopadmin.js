@@ -52,9 +52,9 @@ function createChangeProduct(){
             price_kg: price_kg,
             canBeDelivered: delivered,
             canBePicked: picked,
-            time_start: "0000-00-00 00:00:00",
-            time_stop: "0000-00-00 00:00:00",
-            expiration: "0000-00-00 00:00:00",
+            time_start: null,
+            time_stop: null,
+            expiration: null,
             category_id: category
         }, data=>{
             if(data.error){
