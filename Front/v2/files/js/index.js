@@ -20,9 +20,25 @@ $(()=>{
         window.location.replace(url)
     })
 
+    checkAlive()
+
 
 
 })
+
+function checkAlive(){
+    $.post(api + "alive", {}, data=>{
+        if(!data.log || data.log !== "alive") {
+            errorPopup("Erreur de communication avec le serveur")
+            setTimeout(checkAlive, 6000)
+        }else{
+            setTimeout(checkAlive, 30000)
+        }
+    }).fail(()=>{
+        errorPopup("Communication impossible avec le serveur")
+        setTimeout(checkAlive, 6000)
+    })
+}
 
 function openWindow(name){
     closeWindows()
@@ -45,6 +61,15 @@ function clearInputError(){
 }
 function errorPopup(msg){
     console.log(msg)
+
+    let pop = $(".errorPopup")
+
+    pop.html(msg)
+    pop.css("display", "block")
+
+    setTimeout(()=>{
+        pop.css("display", "none")
+    }, 5000)
 }
 function dateToString(date){
     return (new Date(date.year, date.month, date.day+1, date.hour, date.minute, date.second)).toString()

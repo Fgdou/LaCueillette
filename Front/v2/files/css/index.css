@@ -176,6 +176,18 @@ footer{
     margin: 10px;
     font-size: inherit;
 }
+.errorPopup{
+    display: none;
+    position: absolute;
+    left: 0;
+    background: #9c0e21;
+    color: white;
+    padding: 5px;
+    margin: 0 5px;
+    font-weight: bold;
+    border-radius: 0 0 10px 10px;
+    z-index: 100;
+}
 
 @media(min-width: 800px) {
     .clickable:hover{
