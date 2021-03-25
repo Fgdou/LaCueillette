@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import serveur.DateTime;
 import serveur.sql.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -114,7 +115,11 @@ public class ProductController {
     }
 
     @PostMapping("/product/searchTag")
-    public List<Product> searchByTag(@RequestParam(value = "city") String city, @RequestParam(value = "postalcode") int postalCode, @RequestParam(value = "tags") List<String> tags) throws Exception{
+    public List<Product> searchByTag(@RequestParam Map<String, String> requestParam) throws Exception{
+
+        String[] tags = requestParam.get("tags").split(" ");
+        String city = requestParam.get("city");
+        int postalcode = Integer.parseInt(requestParam.get("postalcode"));
 
         List<Tag> list = new LinkedList<>();
 
@@ -126,7 +131,7 @@ public class ProductController {
             }
         }
 
-        return Product.searchByCity(city, postalCode, list);
+        return Product.searchByCity(city, postalcode, list);
     }
 
     /**
