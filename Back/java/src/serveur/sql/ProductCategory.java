@@ -20,7 +20,8 @@ public class ProductCategory {
     private ProductCategory(){}
     private ProductCategory(ResultSet rs) throws SQLException {
         id = rs.getInt(1);
-        name = rs.getString(2);
+        parent_id = rs.getInt(2);
+        name = rs.getString(3);
     }
 
     /**
