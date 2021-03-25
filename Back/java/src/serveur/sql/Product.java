@@ -78,9 +78,9 @@ public class Product {
                 (canBePicked) ? "1" : "0",
                 (canBeDelivered) ? "1" : "0",
                 String.valueOf(tva),
-                (start == null) ? "null" : start.toString(),
-                (stop == null) ? "null" : stop.toString(),
-                (expiration == null) ? "null" : expiration.toString(),
+                (start == null) ? null : start.toString(),
+                (stop == null) ? null : stop.toString(),
+                (expiration == null) ? null : expiration.toString(),
                 description
         };
         DataBase.getInstance().query(sql, tab);
