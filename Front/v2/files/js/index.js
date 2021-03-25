@@ -49,3 +49,14 @@ function errorPopup(msg){
 function dateToString(date){
     return (new Date(date.year, date.month, date.day+1, date.hour, date.minute, date.second)).toString()
 }
+function numFormat(num, n){
+    num = num.toString()
+
+    while(num.length < n)
+        num = "0" + num
+
+    return num
+}
+function dateToStringFormat(date){
+    return numFormat(date.day, 2) + "-" + numFormat(date.month, 2) + "-" +numFormat(date.year, 4) + " " + numFormat(date.hour, 2) + ":" + numFormat(date.minute, 2) + ":" + numFormat(date.second, 2)
+}
