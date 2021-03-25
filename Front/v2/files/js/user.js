@@ -5,6 +5,7 @@ $(()=>{
     $(".window.user .newAddress > form").submit(e => e.preventDefault())
     $(".window.user .newAddress .submit").click(()=>createChangeAddress())
     $(".window.user .addresses .new").click(()=>openAddress(null))
+    $(".window.user .products .new").click(()=>openProduct())
     $(".window.user .newAddress .cancel").click(()=>$(".window.user .newAddress").css("display", "none"))
 })
 
@@ -112,4 +113,10 @@ function openAddress(address_){
         $(".window.user .newAddress .state input").val(address.state)
     }
     $(".window.user .newAddress").css("display", "block")
+}
+function openProduct(){
+    $(".window.user .newProduct .name input").val("")
+    $(".window.user .newProduct .type input").val("")
+    $(".window.user .newProduct .code input").val("")
+    $(".window.user .newProduct").css("display", "block")
 }
