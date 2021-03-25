@@ -4,7 +4,7 @@ let shop = null
 $(()=>{
     $(".window.newProduct > form").submit(e => e.preventDefault())
     $(".window.newProduct .submit").click(()=>createChangeProduct())
-    $(".window.shopadmin .products .new").click(()=>openProduct())
+    $(".window.shopadmin .products .new").click(()=>openProduct(null))
     $(".window.newProduct .cancel").click(()=>$(".window.newProduct").css("display", "none"))
 })
 
@@ -111,4 +111,26 @@ function openProduct(product_){
         $(".window.newProduct .code input").val("")
     }
     $(".window.newProduct").css("display", "block")
+    listProductCategoryAct()
+}
+function listProductCategoryAct(){
+    $.post(api + "product/category/getAll", {}, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else{
+            parseProductCategory(data)
+        }
+    })
+}
+function parseProductCategory(data){
+    let select = $(".window.newProduct .type select")
+    select.html("")
+
+    for(let i=0; i<data.length; i++){
+        let cat = data[i]
+
+        let option = $("<option value='"+cat.id+"'></option>").html(cat.name)
+
+        select.append(option)
+    }
 }

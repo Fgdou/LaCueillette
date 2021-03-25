@@ -169,7 +169,6 @@ public class ProductController {
      */
     @PostMapping("/product/category/getAll")
     public List<ProductCategory> getAllCategories(@RequestParam Map<String, String> requestParam) throws Exception {
-        User user = User.getByToken(requestParam.get("user_token"));
         return ProductCategory.getAll();
     }
 
