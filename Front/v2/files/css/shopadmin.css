@@ -28,6 +28,9 @@
 .window.newProduct h1{
     grid-area: title;
 }
+.window.shopadmin .products img{
+    height: 30px;
+}
 .window.newProduct > form{
     display: grid;
     background: white;

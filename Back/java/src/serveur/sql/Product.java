@@ -245,17 +245,17 @@ public class Product {
 
     public void setTime_start(DateTime time_start) throws Exception {
         this.time_start = time_start;
-        DataBase.getInstance().changeValue("Products", "time_start", (time_start == null) ? "null" : time_start.toString(), id);
+        DataBase.getInstance().changeValue("Products", "time_start", (time_start == null) ? null : time_start.toString(), id);
     }
 
     public void setTime_stop(DateTime time_stop) throws Exception {
         this.time_stop = time_stop;
-        DataBase.getInstance().changeValue("Products", "time_stop", (time_stop == null) ? "null" : time_stop.toString(), id);
+        DataBase.getInstance().changeValue("Products", "time_stop", (time_stop == null) ? null : time_stop.toString(), id);
     }
 
     public void setExpiration(DateTime expiration) throws Exception {
         this.expiration = expiration;
-        DataBase.getInstance().changeValue("Products", "expiration",  (expiration == null) ? "null" : expiration.toString(), id);
+        DataBase.getInstance().changeValue("Products", "expiration",  (expiration == null) ? null : expiration.toString(), id);
     }
 
     public void setDescription(String description) throws Exception {

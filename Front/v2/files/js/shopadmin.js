@@ -118,8 +118,8 @@ function parseProductsShop(data){
 
         let btns = $("<td></td>")
 
-        let edit = $("<img src='files/img/edit.svg' alt='edit'>").addClass("edit")
-        let remove = $("<img src='files/img/edit.svg' alt='delete'>").addClass("delete")
+        let edit = $("<img src='files/img/edit.svg' alt='edit'>").addClass("edit clickable")
+        let remove = $("<img src='files/img/delete.svg' alt='delete'>").addClass("delete clickable")
 
         edit.click(()=>{
             openProduct(product)
@@ -150,11 +150,25 @@ function openProduct(product_){
     product = product_
     if(product_ === null) {
         $(".window.newProduct .name input").val("")
-        $(".window.newProduct .type input").val("")
-        $(".window.newProduct .code input").val("")
+        $(".window.newProduct .price input").val("")
+        $(".window.newProduct .tva input").val("")
+        $(".window.newProduct .description input").val("")
+        $(".window.newProduct .price_kg input").val(false)
+        $(".window.newProduct .picked input").val(false)
+        $(".window.newProduct .delivered input").val(false)
+    }else{
+        listProductCategoryAct(()=>{
+            $(".window.newProduct .type select").val(product.category.id)
+        })
+        $(".window.newProduct .name input").val(product.name)
+        $(".window.newProduct .price input").val(product.price)
+        $(".window.newProduct .tva input").val(product.price)
+        $(".window.newProduct .description input").val(product.description)
+        $(".window.newProduct .price_kg input").val(product.price_kg)
+        $(".window.newProduct .picked input").val(product.canBePicked)
+        $(".window.newProduct .delivered input").val(product.canBeDelivered)
     }
     $(".window.newProduct").css("display", "block")
-    listProductCategoryAct()
 }
 function listProductCategoryAct(fun){
     $.post(api + "product/category/getAll", {}, data=>{
