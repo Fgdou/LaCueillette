@@ -112,6 +112,11 @@ public class ProductController {
         return new ResponseLog("product deleted");
     }
 
+    @PostMapping("/product/searchTag")
+    public List<Product> searchByTag(@RequestParam(value = "city") String city, @RequestParam(value = "postalcode") int postalCode, @RequestParam(value = "tags") List<Tag> tags) throws Exception{
+        return Product.searchByCity(city, postalCode, tags);
+    }
+
     /**
      * Getting every product for a given store
      *

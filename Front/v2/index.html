@@ -8,16 +8,22 @@
     <link rel="stylesheet" href="files/css/index.css">
     <link rel="stylesheet" href="files/css/search.css">
     <link rel="stylesheet" href="files/css/login.css">
+    <link rel="stylesheet" href="files/css/register.css">
+    <link rel="stylesheet" href="files/css/user.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="files/js/index.js"></script>
+    <script src="files/js/login.js"></script>
+    <script src="files/js/register.js"></script>
+    <script src="files/js/user.js"></script>
+    <script src="files/js/search.js"></script>
 </head>
 <body>
     <header>
         <div class="logo clickable"><img src="files/img/Panier.svg" alt="Logo"></div>
         <div class="address clickable"><img src="files/img/GPS.svg" alt="Adresse"><span>Adresse</span></div>
-        <div class="search"><input type="text" placeholder="Rechercher"><img src="files/img/Loupe.svg" alt="Rechercher"></div>
+        <form class="search"><input type="text" placeholder="Rechercher"><img src="files/img/Loupe.svg" alt="Rechercher"></form>
         <div class="account clickable"><img src="files/img/Person.svg" alt="Mon Compte"><span>Mon Compte</span></div>
         <div class="cart clickable"><img src="files/img/Cart.svg" alt="Panier"><span>Panier</span></div>
     </header>
@@ -349,16 +355,53 @@
         </div>
         <div class="window login">
             <form class="login">
-                <div class="email input"><input type="text" placeholder="Email"></div>
+                <div class="email input"><input type="email" placeholder="Email"></div>
                 <div class="password input"><input type="password" placeholder="Mot de passe"></div>
-                <div class="clickable submit"><button type="submit">Connexion</button></div>
-                <div class="clickable register"><button>Inscription</button></div>
+                <div class="clickable submit"><button type="submit" class="button">Connexion</button></div>
+                <div class="clickable register"><button class="button">Inscription</button></div>
+            </form>
+        </div>
+        <div class="window register">
+            <form class="register">
+                <div class="name input"><input type="text" placeholder="Nom"></div>
+                <div class="surname input"><input type="text" placeholder="Prénom"></div>
+                <div class="email input"><input type="email" placeholder="Email"></div>
+                <div class="password input"><input type="password" placeholder="Mot de passe"></div>
+                <div class="password2 input"><input type="password" placeholder="Mot de passe"></div>
+                <div class="tel input"><input type="tel" placeholder="Téléphone"></div>
+                <div class="clickable submit"><button type="submit" class="button">Inscription</button></div>
+                <div class="clickable cancel"><button class="button">Annuler</button></div>
             </form>
             <div class="register">
 
             </div>
             <div class="forgotPassword">
 
+            </div>
+        </div>
+        <div class="window user">
+            <div class="infos">
+                <div class="non_editable">
+                    <table>
+                        <tbody>
+                            <tr><td>Email</td><td class="email"></td></tr>
+                            <tr><td>Création</td><td class="creation"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="editable">
+                    <div class="input name"><input type="text" placeholder="Nom"></div>
+                    <div class="input surname"><input type="text" placeholder="Prenom"></div>
+                    <div class="input tel"><input type="text" placeholder="Téléphone"></div>
+                </div>
+                <div class="clickable"><button class="button">Edit</button></div>
+            </div>
+            <div class="addresses"></div>
+            <div class="shops"></div>
+            <div class="orders"></div>
+            <div class="actions">
+                <button class="delete button clickable">Supprimer le compte</button>
+                <button class="logout button clickable">Déconnection</button>
             </div>
         </div>
     </div>

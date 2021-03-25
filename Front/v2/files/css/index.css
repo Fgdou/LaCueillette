@@ -84,8 +84,8 @@ header .search input{
     text-align: center;
     width: calc(100% - 40px);
     height: 100%;
-    border: none;
     display: inline-block;
+    border: none;
 }
 header .search input:focus{
     outline: none;
@@ -121,6 +121,9 @@ footer{
 
 .input{
     position: relative;
+    margin: 7px;
+    border-bottom: 2px solid #BFBFBF !important;
+
 }
 .input input{
     width: 100%;
@@ -150,6 +153,20 @@ footer{
 .input.error::after{
     border-bottom: 2px solid #9c0e21;
     width: 100%;
+}
+.button{
+    width: 100%;
+    font-size: inherit;
+    background: #58391C;
+    color: white;
+    font-weight: bold;
+    border:none;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+.button:focus{
+    outline: none;
 }
 
 @media(min-width: 800px) {

@@ -1,0 +1,57 @@
+.window.register{
+    margin: 20px;
+    font-size: 20px;
+}
+.window.register .register{
+    display: grid;
+    grid-template-areas:
+        "name name"
+        "surname surname"
+        "email email"
+        "password password"
+        "password2 password2"
+        "tel tel"
+        "cancel submit";
+    grid-gap: 10px;
+}
+.window.register .name{
+    grid-area: name;
+}
+.window.register .surname{
+    grid-area: surname;
+}
+.window.register .email{
+    grid-area: email;
+}
+.window.register .password{
+    grid-area: password;
+}
+.window.register .password2{
+    grid-area: password2;
+}
+.window.register .tel{
+    grid-area: tel;
+}
+.window.register .submit{
+    grid-area: submit;
+}
+.window.register .cancel{
+    grid-area: cancel;
+}
+
+@media(min-width: 800px){
+    .window.register{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        min-width: 550px;
+        transform: translate(-50%, -50%);
+    }
+    .window.register .register {
+        grid-template-areas:
+            "name name surname surname"
+            "email email tel tel"
+            "password password password2 password2"
+            "cancel submit submit submit";
+    }
+}

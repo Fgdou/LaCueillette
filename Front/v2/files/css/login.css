@@ -19,37 +19,16 @@
 }
 .window.login .login .email{
     grid-area: email;
-    position: relative;
-    border-bottom: 2px solid #BFBFBF;
-    margin: 7px;
 
 }
 .window.login .login .password {
     grid-area: password;
-    position: relative;
-    border-bottom: 2px solid #BFBFBF;
-    margin: 7px;
-
 }
 .window.login .login .submit{
     grid-area: submit;
 }
 .window.login .login .register{
     grid-area: register;
-}
-.window.login .login button{
-    width: 100%;
-    font-size: inherit;
-    background: #58391C;
-    color: white;
-    font-weight: bold;
-    border:none;
-    border-radius: 10px;
-    padding: 5px;
-    cursor: pointer;
-}
-.window.login .login button:focus{
-    outline: none;
 }
 
 @media (min-width: 800px) {

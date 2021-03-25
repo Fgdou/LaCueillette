@@ -269,7 +269,7 @@ public class Product {
      * @param category the category of product
      * @return all the product founded
      */
-    public List<Product> searchByCity(String city, int postalcode, ProductCategory category) throws Exception {
+    public static List<Product> searchByCity(String city, int postalcode, ProductCategory category) throws Exception {
         String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.state = ? AND P.category_id = ?";
         String[] tab = new String[]{
                 city,
@@ -292,7 +292,7 @@ public class Product {
      * @param tags the tags to search
      * @return all the product founded with all tags
      */
-    public List<Product> searchByCity(String city, int postalcode, List<Tag> tags) throws Exception{
+    public static List<Product> searchByCity(String city, int postalcode, List<Tag> tags) throws Exception{
         List<Product> list = new LinkedList<>();
 
         String sql = "SELECT * FROM Products P JOIN TagsProducts TP on P.id = TP.product_id JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.postalcode = ? AND TP.tag_id = ?";
