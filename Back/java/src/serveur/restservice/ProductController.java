@@ -40,7 +40,7 @@ public class ProductController {
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
-        Product product = Product.create(name, (float) price, price_kg, productCategory, store, canBePicked, canBeDelivered, (float) tva, new DateTime(time_start), new DateTime(time_stop), new DateTime(expiration), description);
+        Product product = Product.create(name, (float) price, price_kg, productCategory, store, canBePicked, canBeDelivered, (float) tva, (time_start.equals("null")) ? null : new DateTime(time_start), (time_stop.equals("null")) ? null : new DateTime(time_stop), (time_start.equals("expiration")) ? null : new DateTime(expiration), description);
         return new ResponseLog("product created: " + product.getId());
     }
 
@@ -81,12 +81,9 @@ public class ProductController {
             product.setDescription(description);
         product.setCanBeDelivered(canBeDelivered);
         product.setCanBePicked(canBePicked);
-        if (!time_start.equals(""))
-            product.setTime_start(new DateTime(time_start));
-        if (!time_stop.equals(""))
-            product.setTime_stop(new DateTime(time_stop));
-        if (!expiration.equals(""))
-            product.setExpiration(new DateTime(expiration));
+        product.setTime_start((time_start.equals("null")) ? null : new DateTime(time_start));
+        product.setTime_stop((time_stop.equals("null")) ? null : new DateTime(time_stop));
+        product.setExpiration((expiration.equals("null")) ? null : new DateTime(expiration));
         return product;
     }
 

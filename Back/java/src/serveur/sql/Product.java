@@ -42,9 +42,9 @@ public class Product {
         canBePicked = rs.getBoolean(7);
         canBeDelivered = rs.getBoolean(8);
         tva = rs.getFloat(9);
-        time_start = new DateTime(rs.getString(10));
-        time_stop = new DateTime(rs.getString(11));
-        expiration = new DateTime(rs.getString(12));
+        time_start = (rs.getString(10) == null) ? null : new DateTime(rs.getString(10));
+        time_stop = (rs.getString(11) == null) ? null : new DateTime(rs.getString(11));
+        expiration = (rs.getString(12) == null) ? null : new DateTime(rs.getString(12));
         description = rs.getString(13);
     }
 
@@ -78,9 +78,9 @@ public class Product {
                 (canBePicked) ? "1" : "0",
                 (canBeDelivered) ? "1" : "0",
                 String.valueOf(tva),
-                start.toString(),
-                stop.toString(),
-                expiration.toString(),
+                (start == null) ? "null" : start.toString(),
+                (stop == null) ? "null" : stop.toString(),
+                (expiration == null) ? "null" : expiration.toString(),
                 description
         };
         DataBase.getInstance().query(sql, tab);
@@ -245,17 +245,17 @@ public class Product {
 
     public void setTime_start(DateTime time_start) throws Exception {
         this.time_start = time_start;
-        DataBase.getInstance().changeValue("Products", "time_start", time_start.toString(), id);
+        DataBase.getInstance().changeValue("Products", "time_start", (time_start == null) ? "null" : time_start.toString(), id);
     }
 
     public void setTime_stop(DateTime time_stop) throws Exception {
         this.time_stop = time_stop;
-        DataBase.getInstance().changeValue("Products", "time_stop", time_stop.toString(), id);
+        DataBase.getInstance().changeValue("Products", "time_stop", (time_stop == null) ? "null" : time_stop.toString(), id);
     }
 
     public void setExpiration(DateTime expiration) throws Exception {
         this.expiration = expiration;
-        DataBase.getInstance().changeValue("Products", "expiration", expiration.toString(), id);
+        DataBase.getInstance().changeValue("Products", "expiration",  (expiration == null) ? "null" : expiration.toString(), id);
     }
 
     public void setDescription(String description) throws Exception {

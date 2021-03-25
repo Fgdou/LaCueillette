@@ -6,6 +6,27 @@ $(()=>{
     $(".window.newProduct .submit").click(()=>createChangeProduct())
     $(".window.shopadmin .products .new").click(()=>openProduct(null))
     $(".window.newProduct .cancel").click(()=>$(".window.newProduct").css("display", "none"))
+    $(".window.newProduct .type select").change(()=>{
+        let select = $(".window.newProduct .type select")
+
+        if(select.val() === "new"){
+            let name = prompt("Nom de la nouvelle categorie")
+            if(name !== null && name !== ""){
+                $.post(api + "product/category/new", {
+                    user_token: token,
+                    store_id: shop.id,
+                    name: name,
+                    parent_id: null
+                }, data=>{
+                    if(data.error)
+                        errorPopup(data.error)
+                    listProductCategoryAct(()=>{
+                        select.val(data.id)
+                    })
+                }, "json")
+            }
+        }
+    })
 })
 
 function createChangeProduct(){
@@ -44,7 +65,29 @@ function createChangeProduct(){
             }
         }, "json")
     }else{
-
+        $.post(api + "product/modify", {
+            user_token: token,
+            product_id: product.id,
+            store_id: shop.id,
+            name: name,
+            price: price,
+            tva: tva,
+            description: description,
+            price_kg: price_kg,
+            canBeDelivered: delivered,
+            canBePicked: picked,
+            time_start: null,
+            time_stop: null,
+            expiration: null,
+            category_id: category
+        }, data=>{
+            if(data.error){
+                errorPopup(data.error)
+            }else{
+                $(".window.newProduct").css("display", "none")
+                shopAdminAct(shop)
+            }
+        }, "json")
     }
     $(".window.newProduct").css("display", "none")
     shopAdminAct(shop)
@@ -113,12 +156,14 @@ function openProduct(product_){
     $(".window.newProduct").css("display", "block")
     listProductCategoryAct()
 }
-function listProductCategoryAct(){
+function listProductCategoryAct(fun){
     $.post(api + "product/category/getAll", {}, data=>{
         if(data.error)
             errorPopup(data.error)
         else{
             parseProductCategory(data)
+            if(fun)
+                fun()
         }
     })
 }
@@ -133,4 +178,5 @@ function parseProductCategory(data){
 
         select.append(option)
     }
+    select.append($("<option value='new'>Nouveau</option>"))
 }
