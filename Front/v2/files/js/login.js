@@ -53,6 +53,7 @@ $(()=>{
                 user = data
                 token = cookie
                 login(user)
+                renewToken()
             }
         }, "json")
     }

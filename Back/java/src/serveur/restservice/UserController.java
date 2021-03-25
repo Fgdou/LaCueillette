@@ -1,6 +1,7 @@
 package serveur.restservice;
 
 import org.springframework.web.bind.annotation.*;
+import serveur.DateTime;
 import serveur.Time;
 import serveur.sql.Address;
 import serveur.sql.Token;
@@ -146,6 +147,19 @@ public class UserController {
     public List<Address> getAddresses(@RequestParam Map<String, String> requestParams) throws Exception {
         User user = User.getByToken(requestParams.get("user_token"));
         return user.getAddresses();
+    }
+
+    @PostMapping("/user/newToken")
+    public Token newToken(@RequestParam Map<String, String> requestParams) throws Exception {
+        Token old = Token.getByValue(requestParams.get("user_token"));
+
+        User user = old.getUser();
+
+        Token t = Token.create(Token.TOKEN_TYPE_LOGIN, user, new DateTime().add(0, 0, 0, 2, 0, 0), user.getMail());
+
+        old.use();
+
+        return t;
     }
 
 }

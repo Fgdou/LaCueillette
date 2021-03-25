@@ -6,6 +6,8 @@ let url = "https://lacueillette.ml/v2/"
 let api = "https://lacueillette.ml/api/"
 
 $(()=>{
+    setInterval(renewToken, 3600000)
+
     openWindow(lastPage)
 
     $("header .account").click(()=>{
@@ -22,9 +24,21 @@ $(()=>{
 
     checkAlive()
 
-
-
 })
+
+function renewToken(){
+    if(user === null)
+        return;
+    $.post(api + "user/newToken", {
+        user_token: token
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else{
+            document.cookie = "token="+data.value + "; expires="+dateToString(data.expiration)
+        }
+    }, "json")
+}
 
 function checkAlive(){
     $.post(api + "alive", {}, data=>{
