@@ -131,7 +131,7 @@ function userAct(){
     $(".window.user .surname input").val(user.surname)
     $(".window.user .tel input").val(user.tel)
     $(".window.user .email").html(user.mail)
-    $(".window.user .creation").html(dateToString(user.created))
+    $(".window.user .creation").html(dateToStringFormat(user.created))
 
     $.post(api + "user/get/allAddresses", {
         user_token: token
