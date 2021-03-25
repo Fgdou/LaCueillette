@@ -71,8 +71,10 @@ $(()=>{
             }, data=>{
                 if(data.error)
                     errorPopup(data.error)
-                else
+                else {
+                    $(".window.newShop").css("display", "none")
                     userAct()
+                }
             }, "json")
         }
     })
@@ -140,6 +142,62 @@ function userAct(){
             fillAddresses(data)
         }
     }, "json")
+
+    $.post(api + "store/get/byUser", {
+        user_token: token
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else
+            fillStores(data)
+    }, "json")
+}
+
+function fillStores(stores){
+    let list = $(".window.user .shops .list")
+    list.html("")
+
+    for(let i=0; i<stores.length; i++){
+        let store = stores[i]
+
+        let tr = $("<tr></tr>")
+
+        tr.append($("<td></td>").addClass("name").html(store.name))
+        tr.append($("<td></td>").addClass("city").html(store.address.city))
+
+        let btns = $("<td></td>").addClass("actions")
+
+        let edit = $("<img src='files/img/edit.svg' alt='edit'>").addClass("clickable edit")
+        let remove = $("<img src='files/img/delete.svg' alt='delete'>").addClass("clickable remove")
+
+        edit.click(()=>{
+            openWindow("shopadmin")
+            shopAdminAct(store)
+        })
+        remove.click(()=>removeShop(store))
+
+        btns.append(edit)
+        btns.append(remove)
+
+        tr.append(btns)
+
+        list.append(tr)
+    }
+}
+
+function removeShop(shop){
+    let response = confirm("Êtes vous sur de vouloir supprimer " + shop.name + " ?");
+    if(response === true){
+        $.post(api + "store/delete", {
+            user_token: token,
+            id: shop.id
+        }, data=>{
+            if(data.error)
+                errorPopup(data.error)
+            else
+                userAct()
+        }, "json")
+    }
 }
 
 function deleteAddress(address) {
@@ -161,7 +219,6 @@ function fillAddresses(addresses){
         let address = addresses[i]
 
         let tr = $("<tr></tr>")
-        tr.addClass("id", address.id)
 
         console.log(address)
 
