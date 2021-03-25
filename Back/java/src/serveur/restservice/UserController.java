@@ -155,7 +155,7 @@ public class UserController {
      */
     @PostMapping("/user/get/allAddresses")
     public List<Address> getAddresses(@RequestParam Map<String, String> requestParams) throws Exception {
-        User user = User.getById(Integer.parseInt(requestParams.get("user_token")));
+        User user = User.getByToken(requestParams.get("user_token"));
         return user.getAddresses();
     }
 

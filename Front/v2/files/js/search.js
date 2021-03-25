@@ -11,7 +11,7 @@ $(()=>{
             return
 
         $.post(api + "product/searchTag", {
-            tags: txt.split(" "),
+            tags: txt,
             city: city,
             postalcode: postalcode
         }, data=>{
