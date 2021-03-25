@@ -470,32 +470,33 @@
             <div class="products">
                 <button class="clickable button new">Créer un produit</button>
             </div>
-            <div class="newProduct window">
-                <form>
-                    <div class="input name"><input type="text" placeholder="Nom"></div>
-                    <div class="type"><label for="type">Catégorie </label><select></select></div>
-                    <div class="input price"><input type="number" placeholder="Prix"></div>
-                    <div class="input tva"><input type="number" placeholder="TVA"></div>
-                    <div class="input description"><input type="text" placeholder="Descripton"></div>
-                    
-                        <div class="price_kg">
-                            <label for="box_price_kg">Prix/kg</label>
-                            <input type="checkbox" id="box_price_kg" name="price_kg">
-                        </div>
-                        <div class="picked">
-                            <label for="box_picked">Click&Collect</label>
-                            <input type="checkbox" id="box_picked" name="picked"> 
-                        </div>
-                        <div class="delivered">
-                            <label for="box_delivered">Livrable</label>
-                            <input type="checkbox" id="box_delivered" >
-                        </div>
-                    
-                    
-                    <button type="submit" class="clickable button submit">Valider</button>
-                    <button class="clickable button cancel">Annuler</button>
-                </form>
-            </div>
+        </div>
+        <div class="newProduct window">
+            <form>
+                <h1>Modification de produit</h1>
+                <div class="input name"><input type="text" placeholder="Nom"></div>
+                <div class="type"><label for="box_type">Catégorie </label><select id="box_type"></select></div>
+                <div class="input price"><input type="number" placeholder="Prix"></div>
+                <div class="input tva"><input type="number" placeholder="TVA"></div>
+                <div class="input description"><input type="text" placeholder="Descripton"></div>
+
+                <div class="price_kg">
+                    <label for="box_price_kg">Prix/kg</label>
+                    <input type="checkbox" id="box_price_kg" name="price_kg">
+                </div>
+                <div class="picked">
+                    <label for="box_picked">Click&Collect</label>
+                    <input type="checkbox" id="box_picked" name="picked">
+                </div>
+                <div class="delivered">
+                    <label for="box_delivered">Livrable</label>
+                    <input type="checkbox" id="box_delivered" >
+                </div>
+
+
+                <button type="submit" class="clickable button submit">Valider</button>
+                <button class="clickable button cancel">Annuler</button>
+            </form>
         </div>
     </div>
     <footer>

@@ -1,45 +1,50 @@
-.window.shopadmin .newProduct .name{
+.window.newProduct .name{
     grid-area: name;
 }
-.window.shopadmin .newProduct .type{
+.window.newProduct .type{
     grid-area: type;
 }
-.window.shopadmin .newProduct .price{
+.window.newProduct .price{
     grid-area: price;
 }
-.window.shopadmin .newProduct .price_kg{
+.window.newProduct .price_kg{
     grid-area: price_kg;
 }
-.window.shopadmin .newProduct .picked{
+.window.newProduct .picked{
     grid-area: picked;
 }
-.window.shopadmin .newProduct .delivered{
+.window.newProduct .delivered{
     grid-area: delivered;
 }
-.window.shopadmin .newProduct .tva{
+.window.newProduct .tva{
     grid-area: tva;
 }
-.window.shopadmin .newProduct .description{
+.window.newProduct .description{
     grid-area: description;
 }
-.window.shopadmin .newProduct .submit{
+.window.newProduct .submit{
     grid-area: submit;
 }
-.window.shopadmin .newProduct > form{
+.window.newProduct h1{
+    grid-area: title;
+}
+.window.newProduct > form{
     display: grid;
     background: white;
     height: auto;
     padding: 10px;
 
     grid-template-areas:
-    "name price type"
-    "tva description description"
-    "price_kg picked delivered"
-    "cancel submit submit";
-    grid-template-columns: 30% auto;
-    grid-gap:10px;
+        "title title"
+        "name name"
+        "price tva"
+        "description description"
+        "price_kg type"
+        "picked delivered"
+        "cancel submit";
+    grid-gap: 10px;
 }
-.window.shopadmin .newProduct{
+.window.newProduct{
     background: rgba(0, 0, 0, .3);
     position: fixed;
     top: 0;
@@ -50,6 +55,19 @@
     padding-top: 200px;
     z-index: 10;
 }
-.window.shopadmin .newProduct{
+.window.newProduct{
     text-align: center;
+}
+
+@media(min-width: 800px){
+    .window.newProduct > form{
+        margin: auto;
+        max-width: 1100px;
+        grid-template-areas:
+            "title title title"
+            "name price type"
+            "tva description description"
+            "price_kg picked delivered"
+            "cancel submit submit";
+    }
 }

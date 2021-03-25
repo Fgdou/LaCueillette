@@ -150,4 +150,12 @@
                 "addresses addresses shops shops"
                 "orders orders orders orders";
     }
+    .window.newShop > form{
+        grid-template-areas:
+        "title title title title"
+        "infos infos address address"
+        "cancel submit submit submit";
+        max-width: 1100px;
+        margin: auto;
+    }
 }
