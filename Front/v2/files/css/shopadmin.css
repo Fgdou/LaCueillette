@@ -1,0 +1,41 @@
+.window.shopadmin .newProduct .name{
+    grid-area: name;
+}
+.window.shopadmin .newProduct .type{
+    grid-area: type;
+}
+.window.shopadmin .newProduct .price{
+    grid-area: price;
+}
+.window.shopadmin .newProduct .code{
+    grid-area: code;
+}
+.window.shopadmin .newProduct .cancel{
+    grid-area: cancel;
+}
+.window.shopadmin .newProduct .submit{
+    grid-area: submit;
+}
+.window.shopadmin .newProduct > form{
+    display: grid;
+    background: white;
+    height: auto;
+    padding: 10px;
+
+    grid-template-areas:
+    "name type"
+    "price code"
+    "cancel submit";
+    grid-template-columns: 30% auto;
+}
+.window.shopadmin .newProduct{
+    background: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    padding: 20px;
+    padding-top: 200px;
+    z-index: 10;
+}

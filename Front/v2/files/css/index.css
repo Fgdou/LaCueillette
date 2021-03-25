@@ -175,7 +175,7 @@ footer{
 
 @media(min-width: 800px) {
     .clickable:hover{
-        transform: scale(1.05);
+        transform: scale(.95);
     }
     .container{
         min-height: calc(100vh - 60px);
