@@ -121,12 +121,12 @@ function editUser(){
         else{
             $.post(api + "user/change", {
                 user_token: token,
-                name: name,
-                surname: surname
+                new_name: name,
+                new_surname: surname,
+                new_tel: tel
             }, data=>{
                 if(data.error)
                     errorPopup(data.error)
-                userAct()
             }, "json")
         }
 
