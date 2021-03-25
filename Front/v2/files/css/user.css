@@ -55,3 +55,6 @@
 .window.user img{
     height: 30px;
 }
+.window.user .infos{
+    text-align: left;
+}

@@ -28,7 +28,7 @@
         <div class="cart clickable"><img src="files/img/Cart.svg" alt="Panier"><span>Panier</span></div>
     </header>
     <div class="container">
-        <div class="search window">
+        <div class="window search">
             <div class="map"><img src="files/img/carte.png" alt="Carte"></div>
             <div class="searchList">
                 <div class="searchElement">
@@ -381,26 +381,22 @@
         </div>
         <div class="window user">
             <div class="infos">
-                <div class="non_editable">
-                    <table>
-                        <tbody>
-                            <tr><td>Email</td><td class="email"></td></tr>
-                            <tr><td>Création</td><td class="creation"></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="editable">
-                    <div class="input surname"><input type="text" placeholder="Nom"></div>
-                    <div class="input name"><input type="text" placeholder="Prenom"></div>
-                    <div class="input tel"><input type="text" placeholder="Téléphone"></div>
-                </div>
+                <table>
+                    <tbody>
+                        <tr><th>Email</th><td class="email"></td></tr>
+                        <tr><th>Création</th><td class="creation"></td></tr>
+                        <tr><th>Nom</th><td><div class="input surname"><input type="text" placeholder="Nom"></div></td></tr>
+                        <tr><th>Prenom</th><td><div class="input name"><input type="text" placeholder="Prenom"></div></td></tr>
+                        <tr><th>Téléphone</th><td><div class="input tel"><input type="text" placeholder="Téléphone"></div></td></tr>
+                    </tbody>
+                </table>
                 <div class="clickable"><button class="button">Edit</button></div>
             </div>
             <div class="addresses">
                 <table>
                     <thead>
                         <tr>
-                            <th>Numéro</th>
+                            <th>Num</th>
                             <th>Rue</th>
                             <th>Code postal</th>
                             <th>Ville</th>
