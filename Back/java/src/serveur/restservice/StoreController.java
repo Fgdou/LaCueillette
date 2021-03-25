@@ -35,8 +35,8 @@ public class StoreController {
         String tel = requestParam.get("tel");
         int number = Integer.parseInt(requestParam.get("number"));
         String way = requestParam.get("way");
-        int cp = Integer.parseInt(requestParam.get("postal_code"));
-        String town = requestParam.get("town");
+        int cp = Integer.parseInt(requestParam.get("postalcode"));
+        String town = requestParam.get("city");
         String userToken = requestParam.get("user_token");
         int storeType_id = Integer.parseInt(requestParam.get("storeType_id"));
         User user = User.getByToken(userToken);

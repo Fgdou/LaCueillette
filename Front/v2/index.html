@@ -383,6 +383,7 @@
         </div>
         <div class="window user">
             <div class="infos">
+                <h1>Mon compte</h1>
                 <table>
                     <tbody>
                         <tr><th>Email</th><td class="email"></td></tr>
@@ -395,6 +396,7 @@
                 </table>
             </div>
             <div class="addresses">
+                <h1>Mes adresses</h1>
                 <table>
                     <thead>
                         <tr>
@@ -410,25 +412,58 @@
                 </table>
                 <button class="clickable button new">Ajouter</button>
             </div>
-
-            <div class="shops"></div>
-            <div class="orders"></div>
+            <div class="shops">
+                <h1>Mes commerces</h1>
+                <table>
+                    <thead>
+                        <tr><th>Nom</th><th>Ville</th></tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Créer</button>
+            </div>
+            <div class="orders">
+                <h1>Mes commandes</h1>
+            </div>
             <div class="actions">
                 <button class="delete button clickable">Supprimer le compte</button>
                 <button class="logout button clickable">Déconnection</button>
             </div>
-            <div class="newAddress window">
-                <form>
-                    <div class="input number"><input type="number" placeholder="Numéro"></div>
+
+        </div>
+
+        <div class="newAddress window">
+            <form>
+                <h1>Edition d'adresse</h1>
+                <div class="input number"><input type="number" placeholder="Numéro"></div>
+                <div class="input way"><input type="text" placeholder="Rue"></div>
+                <div class="input city"><input type="text" placeholder="Ville"></div>
+                <div class="input postalcode"><input type="number" placeholder="Code Postal"></div>
+                <div class="input state"><input type="text" placeholder="Pays" value="France"></div>
+                <button class="clickable button submit">Valider</button>
+                <button class="clickable button cancel">Annuler</button>
+            </form>
+        </div>
+        <div class="newShop window">
+            <form>
+                <h1>Création de commerce</h1>
+                <div class="infos">
+                    <h2>Informations</h2>
+                    <div class="input name"><input type="text" placeholder="Nom"></div>
+                    <div class="input email"><input type="email" placeholder="Email"></div>
+                    <div class="input tel"><input type="text" placeholder="Téléphone"></div>
+                    <div class="dropdown category"><label for="shopcategory">Catégorie</label><select id="shopcategory"></select></div>
+                </div>
+                <div class="address">
+                    <h2>Adresse</h2>
+                    <div class="input number"><input type="number" placeholder="Num"></div>
                     <div class="input way"><input type="text" placeholder="Rue"></div>
                     <div class="input city"><input type="text" placeholder="Ville"></div>
-                    <div class="input postalcode"><input type="number" placeholder="Code Postal"></div>
-                    <div class="input state"><input type="text" placeholder="Pays" value="France"></div>
-                    <button class="clickable button submit">Valider</button>
-                    <button class="clickable button cancel">Annuler</button>
-                </form>
-            </div>
-
+                    <div class="input postalcode"><input type="number" placeholder="Code postal"></div>
+                </div>
+                <button class="clickable button cancel">Annuler</button>
+                <button class="clickable button submit" type="submit">Valider</button>
+            </form>
         </div>
         <div class="window shopadmin">
             <div class="products">

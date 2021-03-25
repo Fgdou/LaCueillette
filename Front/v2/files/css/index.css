@@ -172,6 +172,10 @@ footer{
 .button:focus{
     outline: none;
 }
+.dropDown select{
+    margin: 10px;
+    font-size: inherit;
+}
 
 @media(min-width: 800px) {
     .clickable:hover{

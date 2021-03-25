@@ -3,17 +3,108 @@ address = null
 $(()=>{
     $(".window.user .logout").click(()=>logout())
     $(".window.user .addresses .new").click(()=>openAddress(null))
-    $(".window.user .newAddress > form").submit(e => e.preventDefault())
-    $(".window.user .newAddress .submit").click(()=>createChangeAddress())
-    $(".window.user .newAddress .cancel").click(()=>$(".window.user .newAddress").css("display", "none"))
+    $(".window.newAddress > form").submit(e => e.preventDefault())
+    $(".window.newAddress .submit").click(()=>createChangeAddress())
+    $(".window.newAddress .cancel").click(()=>$(".window.newAddress").css("display", "none"))
+
+    $(".window.user .shops .new").click(()=>{
+        $(".window.newShop input").val("")
+        $(".window.newShop").css("display", "grid")
+        newShopAct()
+    })
+    $(".window.newShop .cancel").click(()=>{
+        $(".window.newShop").css("display", "none")
+    })
+    $(".window.newShop form").submit(e=>e.preventDefault())
+    $(".window.newShop .dropdown select").change(()=>{
+        if($(".window.newShop .dropdown select").val() === "new"){
+            let category = prompt("Entrer une nouvelle categorie")
+            if(category === "" || category === null)
+                return;
+
+            $.post(api + "store/type/new", {
+                user_token: token,
+                name: category
+            }, data=>{
+                if(data.error){
+                    if(data.error === "Type already exist")
+                        errorPopup("Cette catégorie existe déjà")
+                    else
+                        errorPopup(data.error)
+                }else{
+                    newShopAct(()=>{
+                        $(".window.newShop .dropdown select").val(data.id)
+                    })
+                }
+            }, "json")
+
+
+        }
+    })
+    $(".window.newShop .submit").click(()=>{
+        clearInputError()
+
+        let name = $(".window.newShop .name input").val()
+        let email = $(".window.newShop .email input").val()
+        let tel = $(".window.newShop .tel input").val()
+        let category = $(".window.newShop .category select").val()
+        let number = $(".window.newShop .number input").val()
+        let way = $(".window.newShop .way input").val()
+        let city = $(".window.newShop .city input").val()
+        let postalcode = $(".window.newShop .postalcode input").val()
+
+        if(name === "")
+            inputError("name")
+        else if(city === "")
+            inputError("city")
+        else{
+            $.post(api + "store/new", {
+                user_token: token,
+                name: name,
+                email: email,
+                tel: tel,
+                storeType_id: category,
+                number: number,
+                way: way,
+                city: city,
+                postalcode: postalcode
+            }, data=>{
+                if(data.error)
+                    errorPopup(data.error)
+                else
+                    userAct()
+            }, "json")
+        }
+    })
 })
 
+function newShopAct(fun) {
+    let select = $(".window.newShop select")
+    select.html("")
+    $.post(api + "store/type/getAll", {user_token: token}, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else{
+            for(let i=0; i<data.length; i++){
+                let type = data[i]
+
+                let option = $("<option value="+type.id+">"+type.name+"</option>")
+
+                select.append(option)
+            }
+            select.append($("<option value='new'>Nouveau</option>"))
+            if(fun)
+                fun()
+        }
+    }, "json")
+}
+
 function createChangeAddress(){
-    let number = $(".window.user .newAddress .number input").val()
-    let way = $(".window.user .newAddress .way input").val()
-    let city = $(".window.user .newAddress .city input").val()
-    let postalcode = $(".window.user .newAddress .postalcode input").val()
-    let state = $(".window.user .newAddress .state input").val()
+    let number = $(".window.newAddress .number input").val()
+    let way = $(".window.newAddress .way input").val()
+    let city = $(".window.newAddress .city input").val()
+    let postalcode = $(".window.newAddress .postalcode input").val()
+    let state = $(".window.newAddress .state input").val()
 
     if(address === null){
         $.post(api + "/address/new", {
@@ -27,7 +118,7 @@ function createChangeAddress(){
             if(data.error)
                 errorPopup(data.error)
             else{
-                $(".window.user .newAddress").css("display", "none")
+                $(".window.newAddress").css("display", "none")
                 userAct()
             }
         }, "json")
@@ -98,18 +189,18 @@ function fillAddresses(addresses){
 function openAddress(address_){
     address = address_
     if(address_ === null){
-        $(".window.user .newAddress .number input").val("")
-        $(".window.user .newAddress .way input").val("")
-        $(".window.user .newAddress .city input").val("")
-        $(".window.user .newAddress .postalcode input").val("")
-        $(".window.user .newAddress .state input").val("")
+        $(".window.newAddress .number input").val("")
+        $(".window.newAddress .way input").val("")
+        $(".window.newAddress .city input").val("")
+        $(".window.newAddress .postalcode input").val("")
+        $(".window.newAddress .state input").val("")
 
     }else{
-        $(".window.user .newAddress .number input").val(address.number)
-        $(".window.user .newAddress .way input").val(address.way)
-        $(".window.user .newAddress .city input").val(address.city)
-        $(".window.user .newAddress .postalcode input").val(address.postalcode)
-        $(".window.user .newAddress .state input").val(address.state)
+        $(".window.newAddress .number input").val(address.number)
+        $(".window.newAddress .way input").val(address.way)
+        $(".window.newAddress .city input").val(address.city)
+        $(".window.newAddress .postalcode input").val(address.postalcode)
+        $(".window.newAddress .state input").val(address.state)
     }
-    $(".window.user .newAddress").css("display", "block")
+    $(".window.newAddress").css("display", "block")
 }

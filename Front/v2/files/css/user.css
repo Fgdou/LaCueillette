@@ -6,10 +6,14 @@
             "infos"
             "addresses"
             "shops"
-            "actions";
+            "actions"
+            "orders";
 
 }
-.window.user .newAddress{
+.window.user > div{
+    margin: 20px;
+}
+.window.newAddress{
     background: rgba(0, 0, 0, .3);
     position: fixed;
     top: 0;
@@ -20,43 +24,46 @@
     padding-top: 200px;
     z-index: 10;
 }
-.window.user .newAddress > form{
+.window.newAddress > form{
     display: grid;
     background: white;
     height: auto;
     padding: 10px;
 
     grid-template-areas:
+        "title title"
         "number way"
         "postalcode city"
         ". state"
         "cancel submit";
     grid-template-columns: 30% auto;
 }
+.window.newAddress h1{
+    grid-area: title;
+}
 
 
 
-
-.window.user .newAddress .number{
+.window.newAddress .number{
     grid-area: number;
 }
-.window.user .newAddress .way{
+.window.newAddress .way{
     grid-area: way;
 }
-.window.user .newAddress .city{
+.window.newAddress .city{
     grid-area: city;
 }
-.window.user .newAddress .postalcode{
+.window.newAddress .postalcode{
     grid-area: postalcode;
 }
-.window.user .newAddress .state{
+.window.newAddress .state{
     grid-area: state;
 }
 
-.window.user .newAddress .cancel{
+.window.newAddress .cancel{
     grid-area: cancel;
 }
-.window.user .newAddress .submit{
+.window.newAddress .submit{
     grid-area: submit;
 }
 .window.user .addresses table{
@@ -67,7 +74,6 @@
     height: 30px;
 }
 .window.user .infos{
-    text-align: left;
     grid-area: infos;
 }
 .window.user .addresses{
@@ -77,14 +83,72 @@
     grid-area: actions;
 }
 .window.user .actions button{
-    margin: 5px;
+    margin: 5px 0;
 }
 .window.user .shops{
     grid-area: shops;
 }
+.window.user .orders{
+    grid-area: orders;
+}
+.window.user table{
+    width: 100%;
+    text-align: left;
+}
+
+.window.newShop{
+    background: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    padding: 20px;
+    padding-top: 200px;
+    z-index: 10;
+}
+.window.newShop > form{
+    display: grid;
+    background: white;
+    height: fit-content;
+    padding: 10px;
+    font-size: 20px;
+
+    grid-template-areas:
+        "title title"
+        "infos infos"
+        "address address"
+        "cancel submit";
+    grid-template-columns: 30% auto;
+    grid-gap: 20px;
+}
+.window.newShop .infos{
+    grid-area: infos;
+}
+.window.newShop h1{
+    grid-area: title;
+}
+.window.newShop .address{
+    grid-area: address;
+}
+.window.newShop .cancel{
+    grid-area: cancel;
+}
+.window.newShop .submit{
+    grid-area: submit;
+}
 
 @media(min-width: 800px){
     .window.user{
-        margin: 0 auto;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 800px;
+        grid-template-areas:
+                "title title title title"
+                "infos infos infos actions"
+                "addresses addresses shops shops"
+                "orders orders orders orders";
     }
 }

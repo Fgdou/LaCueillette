@@ -5,6 +5,9 @@ $(()=>{
     $(".window.shopadmin .newProduct .cancel").click(()=>$(".window.shopadmin .newProduct").css("display", "none"))
 })
 
+function shopAdminAct(shop){
+
+}
 function openProduct(){
     $(".window.shopadmin .newProduct .name input").val("")
     $(".window.shopadmin .newProduct .type input").val("")
