@@ -87,7 +87,7 @@ public class StoreType {
     public static List<StoreType> getAll() throws Exception {
         List<StoreType> list = new LinkedList<>();
 
-        String sql = "SELECT * FROM StoreType";
+        String sql = "SELECT * FROM StoreType ORDER BY name";
 
         ResultSet rs = DataBase.getInstance().query(sql);
 

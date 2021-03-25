@@ -100,7 +100,7 @@ public class Tag {
     public static List<Tag> getAll() throws Exception {
         List<Tag> list = new LinkedList<>();
 
-        String sql = "SELECT * FROM Tags";
+        String sql = "SELECT * FROM Tags ORDER BY name";
 
         ResultSet rs = DataBase.getInstance().query(sql);
 

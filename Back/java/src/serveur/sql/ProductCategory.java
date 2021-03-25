@@ -80,7 +80,7 @@ public class ProductCategory {
     }
 
     public static List<ProductCategory> getAll() throws Exception {
-        String sql = "SELECT * FROM ProductsCategory";
+        String sql = "SELECT * FROM ProductsCategory ORDER BY name";
 
         ResultSet rs = DataBase.getInstance().query(sql);
 
