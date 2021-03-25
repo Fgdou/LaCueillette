@@ -25,7 +25,7 @@ public class AddressController {
     public Address getById(@RequestParam Map<String, String> requestParam) throws Exception {
         User user = User.getByToken(requestParam.get("user_token"));
         Address address = Address.getById(Integer.parseInt(requestParam.get("address_id")));
-        if (!address.getUser().equals(user) || !user.isAdmin())
+        if (!address.getUser().equals(user) && !user.isAdmin())
             throw new Exception("Your profile is not related with the address or you are not admin.");
         return address;
     }
@@ -73,7 +73,7 @@ public class AddressController {
         User user = User.getByToken(requestParam.get("user_token"));
         Address address = Address.getById(Integer.parseInt(requestParam.get("address_id")));
 
-        if (!address.getUser().equals(user) || !user.isAdmin())
+        if (!address.getUser().equals(user) && !user.isAdmin())
             return new ResponseError<>("Your profile is not related with the address or you are not admin.");
 
         int number = Integer.parseInt(requestParam.get("number"));
@@ -104,7 +104,7 @@ public class AddressController {
         User user = User.getByToken(requestParam.get("user_token"));
         Address address = Address.getById(Integer.parseInt(requestParam.get("address_id")));
 
-        if (!address.getUser().equals(user) || !user.isAdmin())
+        if (!address.getUser().equals(user) && !user.isAdmin())
             return new ResponseError<>("Your profile is not related with the address or you are not admin.");
 
         address.delete();

@@ -52,7 +52,14 @@ function userAct(){
 }
 
 function deleteAddress(address) {
-    //TODO
+    $.post(api + "address/delete", {
+        user_token: token,
+        address_id: address.id
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        userAct()
+    }, "json")
 }
 
 function fillAddresses(addresses){
