@@ -185,11 +185,14 @@ public class Product {
         return store_id;
     }
 
-    public boolean canBePicked() {
+    public boolean getCanBePicked() {
         return canBePicked;
     }
+    public boolean getPriceKg(){
+        return price_kg;
+    }
 
-    public boolean canBeDelivered() {
+    public boolean getCanBeDelivered() {
         return canBeDelivered;
     }
 

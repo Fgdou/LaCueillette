@@ -37,9 +37,9 @@ function createChangeProduct(){
     let description = $(".window.newProduct .description input").val()
 
     let category = $(".window.newProduct .type select").val()
-    let price_kg = $(".window.newProduct .price_kg input").val()
-    let picked = $(".window.newProduct .picked input").val()
-    let delivered = $(".window.newProduct .delivered input").val()
+    let price_kg = $(".window.newProduct .price_kg input").prop("checked")
+    let picked = $(".window.newProduct .picked input").prop("checked")
+    let delivered = $(".window.newProduct .delivered input").prop("checked")
 
     if(product === null){
         $.post(api + "product/new", {
@@ -153,9 +153,9 @@ function openProduct(product_){
         $(".window.newProduct .price input").val("")
         $(".window.newProduct .tva input").val("")
         $(".window.newProduct .description input").val("")
-        $(".window.newProduct .price_kg input").val(false)
-        $(".window.newProduct .picked input").val(false)
-        $(".window.newProduct .delivered input").val(false)
+        $(".window.newProduct .price_kg input").prop("checked", false)
+        $(".window.newProduct .picked input").prop("checked", false)
+        $(".window.newProduct .delivered input").prop("checked", false)
         listProductCategoryAct()
     }else{
         listProductCategoryAct(()=>{
@@ -163,11 +163,11 @@ function openProduct(product_){
         })
         $(".window.newProduct .name input").val(product.name)
         $(".window.newProduct .price input").val(product.price)
-        $(".window.newProduct .tva input").val(product.price)
+        $(".window.newProduct .tva input").val(product.tva)
         $(".window.newProduct .description input").val(product.description)
-        $(".window.newProduct .price_kg input").val(product.price_kg)
-        $(".window.newProduct .picked input").val(product.canBePicked)
-        $(".window.newProduct .delivered input").val(product.canBeDelivered)
+        $(".window.newProduct .price_kg input").prop("checked", product.priceKg)
+        $(".window.newProduct .picked input").prop("checked", product.canBePicked)
+        $(".window.newProduct .delivered input").prop("checked", product.canBeDelivered)
     }
     $(".window.newProduct").css("display", "block")
 }
