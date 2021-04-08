@@ -227,7 +227,7 @@ public class ProductController {
 
     @PostMapping("/subproduct/get")
     public List<SubProduct> getSubproducts(@RequestParam Map<String, String> requestParam) throws Exception{
-        Product product = Product.getById(Integer.parseInt("product_id"));
+        Product product = Product.getById(Integer.parseInt(requestParam.get("product_id")));
 
         return product.getSubProducts();
     }
