@@ -1,7 +1,4 @@
 .window.user{
-    padding: 10px;
-    display: grid;
-
     grid-template-areas:
             "infos"
             "addresses"
@@ -13,23 +10,7 @@
 .window.user > div{
     margin: 20px;
 }
-.window.newAddress{
-    background: rgba(0, 0, 0, .3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100%;
-    padding: 20px;
-    padding-top: 200px;
-    z-index: 10;
-}
 .window.newAddress > form{
-    display: grid;
-    background: white;
-    height: auto;
-    padding: 10px;
-
     grid-template-areas:
         "title title"
         "number way"
@@ -94,32 +75,13 @@
     width: 100%;
     text-align: left;
 }
-
-.window.newShop{
-    background: rgba(0, 0, 0, .3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100%;
-    padding: 20px;
-    padding-top: 200px;
-    z-index: 10;
-}
 .window.newShop > form{
-    display: grid;
-    background: white;
-    height: fit-content;
-    padding: 10px;
-    font-size: 20px;
-
     grid-template-areas:
         "title title"
         "infos infos"
         "address address"
         "cancel submit";
     grid-template-columns: 30% auto;
-    grid-gap: 20px;
 }
 .window.newShop .infos{
     grid-area: infos;
@@ -139,11 +101,6 @@
 
 @media(min-width: 800px){
     .window.user{
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        min-width: 800px;
         grid-template-areas:
                 "title title title title"
                 "infos infos infos actions"
@@ -155,7 +112,5 @@
         "title title title title"
         "infos infos address address"
         "cancel submit submit submit";
-        max-width: 1100px;
-        margin: auto;
     }
 }

@@ -191,4 +191,44 @@ public class ProductController {
     }
 
 
+    @PostMapping("/subproduct/new")
+    public SubProduct createSubproduct(@RequestParam Map<String, String> requestParam) throws Exception{
+        User user = User.getByToken(requestParam.get("user_token"));
+        Product product = Product.getById(Integer.parseInt(requestParam.get("product_id")));
+        Store store = product.getStore();
+
+        if (!store.getSeller().equals(user) && !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
+
+        int quantity = Integer.parseInt(requestParam.get("quantity"));
+        String tag = requestParam.get("tag");
+
+        return SubProduct.create(quantity, tag, product);
+    }
+
+    @PostMapping("/subproduct/modify")
+    public Response modifySubproduct(@RequestParam Map<String, String> requestParam) throws Exception{
+        User user = User.getByToken(requestParam.get("user_token"));
+        SubProduct sp = SubProduct.getById(Integer.parseInt(requestParam.get("subproduct_id")));
+        Product product = sp.getProduct();
+        Store store = product.getStore();
+
+        if (!store.getSeller().equals(user) && !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
+
+        int quantity = Integer.parseInt(requestParam.get("quantity"));
+        String tag = requestParam.get("tag");
+
+        sp.setQuantity(quantity);
+        sp.setSpecial_tag(tag);
+
+        return new ResponseLog<>("Subproduct deleted");
+    }
+
+    @PostMapping("/subproduct/get")
+    public List<SubProduct> getSubproducts(@RequestParam Map<String, String> requestParam) throws Exception{
+        Product product = Product.getById(Integer.parseInt("product_id"));
+
+        return product.getSubProducts();
+    }
 }

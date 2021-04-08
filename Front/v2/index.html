@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="files/css/register.css">
     <link rel="stylesheet" href="files/css/user.css">
     <link rel="stylesheet" href="files/css/shopadmin.css">
+    <link rel="stylesheet" href="files/css/subproducts.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,6 +21,7 @@
     <script src="files/js/user.js"></script>
     <script src="files/js/search.js"></script>
     <script src="files/js/shopadmin.js"></script>
+    <script src="files/js/subproducts.js"></script>
 </head>
 <body>
     <header>
@@ -382,7 +384,7 @@
 
             </div>
         </div>
-        <div class="window user">
+        <div class="back window user">
             <div class="infos">
                 <h1>Mon compte</h1>
                 <table>
@@ -432,8 +434,32 @@
             </div>
 
         </div>
+        <div class="back window shopadmin">
+            <div class="products">
+                <h1>Produits</h1>
+                <table>
+                    <thead>
+                        <tr><td>Nom</td><td>Quantité</td></tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Créer un produit</button>
+            </div>
+        </div>
+        <div class="back window subproducts">
+            <div>
+                <h1 class="subproduct_name">Nom</h1>
+                <table>
+                    <thead>
+                        <tr><td>Tag</td><td>Quantité</td></tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Créer un sous produit</button>
+            </div>
+        </div>
 
-        <div class="newAddress window">
+        <div class="popup newAddress window">
             <form>
                 <h1>Edition d'adresse</h1>
                 <div class="input number"><input type="number" placeholder="Numéro"></div>
@@ -445,7 +471,7 @@
                 <button class="clickable button cancel">Annuler</button>
             </form>
         </div>
-        <div class="newShop window">
+        <div class="popup newShop window">
             <form>
                 <h1>Création de commerce</h1>
                 <div class="infos">
@@ -466,19 +492,7 @@
                 <button class="clickable button cancel">Annuler</button>
             </form>
         </div>
-        <div class="window shopadmin">
-            <div class="products">
-                <h1>Produits</h1>
-                <table>
-                    <thead>
-                        <tr><td>Nom</td><td>Quantité</td></tr>
-                    </thead>
-                    <tbody class="list"></tbody>
-                </table>
-                <button class="clickable button new">Créer un produit</button>
-            </div>
-        </div>
-        <div class="newProduct window">
+        <div class="popup newProduct window">
             <form>
                 <h1>Modification de produit</h1>
                 <div class="input name"><input type="text" placeholder="Nom"></div>
@@ -503,6 +517,17 @@
 
                 <button type="submit" class="clickable button submit">Valider</button>
                 <button class="clickable button cancel">Annuler</button>
+            </form>
+        </div>
+        <div class="popup newSubproduct window">
+            <form>
+                <h1>Modification de sous produit</h1>
+                <div class="name"></div>
+                <div class="input tag"><input type="text" placeholder="Tag (ex: taille)"></div>
+                <div class="input quantity"><input type="number" step="1" placeholder="Quantité"></div>
+
+                <button class="button submit clickable" type="submit">Valider</button>
+                <button class="button cancel clickable">Annuler</button>
             </form>
         </div>
     </div>

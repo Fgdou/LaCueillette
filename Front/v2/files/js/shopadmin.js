@@ -120,6 +120,7 @@ function parseProductsShop(data){
 
         let edit = $("<img src='files/img/edit.svg' alt='edit'>").addClass("edit clickable")
         let remove = $("<img src='files/img/delete.svg' alt='delete'>").addClass("delete clickable")
+        let quantity = $("<img src='files/img/stock.svg' alt='edit quantity'>").addClass("quantity clickable")
 
         edit.click(()=>{
             openProduct(product)
@@ -127,7 +128,12 @@ function parseProductsShop(data){
         remove.click(()=>{
             deleteProduct(product)
         })
+        quantity.click(()=>{
+            openWindow("subproducts")
+            actSubproducts(product)
+        })
 
+        btns.append(quantity)
         btns.append(edit)
         btns.append(remove)
 

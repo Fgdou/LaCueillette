@@ -1,0 +1,26 @@
+.window.newSubproduct h1{
+    grid-area: title;
+}
+.window.newSubproduct .name{
+    grid-area: name;
+}
+.window.newSubproduct .tag{
+    grid-area: tag;
+}
+.window.newSubproduct .quantity{
+    grid-area: quantity;
+}
+.window.newSubproduct .submit{
+    grid-area: submit;
+}
+.window.newSubproduct .cancel{
+    grid-area: cancel;
+}
+
+.window.newSubproduct > form {
+    grid-template-areas:
+            "title title"
+            "quantity tag"
+            "cancel submit";
+    grid-template-columns: 30% auto;
+}
