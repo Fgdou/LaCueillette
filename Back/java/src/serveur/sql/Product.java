@@ -177,7 +177,6 @@ public class Product {
         return ProductCategory.getById(category_id);
     }
 
-    @JsonIgnore
     public Store getStore() throws Exception {
         return Store.getById(store_id);
     }
