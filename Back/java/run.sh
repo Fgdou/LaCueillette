@@ -1,4 +1,4 @@
 cd /app
 
-mvn test
+#mvn test
 mvn spring-boot:run
