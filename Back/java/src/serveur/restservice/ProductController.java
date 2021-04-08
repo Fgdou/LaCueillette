@@ -54,7 +54,6 @@ public class ProductController {
     @PostMapping("/product/modify")
     public Product modifyProduct(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("user_token");
-        int store_id = Integer.parseInt(requestParam.get("store_id"));
         int product_id = Integer.parseInt(requestParam.get("product_id"));
         String name = requestParam.get("name");
         double price = Double.parseDouble(requestParam.get("price"));
@@ -66,12 +65,12 @@ public class ProductController {
         String time_stop = requestParam.get("time_start");
         String expiration = requestParam.get("expiration");
         User user = User.getByToken(token);
-        Store store = Store.getById(store_id);
+        Product product = Product.getById(product_id);
+        Store store = product.getStore();
 
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
-        Product product = Product.getById(product_id);
 
         if (!name.equals(""))
             product.setName(name);
@@ -97,15 +96,14 @@ public class ProductController {
     @PostMapping("/product/delete")
     public Response deleteProduct(@RequestParam Map<String, String> requestParam) throws Exception {
         String token = requestParam.get("user_token");
-        int store_id = Integer.parseInt(requestParam.get("store_id"));
         int product_id = Integer.parseInt(requestParam.get("product_id"));
+        Product product = Product.getById(product_id);
         User user = User.getByToken(token);
-        Store store = Store.getById(store_id);
+        Store store = product.getStore();
 
         if (!store.getSeller().equals(user) && !user.isAdmin())
             throw new Exception("You are not the owner of this store or you are not admin");
 
-        Product product = Product.getById(product_id);
         product.delete();
         return new ResponseLog("product deleted");
     }
@@ -221,6 +219,20 @@ public class ProductController {
 
         sp.setQuantity(quantity);
         sp.setSpecial_tag(tag);
+
+        return new ResponseLog<>("Subproduct modified");
+    }
+    @PostMapping("/subproduct/delete")
+    public Response deleteSubproduct(@RequestParam Map<String, String> requestParam) throws Exception{
+        User user = User.getByToken(requestParam.get("user_token"));
+        SubProduct sp = SubProduct.getById(Integer.parseInt(requestParam.get("subproduct_id")));
+        Product product = sp.getProduct();
+        Store store = product.getStore();
+
+        if (!store.getSeller().equals(user) && !user.isAdmin())
+            throw new Exception("You are not the owner of this store or you are not admin");
+
+        sp.delete();
 
         return new ResponseLog<>("Subproduct deleted");
     }

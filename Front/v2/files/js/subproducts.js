@@ -33,10 +33,32 @@ function parseSubProducts(data){
         let tr = $("<tr></tr>")
 
         tr.append($("<td></td>").addClass("quantity").html(sp.quantity))
-        tr.append($("<td></td>").addClass("tag").html(sp.tag))
+        tr.append($("<td></td>").addClass("tag").html(sp.special_tag))
+
+        let buttons = $("<td></td>").addClass("actions")
+
+        let edit = $("<img src='files/img/edit.svg' alt='edit'>").addClass("clickable edit")
+        let remove = $("<img src='files/img/delete.svg' alt='delete'>").addClass("clickable remove")
+
+        edit.click(()=>showNewSubproduct(sp))
+        remove.click(()=>removeSubproduct(sp))
+
+        buttons.append(edit)
+        buttons.append(remove)
+
+        tr.append(buttons)
 
         list.append(tr)
     }
+}
+function removeSubproduct(product){
+    $.post(api + "subproduct/delete", {
+        user_token: token,
+        subproduct_id: subproduct.id
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+    }, "json")
 }
 function showNewSubproduct(subproduct_){
     subproduct = subproduct_
@@ -72,6 +94,20 @@ function updateSubproduct(){
                 tag: tag,
                 quantity: quantity,
                 product_id: product2.id
+            }, data=>{
+                if(data.error)
+                    errorPopup(data.error)
+                else{
+                    $(".window.newSubproduct").css("display", "none")
+                    actSubproducts(product2)
+                }
+            }, "json")
+        }else{
+            $.post(api + "subproduct/modify", {
+                user_token: token,
+                tag: tag,
+                quantity: quantity,
+                subproduct_id: subproduct.id
             }, data=>{
                 if(data.error)
                     errorPopup(data.error)
