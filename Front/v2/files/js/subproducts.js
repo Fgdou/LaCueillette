@@ -13,6 +13,8 @@ $(()=>{
 function actSubproducts(product_){
     product2 = product_
 
+    $(".window.subproducts .subproduct_name").html(product_.name)
+
     $.post(api + "subproduct/get", {
         product_id: product2.id
     }, data=>{

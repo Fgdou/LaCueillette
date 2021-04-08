@@ -5,6 +5,9 @@ let token = null
 let url = "https://lacueillette.ml/v2/"
 let api = "https://lacueillette.ml/api/"
 
+let city = "Rennes"
+let postalcode = 35000
+
 $(()=>{
     setInterval(renewToken, 3600000)
 
@@ -20,6 +23,29 @@ $(()=>{
     })
     $("header .logo").click(()=>{
         window.location.replace(url)
+    })
+    $("header .address").click(()=>{
+        openWindow("select")
+        $(".window.select .postalcode input").val(postalcode)
+        $(".window.select .city input").val(city)
+    })
+    $(".window.select form").submit(e=>e.preventDefault())
+    $(".window.select .submit").click(()=>{
+        let pc = $(".window.select .postalcode input").val()
+        let city_ = $(".window.select .city input").val()
+
+        clearInputError()
+
+        if(pc === "")
+            inputError("postalcode")
+        else if(city_ === "")
+            inputError("city")
+        else{
+            postalcode = pc
+            city = city_
+            $("header .address span").html(city)
+            openWindow("search")
+        }
     })
 
     checkAlive()

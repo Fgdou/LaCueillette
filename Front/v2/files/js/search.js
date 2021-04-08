@@ -1,6 +1,3 @@
-let city = "Cesson"
-let postalcode = 35510
-
 $(()=>{
     $("header .search").submit((e)=>{
         let txt = $("header .search input").val()
@@ -9,6 +6,9 @@ $(()=>{
 
         if(txt === "")
             return
+
+        $(".window.search .searchList").html("")
+        openWindow("search")
 
         $.post(api + "Store/search", {
             search: txt,
@@ -37,12 +37,10 @@ $(()=>{
 function parseShopResult(data){
     let list = $(".window.search .searchList")
 
-    list.html("")
-
     for(let i=0; i<data.length; i++){
         let shop = data[i]
 
-        let e = $("<div></div>").addClass("searchElement")
+        let e = $("<div></div>").addClass("searchElement clickable")
         e.append($("<img src='files/img/Shop.svg' alt='Shop'>"))
 
         let content = $("<div></div>").addClass("content")
@@ -59,6 +57,8 @@ function parseShopResult(data){
         content.append(createElement("opening", shop.timeTable.isOpen))
 
         e.append(content)
+
+        e.click(()=>actShop(shop))
 
         list.append(e)
     }
@@ -74,29 +74,29 @@ function parseShopResult(data){
 function parseProductResult(data){
     let list = $(".window.search .searchList")
 
-    list.html("")
-
     for(let i=0; i<data.length; i++){
         let product = data[i]
-        let shop =
+        let shop = product.store
 
-        let e = $("<div></div>").addClass("searchElement")
+        let e = $("<div></div>").addClass("searchElement clickable")
         e.append($("<img src='files/img/Shop.svg' alt='Shop'>"))
 
         let content = $("<div></div>").addClass("content")
 
-        content.append(createElement("name", shop.name))
+        content.append(createElement("name", product.name))
 
         let infos = $("<div></div>").addClass("infos")
 
-        infos.append($("<span></span>").addClass("category").html(shop.type.name))
-        infos.append($("<span></span>").addClass("distance").html("300m"))
+        infos.append($("<span></span>").addClass("category").html(shop.name))
+        infos.append($("<span></span>").addClass("distance").html(shop.type.name))
 
         content.append(infos)
         content.append(createElement("address", shop.address.number + " " + shop.address.way + " - " + shop.address.postalcode + " " + shop.address.city))
         content.append(createElement("opening", shop.timeTable.isOpen))
 
         e.append(content)
+
+        e.click(()=>actProduct(product))
 
         list.append(e)
     }
