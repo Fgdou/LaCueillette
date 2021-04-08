@@ -127,6 +127,13 @@ public class ProductController {
 
         return Product.searchByCity(city, postalcode, list);
     }
+    @PostMapping("/product/search")
+    public List<Product> search(@RequestParam Map<String, String> requestParam) throws Exception{
+        String name = requestParam.get("search");
+        String city = requestParam.get("city");
+        int postalcode = Integer.parseInt(requestParam.get("postalcode"));
+        return Product.searchByName(city, postalcode, name);
+    }
 
     /**
      * Getting every product for a given store

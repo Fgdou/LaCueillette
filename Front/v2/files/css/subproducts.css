@@ -20,6 +20,7 @@
 .window.newSubproduct > form {
     grid-template-areas:
             "title title"
+            "name name"
             "quantity tag"
             "cancel submit";
     grid-template-columns: 30% auto;

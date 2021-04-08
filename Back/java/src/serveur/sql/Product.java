@@ -273,11 +273,28 @@ public class Product {
      * @return all the product founded
      */
     public static List<Product> searchByCity(String city, int postalcode, ProductCategory category) throws Exception {
-        String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.state = ? AND P.category_id = ?";
+        String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.postalcode = ? AND P.category_id = ?";
         String[] tab = new String[]{
                 city,
                 String.valueOf(postalcode),
                 String.valueOf(category.getId())
+        };
+
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+        List<Product> list = new LinkedList<>();
+
+        while(rs.next())
+            list.add(new Product(rs));
+
+        return list;
+    }
+    public static List<Product> searchByName(String city, int postalcode, String name) throws Exception{
+        String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.postalcode = ? AND P.name LIKE ?";
+        String[] tab = new String[]{
+                city,
+                String.valueOf(postalcode),
+                name
         };
 
         ResultSet rs = DataBase.getInstance().query(sql, tab);

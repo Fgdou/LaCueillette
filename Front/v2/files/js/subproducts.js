@@ -51,13 +51,15 @@ function parseSubProducts(data){
         list.append(tr)
     }
 }
-function removeSubproduct(product){
+function removeSubproduct(subproduct){
     $.post(api + "subproduct/delete", {
         user_token: token,
         subproduct_id: subproduct.id
     }, data=>{
         if(data.error)
             errorPopup(data.error)
+        else
+            actSubproducts(product2)
     }, "json")
 }
 function showNewSubproduct(subproduct_){
@@ -65,6 +67,9 @@ function showNewSubproduct(subproduct_){
 
     let tag = $(".window.newSubproduct .tag input")
     let quantity = $(".window.newSubproduct .quantity input")
+    let name = $(".window.newSubproduct .name")
+
+    name.html(product2.name)
 
     if(subproduct === null){
         tag.val("")
