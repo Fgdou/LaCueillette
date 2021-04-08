@@ -129,6 +129,15 @@ public class StoreController {
         return new ResponseLog("store deleted");
     }
 
+    @PostMapping("/Store/search")
+    public List<Store> search(@RequestParam Map<String, String> requestParam) throws Exception{
+        String name = requestParam.get("search");
+        String city = requestParam.get("city");
+        int postalcode = Integer.parseInt(requestParam.get("postalcode"));
+
+        return Store.search(city, postalcode, name);
+    }
+
     /**
      * Get stores for a user
      *

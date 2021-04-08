@@ -1,4 +1,4 @@
-let city = "cesson"
+let city = "Cesson"
 let postalcode = 35510
 
 $(()=>{
@@ -10,8 +10,8 @@ $(()=>{
         if(txt === "")
             return
 
-        $.post(api + "product/searchTag", {
-            tags: txt,
+        $.post(api + "product/search", {
+            search: txt,
             city: city,
             postalcode: postalcode
         }, data=>{

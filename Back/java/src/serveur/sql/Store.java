@@ -272,4 +272,22 @@ public class Store {
     public List<Order> getOrders() throws Exception{
         return Order.getByStore(this);
     }
+
+    public static List<Store> search(String city, int postalcode, String name) throws Exception{
+        String sql = "SELECT * FROM Stores S JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.postalcode = ? AND S.name LIKE ?";
+        String[] tab = new String[]{
+                city,
+                String.valueOf(postalcode),
+                name
+        };
+
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+
+        List<Store> list = new LinkedList<>();
+
+        while(rs.next())
+            list.add(new Store(rs));
+
+        return list;
+    }
 }
