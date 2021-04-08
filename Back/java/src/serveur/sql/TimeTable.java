@@ -71,7 +71,7 @@ public class TimeTable {
      * @param day   a day of week, 0-6
      * @return if the store is open at this date and time
      */
-    public boolean isOpen(Time t, int day){
+    public boolean getIsOpen(Time t, int day){
         for(TimeTableInterval i : list){
             if(i.getDayOfWeek() == day && i.isActive() && i.getTimeInterval().isIn(t))
                 return true;
