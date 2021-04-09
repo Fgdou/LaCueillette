@@ -189,7 +189,7 @@ public class Cart {
     }
 
     public List<Integer> getQuantities() throws Exception {
-        return (List<Integer>) products_q.values();
+        return new LinkedList<>(products_q.values());
     }
     public List<SubProduct> getSubProducts() throws Exception{
         List<SubProduct> m = new LinkedList<>();
