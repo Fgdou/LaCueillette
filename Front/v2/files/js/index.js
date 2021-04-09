@@ -112,6 +112,18 @@ function errorPopup(msg){
         pop.css("display", "none")
     }, 5000)
 }
+function successPopup(msg){
+    console.log(msg)
+
+    let pop = $(".successPopup")
+
+    pop.html(msg)
+    pop.css("display", "block")
+
+    setTimeout(()=>{
+        pop.css("display", "none")
+    }, 5000)
+}
 function dateToString(date){
     return (new Date(date.year, date.month, date.day+1, date.hour, date.minute, date.second)).toString()
 }

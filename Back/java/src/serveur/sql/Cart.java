@@ -19,7 +19,6 @@ public class Cart {
         products_q = new TreeMap<>();
 
         while(rs.next()){
-            user_id = rs.getInt(2);
             int subproduct_id = rs.getInt(3);
             int quantity = rs.getInt(4);
 
@@ -34,7 +33,11 @@ public class Cart {
      */
     public static Cart getByUser(User user) throws Exception {
         ResultSet rs = DataBase.getInstance().getByCondition("Cart", "user_id", String.valueOf(user.getId()));
-        return new Cart(rs);
+        Cart c = new Cart(rs);
+
+        c.user_id = user.getId();
+
+        return c;
     }
 
     /**

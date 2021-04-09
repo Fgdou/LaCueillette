@@ -188,6 +188,18 @@ footer{
     border-radius: 0 0 10px 10px;
     z-index: 100;
 }
+.successPopup{
+    display: none;
+    position: absolute;
+    left: 0;
+    background: #145f06;
+    color: white;
+    padding: 5px;
+    margin: 0 5px;
+    font-weight: bold;
+    border-radius: 0 0 10px 10px;
+    z-index: 100;
+}
 h1{
     padding: 0;
     margin: 0;

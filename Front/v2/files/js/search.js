@@ -1,38 +1,45 @@
 $(()=>{
     $("header .search").submit((e)=>{
-        let txt = $("header .search input").val()
-
         e.preventDefault()
-
-        if(txt === "")
-            return
-
-        $(".window.search .searchList").html("")
-        openWindow("search")
-
-        $.post(api + "Store/search", {
-            search: txt,
-            city: city,
-            postalcode: postalcode
-        }, data=>{
-            if(data.error)
-                errorPopup(data.error)
-            else
-                parseShopResult(data)
-        }, "json")
-        $.post(api + "product/search", {
-            search: txt,
-            city: city,
-            postalcode: postalcode
-        }, data=>{
-            if(data.error)
-                errorPopup(data.error)
-            else
-                parseProductResult(data)
-        }, "json")
-
+        search()
+    })
+    $("header .search input").focus(()=>{
+        $("header .search input").select()
+    })
+    $("header .search img").click(()=>{
+        search()
     })
 })
+
+function search(){
+    let txt = $("header .search input").val()
+    if(txt === "")
+        return
+
+    $(".window.search .searchList").html("")
+    openWindow("search")
+
+    $.post(api + "Store/search", {
+        search: txt,
+        city: city,
+        postalcode: postalcode
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else
+            parseShopResult(data)
+    }, "json")
+    $.post(api + "product/search", {
+        search: txt,
+        city: city,
+        postalcode: postalcode
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else
+            parseProductResult(data)
+    }, "json")
+}
 
 function parseShopResult(data){
     let list = $(".window.search .searchList")
@@ -79,11 +86,11 @@ function parseProductResult(data){
         let shop = product.store
 
         let e = $("<div></div>").addClass("searchElement clickable")
-        e.append($("<img src='files/img/Shop.svg' alt='Shop'>"))
+        e.append($("<img src='files/img/Paniervide.svg' alt='Shop'>"))
 
         let content = $("<div></div>").addClass("content")
 
-        content.append(createElement("name", product.name))
+        content.append(createElement("name", getPrice(product) + " - " + product.name))
 
         let infos = $("<div></div>").addClass("infos")
 
@@ -91,7 +98,7 @@ function parseProductResult(data){
         infos.append($("<span></span>").addClass("distance").html(shop.type.name))
 
         content.append(infos)
-        content.append(createElement("address", shop.address.number + " " + shop.address.way + " - " + shop.address.postalcode + " " + shop.address.city))
+        content.append(createElement("address", getAddress(shop.address)))
         content.append(createElement("opening", shop.timeTable.isOpen))
 
         e.append(content)
@@ -101,6 +108,7 @@ function parseProductResult(data){
         list.append(e)
     }
 
+
     function createElement(name, content){
         let div = $("<div></div>").addClass(name)
         let span = $("<span></span>")
@@ -108,4 +116,13 @@ function parseProductResult(data){
         div.append(span)
         return div
     }
+}
+function getAddress(address){
+    return address.number + " " + address.way + " - " + address.postalcode + " " + address.city
+}
+function getPrice(product){
+    if(product.priceKg)
+        return product.price + " €/kg"
+    else
+        return product.price + " €"
 }

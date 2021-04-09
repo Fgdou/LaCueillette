@@ -31,11 +31,12 @@
     <header>
         <div class="logo clickable"><img src="files/img/Panier.svg" alt="Logo"></div>
         <div class="address clickable"><img src="files/img/GPS.svg" alt="Adresse"><span>Adresse</span></div>
-        <form class="search"><input type="text" placeholder="Rechercher"><img src="files/img/Loupe.svg" alt="Rechercher"></form>
+        <form class="search"><input type="text" placeholder="Rechercher"><img src="files/img/Loupe.svg" alt="Rechercher" class="clickable"></form>
         <div class="account clickable"><img src="files/img/Person.svg" alt="Mon Compte"><span>Mon Compte</span></div>
         <div class="cart clickable"><img src="files/img/Cart.svg" alt="Panier"><span>Panier</span></div>
     </header>
     <div class="errorPopup"></div>
+    <div class="successPopup"></div>
     <div class="container">
         <div class="window search">
             <div class="map"><img src="files/img/carte.png" alt="Carte"></div>
@@ -149,6 +150,35 @@
                 <div class="input city"><input type="text" placeholder="Ville"></div>
                 <button class="button clickable submit" class="submit">Continuer</button>
             </form>
+        </div>
+        <div class="back window product">
+            <div class="infos">
+                <div class="img">
+                    <img src="files/img/Paniervide.svg" alt="Product">
+                </div>
+                <h1 class="name"></h1>
+                <span class="price"></span>
+                <span class="quantity"></span>
+                <div class="logos"><img src="files/img/Cart.svg" alt="Click & Collect" class="clickandcollect"><img src="files/img/ship.svg" alt="Livraison" class="delivered"></div>
+            </div>
+            <div class="shop">
+                <div class="img"><img src="files/img/Shop.svg" alt="Shop"></div>
+                <span class="name"></span>
+                <span class="address"></span>
+            </div>
+            <div class="subproducts">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tag</th>
+                            <th>Quantité</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+            </div>
         </div>
 
         <div class="popup newAddress window">

@@ -50,7 +50,7 @@ $(()=>{
                     }else
                         errorPopup(data.error)
                 }else{
-                    errorPopup("Utilisateur enregistré")
+                    successPopup("Utilisateur enregistré")
                     openWindow("login")
                     $(".window.login .email input").val(email)
                 }
