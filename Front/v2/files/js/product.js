@@ -41,7 +41,7 @@ function actProduct(product_){
                 let e = $("<tr></tr>")
 
                 let name = $("<td></td>").html(sp.special_tag)
-                let quantity = $("<td></td>").html(sp.quantity)
+                let quantity = $("<td></td>").html(sp.quantity + ((sp.product.priceKg)?" g":""))
                 let select = $("<input type='number' max='"+sp.quantity+"' min='0' value='0'>")
                 let button = $("<button class='clickable button' disabled>Ajouter au panier</button>")
 

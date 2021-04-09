@@ -119,7 +119,10 @@ public class Cart {
             SubProduct sp = SubProduct.getById(sub);
             Product product = sp.getProduct();
 
-            sum += q*product.getPrice();
+            if(product.getPriceKg())
+                sum += q*product.getPrice()/1000;
+            else
+                sum += q*product.getPrice();
         }
 
         return sum;
@@ -136,7 +139,10 @@ public class Cart {
             SubProduct sp = SubProduct.getById(sub);
             Product product = sp.getProduct();
 
-            sum += q*product.getTva()*product.getPrice();
+            if(product.getPriceKg())
+                sum += q*product.getTva()*product.getPrice()/1000;
+            else
+                sum += q*product.getTva()*product.getPrice();
         }
 
         return sum;
@@ -153,7 +159,10 @@ public class Cart {
             SubProduct sp = SubProduct.getById(sub);
             Product product = sp.getProduct();
 
-            sum += q*product.getPrice() * (1 + product.getTva());
+            if(product.getPriceKg())
+                sum += q*product.getPrice()/1000 * (1 + product.getTva());
+            else
+                sum += q*product.getPrice() * (1 + product.getTva());
         }
 
         return sum;

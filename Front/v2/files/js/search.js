@@ -122,7 +122,7 @@ function getAddress(address){
 }
 function getPrice(product){
     if(product.priceKg)
-        return product.price + " €/kg"
+        return product.price.toFixed(2) + " €/kg"
     else
-        return product.price + " €"
+        return product.price.toFixed(2) + " €"
 }

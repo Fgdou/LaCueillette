@@ -24,6 +24,8 @@ function actCart(){
             list.html("")
 
             $("header .cart span").html("Panier ("+data.subProducts.length+")")
+            $(".window.cart .totalht").html("Total HT: " + data.priceHT.toFixed(2) + " €")
+            $(".window.cart .totalttc").html("Total TTC: " + data.priceTTC.toFixed(2) + " €")
 
             for(let i=0; i<data.subProducts.length; i++){
 
