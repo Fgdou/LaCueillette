@@ -188,11 +188,14 @@ public class Cart {
         return new LinkedList(orders.values());
     }
 
-    public Map<SubProduct, Integer> getProductQuantity() throws Exception {
-        Map<SubProduct, Integer> m = new HashMap<>();
+    public List<Integer> getQuantities() throws Exception {
+        return (List<Integer>) products_q.values();
+    }
+    public List<SubProduct> getSubProducts() throws Exception{
+        List<SubProduct> m = new LinkedList<>();
 
         for(int k : products_q.keySet())
-            m.put(SubProduct.getById(k), products_q.get(k));
+            m.add(SubProduct.getById(k));
 
         return m;
     }
