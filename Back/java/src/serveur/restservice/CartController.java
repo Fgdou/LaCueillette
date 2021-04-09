@@ -72,4 +72,10 @@ public class CartController {
         return cart.buy(address);
     }
 
+    @PostMapping("/cart/get")
+    public Cart getCart(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+
+        return Cart.getByUser(user);
+    }
 }
