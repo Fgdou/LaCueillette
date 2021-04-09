@@ -59,7 +59,7 @@ public class Cart {
     public void addProduct(SubProduct p, int quantity) throws Exception {
 
         if(products_q.containsKey(p.getId())) {
-            changeQuantity(p, p.getQuantity() + quantity);
+            changeQuantity(p, products_q.get(p.getId()) + quantity);
             return;
         }
 
