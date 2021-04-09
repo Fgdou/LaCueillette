@@ -199,7 +199,7 @@ public class Cart {
 
         return m;
     }
-    public int count(){
+    public int getCount(){
         return products_q.size();
     }
 

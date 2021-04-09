@@ -66,6 +66,11 @@ function actProduct(product_){
     }, "json")
 }
 function addToCart(quantity, id){
+    if(user === null){
+        openWindow("login")
+        return
+    }
+
     $.post(api + "cart/add", {
         user_token: token,
         subproduct_id: id,
@@ -74,6 +79,7 @@ function addToCart(quantity, id){
         if(data.error)
             errorPopup(data.error)
         else{
+            actCart()
             successPopup("Produit ajouté au Panier")
         }
     }, "json")

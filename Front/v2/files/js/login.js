@@ -61,6 +61,7 @@ $(()=>{
 
 function login(user){
     $("header .account span").text("Bonjour, " + user.name.charAt(0).toUpperCase() + user.name.slice(1))
+    actCart()
 }
 function logout(){
     $.post(api+"user/logout", {
@@ -71,6 +72,7 @@ function logout(){
     user = null
     token = null
     openWindow("login")
+    $("header .cart span").html("Panier (0)")
 }
 
 function getCookie(cookiename) {
