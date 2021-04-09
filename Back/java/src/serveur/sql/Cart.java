@@ -57,6 +57,12 @@ public class Cart {
      * @param quantity the quantity in number
      */
     public void addProduct(SubProduct p, int quantity) throws Exception {
+
+        if(products_q.containsKey(p.getId())) {
+            changeQuantity(p, p.getQuantity() + quantity);
+            return;
+        }
+
         String sql = "INSERT INTO Cart (user_id, subproduct_id, quantity, kg) VALUES (?, ?, ?, 0)";
         String[] tab = new String[]{
                 String.valueOf(user_id),
