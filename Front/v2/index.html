@@ -126,7 +126,7 @@
                 <h1>Produits</h1>
                 <table>
                     <thead>
-                        <tr><td>Nom</td><td>Quantité</td></tr>
+                        <tr><th>Nom</th><th>Quantité</th></tr>
                     </thead>
                     <tbody class="list"></tbody>
                 </table>
@@ -138,7 +138,7 @@
                 <h1 class="subproduct_name">Nom</h1>
                 <table>
                     <thead>
-                        <tr><td>Tag</td><td>Quantité</td></tr>
+                        <tr><th>Tag</th><th>Quantité</th></tr>
                     </thead>
                     <tbody class="list"></tbody>
                 </table>
@@ -161,19 +161,20 @@
                 <h1 class="name"></h1>
                 <span class="price"></span>
                 <span class="quantity"></span>
-                <div class="logos"><img src="files/img/Cart.svg" alt="Click & Collect" class="clickandcollect"><img src="files/img/ship.svg" alt="Livraison" class="delivered"></div>
+                <div class="logos"><img src="files/img/Cart.svg" alt="Click & Collect" title="Click & Collect" class="clickandcollect"><img src="files/img/ship.svg" alt="Livraison" title="Livraison" class="delivered"></div>
             </div>
             <div class="shop">
                 <div class="img"><img src="files/img/Shop.svg" alt="Shop"></div>
-                <span class="name"></span>
+                <h2 class="name"></h2>
                 <span class="address"></span>
             </div>
+            <div class="description"></div>
             <div class="subproducts">
                 <table>
                     <thead>
                         <tr>
                             <th>Tag</th>
-                            <th>Quantité</th>
+                            <th>Stock</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -188,9 +189,13 @@
                 <thead></thead>
                 <tbody class="list"></tbody>
             </table>
-            <h1 class="totalht">Total HT: 0 €</h1>
-            <h1 class="totalttc">Total TTC: 0 €</h1>
-            <button class="button clickable validate">Valider mon Panier</button>
+            <div class="price">
+                <h1 class="totalht">Total HT: 0 €</h1>
+                <h1 class="totalttc">Total TTC: 0 €</h1>
+            </div>
+            <div class="actions">
+                <button class="button clickable validate">Valider mon Panier</button>
+            </div>
         </div>
 
         <div class="popup newAddress window">

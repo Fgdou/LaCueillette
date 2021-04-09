@@ -41,6 +41,9 @@
         "picked delivered"
         "cancel submit";
 }
+.window.shopadmin table{
+    border-spacing: 20px 0;
+}
 
 @media(min-width: 800px){
     .window.newProduct > form{

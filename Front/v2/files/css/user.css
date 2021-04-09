@@ -1,9 +1,9 @@
 .window.user{
     grid-template-areas:
             "infos"
+            "actions"
             "addresses"
             "shops"
-            "actions"
             "orders";
 
 }

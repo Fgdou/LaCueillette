@@ -1,0 +1,91 @@
+.window.product .infos{
+    grid-area: infos;
+}
+.window.product .shop{
+    grid-area: shop;
+}
+.window.product .subproducts{
+    grid-area: subproducts;
+}
+.window.product .description{
+    grid-area: description;
+    margin: 30px;
+}
+.window.product .img{
+    grid-area: img;
+}
+.window.product .name{
+    grid-area: name;
+}
+.window.product .price{
+    grid-area: price;
+}
+.window.product .quantity{
+    grid-area: quantity;
+}
+.window.product .logos{
+    grid-area: logos;
+}
+.window.product .address{
+    grid-area: address;
+}
+
+.window.product {
+    grid-template-areas:
+        "infos"
+        "shop"
+        "description"
+        "subproducts";
+    justify-content: center;
+}
+
+.window.product .infos{
+    display: grid;
+    grid-template-areas:
+            "img name name"
+            "img price ."
+            "img quantity logos";
+    justify-content: start;
+    align-content: center;
+    background: #6A492B;
+    color: white;
+    border-radius: 30px;
+}
+.window.product > div{
+    padding: 10px;
+}
+.window.product > div > *{
+    margin: 0 20px;
+}
+.window.product .infos .logos img{
+    height: 30px
+}
+
+.window.product h2{
+    padding: 0;
+    margin: 0;
+}
+
+.window.product .shop{
+    display: grid;
+    grid-template-areas:
+            "img name"
+            "img address";
+    justify-content: start;
+    align-content: center;
+}
+
+.window.product table{
+    border-spacing: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+@media(min-width: 800px){
+    .window.product {
+        grid-template-areas:
+        "infos shop"
+        "description description"
+        "subproducts subproducts";
+    }
+}

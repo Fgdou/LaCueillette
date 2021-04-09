@@ -42,12 +42,11 @@ function actCart(){
                 })
                 select.change(()=> {
                     changeCart(sp, select.val())
-                    price.html(getPriceOnly(sp, select.val()))
                 })
 
                 e.append($("<td></td>").html(name))
                 e.append($("<td></td>").html(sp.special_tag))
-                e.append($("<td></td>").html(select))
+                e.append($("<td></td>").addClass("number").html(select))
                 e.append($("<td></td>").html(price))
 
                 list.append(e)
@@ -73,8 +72,7 @@ function changeCart(sp, quantity){
         if(data.error)
             errorPopup(data.error)
         else{
-            if(quantity == 0)
-                actCart()
+            actCart()
         }
     }, "json")
 }

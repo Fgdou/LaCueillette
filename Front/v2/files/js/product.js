@@ -7,6 +7,7 @@ function actProduct(product_){
 
     let pname = $(".window.product .infos .name")
     let pprice = $(".window.product .infos .price")
+    let pdescription = $(".window.product .description")
     let pquantity = $(".window.product .infos .quantity")
     let pclick = $(".window.product .infos .logos .clickandcollect")
     let pdelivered = $(".window.product .infos .delivered")
@@ -20,8 +21,9 @@ function actProduct(product_){
     pname.html(product_.name)
     pprice.html(getPrice(product_))
     pquantity.html(getQuantity(product_))
-    pclick.prop("disabled", !product_.canBePicked)
-    pdelivered.prop("disabled", true)
+    pclick.prop("hidden", !product_.canBePicked)
+    pdelivered.prop("hidden", true)
+    pdescription.html(product_.description)
 
     sname.html(product_.store.name)
     saddress.html(getAddress(product_.store.address))
@@ -47,8 +49,11 @@ function actProduct(product_){
 
                 e.append(name)
                 e.append(quantity)
-                e.append($("<td></td>").append(select))
-                e.append($("<td></td>").append(button))
+
+                if(sp.product.canBePicked) {
+                    e.append($("<td></td>").addClass("number").append(select))
+                    e.append($("<td></td>").append(button))
+                }
 
                 select.change(()=>{
                     button.prop("disabled", select.val() == 0)
