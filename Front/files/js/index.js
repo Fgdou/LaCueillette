@@ -1,7 +1,7 @@
 let user = null
 let lastPage = "cart"
 let token = null
-let url = "https://lacueillette.ml/v2/"
+let url = "https://lacueillette.ml/"
 let api = "https://lacueillette.ml/api/"
 
 let city = "Rennes"
