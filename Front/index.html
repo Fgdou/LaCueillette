@@ -1,228 +1,277 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet"> 
-		<title>La cueillette</title>
-	</head>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>La Cueillette</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="files/css/index.css">
+    <link rel="stylesheet" href="files/css/search.css">
+    <link rel="stylesheet" href="files/css/login.css">
+    <link rel="stylesheet" href="files/css/register.css">
+    <link rel="stylesheet" href="files/css/user.css">
+    <link rel="stylesheet" href="files/css/shopadmin.css">
+    <link rel="stylesheet" href="files/css/subproducts.css">
+    <link rel="stylesheet" href="files/css/shop.css">
+    <link rel="stylesheet" href="files/css/product.css">
+    <link rel="stylesheet" href="files/css/cart.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<body>
-		<header>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="files/js/index.js"></script>
+    <script src="files/js/login.js"></script>
+    <script src="files/js/register.js"></script>
+    <script src="files/js/user.js"></script>
+    <script src="files/js/search.js"></script>
+    <script src="files/js/shopadmin.js"></script>
+    <script src="files/js/subproducts.js"></script>
+    <script src="files/js/shop.js"></script>
+    <script src="files/js/product.js"></script>
+    <script src="files/js/cart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo clickable"><img src="files/img/Panier.svg" alt="Logo"></div>
+        <div class="address clickable"><img src="files/img/GPS.svg" alt="Adresse"><span>Adresse</span></div>
+        <form class="search"><input type="text" placeholder="Rechercher"><img src="files/img/Loupe.svg" alt="Rechercher" class="clickable"></form>
+        <div class="account clickable"><img src="files/img/Person.svg" alt="Mon Compte"><span>Mon Compte</span></div>
+        <div class="cart clickable"><img src="files/img/Cart.svg" alt="Panier"><span>Panier (0)</span></div>
+    </header>
+    <div class="errorPopup"></div>
+    <div class="successPopup"></div>
+    <div class="container">
+        <div class="window search">
+            <div class="map"><img src="files/img/carte.png" alt="Carte"></div>
+            <div class="searchList">
+            </div>
+        </div>
+        <div class="window login">
+            <form class="login">
+                <div class="email input"><input type="email" placeholder="Email"></div>
+                <div class="password input"><input type="password" placeholder="Mot de passe"></div>
+                <div class="clickable submit"><button type="submit" class="button">Connexion</button></div>
+                <div class="clickable register"><button class="button">Inscription</button></div>
+            </form>
+        </div>
+        <div class="window register">
+            <form class="register">
+                <div class="surname input"><input type="text" placeholder="Nom"></div>
+                <div class="name input"><input type="text" placeholder="Prénom"></div>
+                <div class="email input"><input type="email" placeholder="Email"></div>
+                <div class="password input"><input type="password" placeholder="Mot de passe"></div>
+                <div class="password2 input"><input type="password" placeholder="Mot de passe"></div>
+                <div class="tel input"><input type="tel" placeholder="Téléphone"></div>
+                <div class="clickable submit"><button type="submit" class="button">Inscription</button></div>
+                <div class="clickable cancel"><button class="button">Annuler</button></div>
+            </form>
+            <div class="register">
 
-			<div id="icone">
-				<img src="files/images/icone.svg" alt="icone" />
-			</div>
+            </div>
+            <div class="forgotPassword">
 
-			<div id="localisation">
-				<img src="files/images/localisation.svg" alt="localisation" />
-				<p>Adresse</p>
-			</div>
+            </div>
+        </div>
+        <div class="back window user">
+            <div class="infos">
+                <h1>Mon compte</h1>
+                <table>
+                    <tbody>
+                        <tr><th>Email</th><td class="email"></td></tr>
+                        <tr><th>Création</th><td class="creation"></td></tr>
+                        <tr><th>Nom</th><td><div class="input surname"><input disabled type="text" placeholder="Nom"></div></td></tr>
+                        <tr><th>Prenom</th><td><div class="input name"><input disabled type="text" placeholder="Prenom"></div></td></tr>
+                        <tr><th>Téléphone</th><td><div class="input tel"><input disabled type="text" placeholder="Téléphone"></div></td></tr>
+                        <tr><th></th><td><button class="button clickable edit">Modifier</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="addresses">
+                <h1>Mes adresses</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Num</th>
+                            <th>Rue</th>
+                            <th>Code postal</th>
+                            <th>Ville</th>
+                            <th>Pays</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Ajouter</button>
+            </div>
+            <div class="shops">
+                <h1>Mes commerces</h1>
+                <table>
+                    <thead>
+                        <tr><th>Nom</th><th>Ville</th></tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Créer</button>
+            </div>
+            <div class="orders">
+                <h1>Mes commandes</h1>
+            </div>
+            <div class="actions">
+                <button class="delete button clickable">Supprimer le compte</button>
+                <button class="logout button clickable">Déconnection</button>
+            </div>
 
-			<div id="recherche">
-				<p>Rechercher<p> <img src="files/images/recherche.svg" alt="recherche" />
-			</div>
+        </div>
+        <div class="back window shopadmin">
+            <div class="products">
+                <h1>Produits</h1>
+                <table>
+                    <thead>
+                        <tr><th>Nom</th><th>Quantité</th></tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Créer un produit</button>
+            </div>
+        </div>
+        <div class="back window subproducts">
+            <div>
+                <h1 class="subproduct_name">Nom</h1>
+                <table>
+                    <thead>
+                        <tr><th>Tag</th><th>Quantité</th></tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+                <button class="clickable button new">Créer un sous produit</button>
+            </div>
+        </div>
+        <div class="back window select">
+            <form>
+                <h1>Sélectionnez une adresse pour continuer</h1>
+                <div class="input postalcode"><input type="number" placeholder="postalcode"></div>
+                <div class="input city"><input type="text" placeholder="Ville"></div>
+                <button class="button clickable submit" class="submit">Continuer</button>
+            </form>
+        </div>
+        <div class="back window product">
+            <div class="infos">
+                <div class="img">
+                    <img src="files/img/Paniervide.svg" alt="Product">
+                </div>
+                <h1 class="name"></h1>
+                <span class="price"></span>
+                <span class="quantity"></span>
+                <div class="logos"><img src="files/img/Cart.svg" alt="Click & Collect" title="Click & Collect" class="clickandcollect"><img src="files/img/ship.svg" alt="Livraison" title="Livraison" class="delivered"></div>
+            </div>
+            <div class="shop">
+                <div class="img"><img src="files/img/Shop.svg" alt="Shop"></div>
+                <h2 class="name"></h2>
+                <span class="address"></span>
+            </div>
+            <div class="description"></div>
+            <div class="subproducts">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tag</th>
+                            <th>Stock</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="back window cart">
+            <h1 class="title">Mon Panier</h1>
+            <table>
+                <thead></thead>
+                <tbody class="list"></tbody>
+            </table>
+            <div class="price">
+                <h1 class="totalht">Total HT: 0 €</h1>
+                <h1 class="totalttc">Total TTC: 0 €</h1>
+            </div>
+            <div class="actions">
+                <button class="button clickable validate">Valider mon Panier</button>
+            </div>
+        </div>
 
-			<div id="compte">
-				<img src="files/images/compte.svg" alt="compte" /> <p>Mon compte</p>
-			</div>
+        <div class="popup newAddress window">
+            <form>
+                <h1>Edition d'adresse</h1>
+                <div class="input number"><input type="number" placeholder="Numéro"></div>
+                <div class="input way"><input type="text" placeholder="Rue"></div>
+                <div class="input city"><input type="text" placeholder="Ville"></div>
+                <div class="input postalcode"><input type="number" placeholder="Code Postal"></div>
+                <div class="input state"><input type="text" placeholder="Pays" value="France"></div>
+                <button class="clickable button submit">Valider</button>
+                <button class="clickable button cancel">Annuler</button>
+            </form>
+        </div>
+        <div class="popup newShop window">
+            <form>
+                <h1>Création de commerce</h1>
+                <div class="infos">
+                    <h2>Informations</h2>
+                    <div class="input name"><input type="text" placeholder="Nom"></div>
+                    <div class="input email"><input type="email" placeholder="Email"></div>
+                    <div class="input tel"><input type="text" placeholder="Téléphone"></div>
+                    <div class="dropdown category"><label for="shopcategory">Catégorie</label><select id="shopcategory"></select></div>
+                </div>
+                <div class="address">
+                    <h2>Adresse</h2>
+                    <div class="input number"><input type="number" placeholder="Num"></div>
+                    <div class="input way"><input type="text" placeholder="Rue"></div>
+                    <div class="input city"><input type="text" placeholder="Ville"></div>
+                    <div class="input postalcode"><input type="number" placeholder="Code postal"></div>
+                </div>
+                <button class="clickable button submit" type="submit">Valider</button>
+                <button class="clickable button cancel">Annuler</button>
+            </form>
+        </div>
+        <div class="popup newProduct window">
+            <form>
+                <h1>Modification de produit</h1>
+                <div class="input name"><input type="text" placeholder="Nom"></div>
+                <div class="type"><label for="box_type">Catégorie </label><select id="box_type"></select></div>
+                <div class="input price"><input type="number" placeholder="Prix" step="0.01"></div>
+                <div class="input tva"><input type="number" placeholder="TVA" step="0.01"></div>
+                <div class="input description"><input type="text" placeholder="Descripton"></div>
 
-			<div id="panier">
-				<img src="files/images/panier.svg" alt="panier" /> <p>Panier</p>
-			</div>
+                <div class="price_kg">
+                    <label for="box_price_kg">Prix/kg</label>
+                    <input type="checkbox" id="box_price_kg" name="price_kg">
+                </div>
+                <div class="picked">
+                    <label for="box_picked">Click&Collect</label>
+                    <input type="checkbox" id="box_picked" name="picked">
+                </div>
+                <div class="delivered">
+                    <label for="box_delivered">Livrable</label>
+                    <input type="checkbox" id="box_delivered" >
+                </div>
 
-		</header>
-	
-		<section>
 
-			<div id="carte">
-				<img src="files/images/carte.png" alt="carte" />
-			</div>
+                <button type="submit" class="clickable button submit">Valider</button>
+                <button class="clickable button cancel">Annuler</button>
+            </form>
+        </div>
+        <div class="popup newSubproduct window">
+            <form>
+                <h1>Modification de sous produit</h1>
+                <div class="name"></div>
+                <div class="input tag"><input type="text" placeholder="Tag (ex: taille)"></div>
+                <div class="input quantity"><input type="number" step="1" placeholder="Quantité"></div>
 
-			<div id="listeresultat">
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-			<div class="resultat">
-				<img src="files/images/magasin.svg" alt="magasin" />
-				<div class="infos">
-					<div class="nom">
-						Les délices d'Alexis
-					</div>
-					<div class="typedistance">
-						<div class="type">
-							Boulangerie
-						</div>
-						<div class="distance">
-							300m
-						</div>
-					</div>
-					<div class="adresse">
-						3 rue du Bois - Cesson-Sévigné
-					</div>
-					<div class="horaire">
-						Ouvert jusqu'à 19h00
-					</div>
-				</div>
-			</div>
-		</div>
-
-		</section>
-	</body>
+                <button class="button submit clickable" type="submit">Valider</button>
+                <button class="button cancel clickable">Annuler</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        Copyright 2021 - ALLAIN Arthur | GOARDOU Fabien | RAOUL Thibaut
+    </footer>
+</body>
 </html>
