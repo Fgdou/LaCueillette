@@ -1,0 +1,73 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+%Lien hypertexte
+\usepackage{hyperref}
+
+%Paramétrage des marges
+\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=4cm]{geometry}
+
+%Placement flottant des images
+\usepackage{float}
+
+%Inclure des images
+\usepackage{graphicx}
+
+%Légende
+\usepackage{caption} 
+
+%Paramétrage des pieds de page (et en-tête) + numérotation des pages
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{lastpage}
+\renewcommand\headrulewidth{0pt}
+\fancyhead[L]{}
+\fancyhead[R]{}
+\renewcommand\footrulewidth{0pt}
+\fancyfoot[L]{Rapport de TIPE}
+\fancyfoot[C]{}
+\fancyfoot[R]{Page \textbf{\thepage} sur \textbf{\pageref{LastPage}}}
+
+%Changement police des sections
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\bfseries\sffamily}
+\titleformat*{\subsection}{\large\bfseries\sffamily}
+\titleformat*{\subsubsection}{\bfseries\sffamily}
+
+
+\author{ \vspace{1cm} Arthur ALLAIN \& Fabien GOARDOU \& Thibaut RAOUL\\ 
+		L2 CUPGE Technologies de l'Information\\
+		École Supérieure d'Ingénieurs de Rennes\\ \vspace{1cm}
+		Université de Rennes 1\\ 
+		\texttt{\href{mailto:arthur.allain@etudiant.univ-rennes1.fr}{arthur.allain@etudiant.univ-rennes1.fr}}\\
+		\texttt{\href{mailto:fabien.goardou@etudiant.univ-rennes1.fr}{fabien.goardou@etudiant.univ-rennes1.fr}}\\
+		\texttt{\href{mailto:thibaut.raoul@etudiant.univ-rennes1.fr}{thibaut.raoul@etudiant.univ-rennes1.fr}}}
+\title{{\textbf{Comment, par le biais d’une application, est-il possible de développer le e-commerce de proximité ?}\\(Rapport de TIPE)}}
+\date{avril 2021}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\includegraphics[width=12cm]{fig/banniere_logos.png}
+\end{center}
+\thispagestyle{empty}
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+
+\section{Grande section}
+\subsection{Moyenne section}
+\subsubsection{Petite section}
+Corps
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=10cm]{fig/banniere_logos.png}
+		\caption{Exemple de figure}
+	\end{center}
+\end{figure}
+
+\end{document}
