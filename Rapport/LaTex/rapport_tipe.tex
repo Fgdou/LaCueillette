@@ -53,15 +53,20 @@
 \end{center}
 \thispagestyle{empty}
 \newpage
-Remerciements ici. 
-\newpage
- 
-\newpage
 \tableofcontents
 \newpage
 \listoffigures
 \newpage
+\section*{Remerciements}
+\paragraph{}Nos plus sincères remerciements vont à tous les personnels et étudiants de l'Université de Rennes 1 qui nous ont permit de mener ce projet à bien.
 
+\paragraph{}L'ensemble de l'équipe de TIPE remercie Johanne BÉZY-WENDLING pour ses conseils, son attention et ses encouragements durant toute la durée du projet.
+
+\paragraph{}Nous remercions Olivier LAFOND pour sa motivation en tant que Responsable des CUPGE de l'ÉSIR dans le lancement et l'encadrement général des TIPE.
+
+\paragraph{}Enfin, nous remercions la Direction des Systèmes d'Information de l'ISTIC pour la mise à disposition de la machine virtuelle et les précieuses réponses à nos questions. 
+
+\newpage
 
 \section{Introduction}
 
@@ -165,14 +170,55 @@ Cette répartition a permis un avancement habile et souple pour mener à bien le
 
 \subsection{La réalisation}
 \subsubsection{Le back-end}
+
+\paragraph{}Le serveur est la section de la solution qui gère l’inscription et la lecture dans un registre général : la base de données.
+\paragraph{}Afin de pouvoir mettre en vente et acheter des produits, nous avons modélisé sous forme d’un objet, en java, les produits, les magasins, les utilisateurs et tous les éléments nécessaires à la vente à distance. Le processus de modélisation, la fabrication de l'architecture logicielle, est une étape cruciale car elle définit l’agilité avec laquelle le développeur va pouvoir accéder aux différents éléments du programme.
+\paragraph{}L’architecture logicielle que nous avons fabriquée est le schéma de la communion entre la base de données (créée en MySQL) et le programme (écrit en Java) qui lit et écrit sur la base de données. Notre logiciel en est le résultat. Chaque action de l’utilisateur (connexion, mise en ligne d’un article, mise au panier d’un autre, etc.) est enregistrée dans la base de données. Le programme reflète ce que la base de données a enregistré.
+\paragraph{}[UML Simplifié]
+\paragraph{}Comme mentionné sur la FIGURE JSP COMBIEN, de l’adresse au sous-produit tout concept utilisé dans le programme est représenté par des variables. Cette modélisation est présente dans la base de données MySQL et dans la mémoire vive de l’ordinateur exécutant le logiciel serveur (que l’on appelle, pour simplifier, serveur). L’interface avec l’interface de programmation (l’API) s’opère grâce à des méthodes de mutations (plus couramment appelées Getters and Setters).
+
 \subsubsection{L'API}
+
+\paragraph{}L’interface de programmation (API) fait la liaison entre la partie cachée de la solution (le serveur) et sa partie visible (le client). L’utilisation de l’API ne nécessite pas de savoir comment fonctionne le serveur, la documentation fournie par le développeur de celle-ci permet de connaître quel point d’entrée est à utiliser pour obtenir l’information recherchée. L’utilisation de l’API s’organise à travers des requêtes et des réponses, sa programmation se concentre sur les mêmes aspects.
+\paragraph{}Grâce aux méthodes de mutations mises à disposition précédemment, l’interface de programmation gère les accès aux données et vérifie si l’utilisateur qui requiert une information a le droit d’y avoir accès. Quand une requête est envoyée à l’API, celle-ci vérifie la qualité de l’utilisateur puis demande au programme les données recherchées. Une modification est faite dans le programme et dans la base de données s’il est nécessaire d’en faire. Une réponse est ensuite remise à l’utilisateur qui en a fait la demande.
+\paragraph{}Grâce au Framework Spring, le développement de cette interface de programmation est amplement simplifié. Le développeur s’est concentré sur les suites d’opérations à faire mais le service de discussion avec le client est, pour sa part, déjà prêt à l’emploi. Le démarrage du programme entraîne le démarrage de la couche fournie par Spring et permet la discussion sur le réseau entre des ordinateurs.
+\noindent Une API fonctionnelle permet au client de fonctionner correctement.
+
 \subsubsection{Le front-end}
+
+\paragraph{}Le client est roi. C’est une maxime que nous pourrions utiliser pour décrire la construction de l’interface graphique que nous avons construite pour l’utilisateur. L’accent a été mis sur la simplicité et la facilité d’utilisation de la solution pour que le plus large public possible puisse y accéder et sans servir sans se casser la tête.
+\paragraph{}La conception en application web du client internet permet au site internet de s’adapter à toute taille d’écran sans nécessiter le rafraichissement de la page internet : que le site soit chargé sur un smartphone, une tablette ou un ordinateur, l’affichage est toujours parfait. Cette solution permet à l’utilisateur d’avoir l’impression d’utiliser un logiciel fait spécifiquement pour son moyen d’accès alors qu’il est fait pour tous les moyens à la fois.
+\paragraph{}La fabrication du client Front-end consiste en l’ajout de composants graphiques et en la soumission de requêtes, avec ces composants, au serveur et à la réception des réponses (à travers l’API). C’est une tâche longue car la fabrication de l’interface est un éternel processus d’essai-tests pour savoir où placer un module et comment l’habiller.
+\paragraph{}L’agrégation et la mise en œuvre de ces méthodes de travail nous ont permis de fabriquer une interface permettant de mettre en vente et d’acheter des produits en ligne.
+
 \subsection{Les résultats}
-\subsubsection{Notre solution de e-commerce de proximité}
+\subsubsection{Notre solution de e-commerce de proximité : La Cueillette}
+
+\paragraph{}Après avoir étudié la conception d’une solution pour permettre aux utilisateurs d’acheter et de vendre des produits en ligne, après avoir suivi les méthodes de travail et fabriqué le site internet que nous avions inventé, nous sommes en mesure de proposer une solution.
+\paragraph{}[PAGE D’ACCUEIL]
+\paragraph{}Nous pouvons observer, sur la Figure JSP LAQUELLE, la page de garde du site internet \href{https://www.lacueillette.ml}{www.lacueillette.ml}. Cette page invite l’utilisateur à rechercher un produit sur le site internet ou à se connecter afin d’accéder à son panier, ses commandes ou ses informations.
+\paragraph{}[PAGE D’UN PRODUIT]
+\paragraph{}La recherche d’un produit sur le site internet mène à une liste de produits se rapprochant, par les mots-clé de leur titre, du mot ou de la suite de mots entrés dans la barre de recherche. L’utilisateur peut alors choisir le produit qui l’intéresse, il arrive alors sur la fiche produit (Figure JSP LAQUELLE). Par la suite, si le produit correspond à ses besoins ou à ses envies, le client peut ajouter ce produit dans son panier (en modifiant la quantité qu’il désire, si nécessaire). Il peut, par la suite, se rendre dans son panier pour consulter l’intégralité de ses commandes en devenir.
+\paragraph{}[PAGE D’UN AJOUT DE PRODUIT]
+\paragraph{}Un utilisateur commerçant peut demander l’ouverture d’un magasin (réplique de son magasin physique) sur la page de son compte utilisateur. Il peut, par la suite, ajouter des produits à son magasin. La Figure n°JSP COMBIEN fait état de la fiche de renseignement qu’il faut remplir pour chaque produit. Notons par exemple, qu’il est nécessaire d’entrer un nom, un prix et un taux de TVA (Taxe sur la Valeur Ajoutée) pour chaque produit. Le commerçant peut, par la suite, ajouter ou modifier la fiche de son produit. Dès l’enregistrement de son formulaire, le produit est en ligne sur le site La Cueillette.
+
 \subsubsection{Ce que l'on pourrait ajouter}
+
+\paragraph{}Bien que l’énergie investie dans ce projet soit immensément importante, il n’a pas été possible de développer une solution complète. Nous pourrions alors ajouter de nouvelles fonctionnalités permettant de faciliter la vie du commerçant dans la gestion comptable et logistique de son commerce. L’agrégation de toutes les factures générées, la génération d’un bilan comptable, l’intégration aux caisses enregistreuses sont des pistes d’amélioration pouvant être envisagées.
+\paragraph{}Nous pourrions aussi nous poser la question du déploiement à l’étranger et notamment en Europe où les mêmes problématiques de domination du marché par des géants américains posent les mêmes questions que sur le territoire Français. Ces améliorations commerciales sont envisageables et absolument réalisables à la vue de la souplesse de la solution informatique créée.
+
 
 \newpage
 \section{Conclusion}
+
+\paragraph{}Au cours de ce TIPE, nous avions pour objectif d’étudier comment, par le biais d’une application, il est possible de développer le e-commerce de proximité. Nous avons donc trouvé plusieurs acteurs du commerce en ligne faisant la promotion de leurs services pour développer le secteur visé. Nous avons déterminé leur points positifs et négatifs, nous avons été à la rencontre des commerçants de nos villes, afin de déterminer quelle solution serait la meilleure pour développer le commerce en ligne de proximité.
+\paragraph{}L’objectif qui était le nôtre n’était en aucun cas de construire en moins de six mois une solution ayant pour objectif de détrôner les leaders du commerce en ligne, nous avions pour objectif de découvrir et d’étudier la création d’un site internet de vente en ligne et de permettre la mise en ligne de produits ainsi que la consultation de ceux-ci.
+\paragraph{}Pour arriver à nos fins, nous avons dans un premier temps étudier les méthodes de conception et de création de solutions informatiques permettant la discussion entre un client et un serveur. Nous avons ensuite créé l’architecture d’une solution permettant de répondre aux objectifs que nous nous étions fixés.
+\paragraph{}Pour réaliser les tâches de production, nous avons décidé de répartir le travail en trois blocs pour que chaque membre puisse s'instruire et développer sa section à son rythme. Chaque section pouvant être améliorée, nous l’avons fait dans un processus d’amélioration continue concerté entre les membres de l’équipe projet.
+\paragraph{}La solution proposée est fonctionnelle pour un nombre limité de fonctionnalités. Il est possible d'effectuer des opérations simples comme la mise en ligne d’un produit et l’ajout au panier de celui-ci. Il serait possible de dépasser ces limites si le projet devenait une réalité commerciale (ou même associative).
+\paragraph{}D’autres améliorations seraient possibles, d’un point de vue graphique notamment, qui est un domaine requièrent un nombre incalculable de capacité pour construire une interface graphique fluide et facile à utiliser. Nous pourrions, par la suite, étudier la possibilité d’un lancement commercial dans l’Europe et à travers le monde.
+
+
 \newpage
 \section{Bibliographie}
 \newpage
