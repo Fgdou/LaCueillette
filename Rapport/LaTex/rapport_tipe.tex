@@ -17,6 +17,9 @@
 %Légende
 \usepackage{caption} 
 
+\usepackage[style=numeric]{biblatex}
+\addbibresource{bibli.bib}
+
 %Paramétrage des pieds de page (et en-tête) + numérotation des pages
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -49,7 +52,7 @@
 \begin{document}
 \maketitle
 \begin{center}
-	\includegraphics[width=12cm]{fig/banniere_logos.png}
+	\includegraphics[width=12cm]{fig/banniere_logos}
 \end{center}
 \thispagestyle{empty}
 \newpage
@@ -120,8 +123,8 @@
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=10cm]{fig/banniere_logos.png}
-		\caption{Normalized global results for Energy, Time, and Memory.[1]}
+		\includegraphics[width=10cm]{fig/tableLang}
+		\caption{Normalized global results for Energy, Time, and Memory.\cite{pereira_ranking_2021}}
 	\end{center}
 \end{figure}
 
@@ -223,6 +226,7 @@ Cette répartition a permis un avancement habile et souple pour mener à bien le
 
 \newpage
 \section{Bibliographie}
+\printbibliography
 \newpage
 \section{Annexes}
 
