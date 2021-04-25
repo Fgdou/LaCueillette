@@ -1,0 +1,73 @@
+@startuml
+
+'skinparam linetype ortho
+
+class Product{
+
+}
+abstract class SubProduct{
+
+}
+class SubProductWeight extends SubProduct{
+
+}
+class SubProductUnit extends SubProduct{
+
+}
+class Store{
+
+}
+class Cart{
+
+}
+class Order{
+
+}
+class User{
+
+}
+class Seller extends User{
+
+}
+class ProductCategory{
+
+}
+class Tag{
+
+}
+class DateInterval{
+
+}
+class TimeInterval{
+
+}
+class Database{
+
+}
+class Address{
+
+}
+class TimeTable{
+
+}
+class Token{
+
+}
+
+Product     --> Store
+Product     --> DateInterval
+Product     --> Tag
+Product     --> SubProduct
+Product     --> ProductCategory
+Seller      --> Store
+Cart        --> Product
+Order       --> Product
+User        --> Cart
+User        --> Order
+Token       --> User
+Store       --> Address
+Store       --> TimeTable
+TimeTable   --> TimeInterval
+Order       --> Store
+
+@enduml
