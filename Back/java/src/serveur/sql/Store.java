@@ -227,7 +227,7 @@ public class Store {
     public List<Product> search(List<Tag> tags) throws Exception {
         List<Product> list = new LinkedList<>();
 
-        String sql = "SELECT * FROM Products JOIN TagsProducts TP on Products.id = TP.product_id WHERE store_id = ? AND TP.tag_id = ?";
+        String sql = "SELECT * FROM Products LEFT JOIN TagsProducts TP on Products.id = TP.product_id WHERE store_id = ? AND TP.tag_id = ?";
 
         for(Tag t : tags){
             String[] tab = new String[]{String.valueOf(t.getId())};
@@ -249,7 +249,7 @@ public class Store {
      * @return all the products founded on the store
      */
     public List<Product> search(ProductCategory category) throws Exception {
-        String sql = "SELECT * FROM Products JOIN ProductsCategory PC on Products.category_id = PC.id WHERE PC.id = ?";
+        String sql = "SELECT * FROM Products LEFT JOIN ProductsCategory PC on Products.category_id = PC.id WHERE PC.id = ?";
         String[] tab = new String[]{String.valueOf(category.getId())};
 
         ResultSet rs = DataBase.getInstance().query(sql, tab);
@@ -274,7 +274,7 @@ public class Store {
     }
 
     public static List<Store> search(String city, int postalcode, String name) throws Exception{
-        String sql = "SELECT DISTINCT S.* FROM Stores S JOIN Addresses A on S.address_id = A.id JOIN StoreType ST on S.type_id = ST.id WHERE A.city LIKE ? AND A.postalcode = ? AND (S.name LIKE ? OR ST.name LIKE ?)";
+        String sql = "SELECT DISTINCT S.* FROM Stores S LEFT JOIN Addresses A on S.address_id = A.id LEFT JOIN StoreType ST on S.type_id = ST.id WHERE A.city LIKE ? AND A.postalcode = ? AND (S.name LIKE ? OR ST.name LIKE ?)";
         String[] tab = new String[]{
                 city,
                 String.valueOf(postalcode),

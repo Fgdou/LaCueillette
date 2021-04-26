@@ -272,7 +272,7 @@ public class Product {
      * @return all the product founded
      */
     public static List<Product> searchByCity(String city, int postalcode, ProductCategory category) throws Exception {
-        String sql = "SELECT * FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city LIKE ? AND A.postalcode = ? AND P.category_id = ?";
+        String sql = "SELECT * FROM Products P LEFT JOIN Stores S on P.store_id = S.id LEFT JOIN Addresses A on S.address_id = A.id WHERE A.city LIKE ? AND A.postalcode = ? AND P.category_id = ?";
         String[] tab = new String[]{
                 city,
                 String.valueOf(postalcode),
@@ -289,7 +289,7 @@ public class Product {
         return list;
     }
     public static List<Product> searchByName(String city, int postalcode, String name) throws Exception{
-        String sql = "SELECT DISTINCT P.* FROM Products P JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id JOIN ProductsCategory PC on P.category_id = PC.id JOIN TagsProducts TP on P.id = TP.product_id JOIN Tags T on TP.tag_id = T.id WHERE A.city LIKE ? AND A.postalcode = ? AND (P.name LIKE ? OR PC.name LIKE ? OR T.name LIKE ?)";
+        String sql = "SELECT DISTINCT P.* FROM Products P LEFT JOIN Stores S on P.store_id = S.id LEFT JOIN Addresses A on S.address_id = A.id LEFT JOIN ProductsCategory PC on P.category_id = PC.id LEFT JOIN TagsProducts TP on P.id = TP.product_id LEFT JOIN Tags T on TP.tag_id = T.id WHERE A.city LIKE ? AND A.postalcode = ? AND (P.name LIKE ? OR PC.name LIKE ? OR T.name LIKE ?)";
         String[] tab = new String[]{
                 city,
                 String.valueOf(postalcode),
@@ -316,7 +316,7 @@ public class Product {
     public static List<Product> searchByCity(String city, int postalcode, List<Tag> tags) throws Exception{
         List<Product> list = new LinkedList<>();
 
-        String sql = "SELECT * FROM Products P JOIN TagsProducts TP on P.id = TP.product_id JOIN Stores S on P.store_id = S.id JOIN Addresses A on S.address_id = A.id WHERE A.city LIKE ? AND A.postalcode = ? AND TP.tag_id = ?";
+        String sql = "SELECT * FROM Products P LEFT JOIN TagsProducts TP on P.id = TP.product_id LEFT JOIN Stores S on P.store_id = S.id LEFT JOIN Addresses A on S.address_id = A.id WHERE A.city LIKE ? AND A.postalcode = ? AND TP.tag_id = ?";
 
         String[] tab = new String[]{
                 city,
