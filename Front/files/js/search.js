@@ -18,8 +18,6 @@ $(()=>{
     map.zoomToMaxExtent()
     markers = new OpenLayers.Layer.Markers("markers")
     map.addLayer(markers)
-
-    map.zoomToMaxExtent();
 })
 
 function search(){
@@ -108,7 +106,7 @@ function addMarker(address, e){
 
             markers.addMarker(marker)
 
-            var newBound = map.myLayer.getDataExtent();
+            var newBound = markers.getDataExtent();
             map.zoomToExtent(newBound);
 
             marker.events.register("click", map, hoverMarker)
