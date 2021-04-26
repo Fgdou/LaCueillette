@@ -274,10 +274,11 @@ public class Store {
     }
 
     public static List<Store> search(String city, int postalcode, String name) throws Exception{
-        String sql = "SELECT * FROM Stores S JOIN Addresses A on S.address_id = A.id WHERE A.city = ? AND A.postalcode = ? AND S.name LIKE ?";
+        String sql = "SELECT DISTINCT S.* FROM Stores S JOIN Addresses A on S.address_id = A.id JOIN StoreType ST on S.type_id = ST.id WHERE A.city LIKE ? AND A.postalcode = ? AND (S.name LIKE ? OR ST.name LIKE ?)";
         String[] tab = new String[]{
                 city,
                 String.valueOf(postalcode),
+                name,
                 name
         };
 
