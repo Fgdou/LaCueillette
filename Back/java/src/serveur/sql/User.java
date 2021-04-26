@@ -220,8 +220,8 @@ public class User {
         if(!password.equals(this.password))
             throw new Exception("Wrong password");
 
-        if(!emailVerified)
-            throw new Exception("Email not verified");
+        //if(!emailVerified)
+        //    throw new Exception("Email not verified");
 
         Token t = Token.create(Token.TOKEN_TYPE_LOGIN, this, new DateTime().add(0, 0, 0, 2, 0, 0), PCname);
 
