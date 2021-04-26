@@ -223,7 +223,7 @@ public class User {
         //if(!emailVerified)
         //    throw new Exception("Email not verified");
 
-        Token t = Token.create(Token.TOKEN_TYPE_LOGIN, this, new DateTime().add(0, 0, 0, 2, 0, 0), PCname);
+        Token t = Token.create(Token.TOKEN_TYPE_LOGIN, this, new DateTime().add(0, 0, 1, 0, 0, 0), PCname);
 
         lastConnection = new DateTime();
         DataBase.getInstance().changeValue("Users", "last_connection", lastConnection.toString(), id);
