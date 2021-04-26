@@ -1,3 +1,6 @@
+var markers = null
+var map = null
+
 $(()=>{
     $("header .search").submit((e)=>{
         e.preventDefault()
@@ -9,9 +12,18 @@ $(()=>{
     $("header .search img").click(()=>{
         search()
     })
+
+    map = new OpenLayers.Map("map")
+    map.addLayer(new OpenLayers.Layer.OSM())
+    map.zoomToMaxExtent()
+    markers = new OpenLayers.Layer.Markers("markers")
+    map.addLayer(markers)
+
+    map.zoomToMaxExtent();
 })
 
 function search(){
+    clearMarkers()
     let txt = $("header .search input").val()
     if(txt === "")
         return
@@ -67,6 +79,8 @@ function parseShopResult(data){
 
         e.click(()=>actShop(shop))
 
+        addMarker(shop.address, e)
+
         list.append(e)
     }
 
@@ -77,6 +91,32 @@ function parseShopResult(data){
         div.append(span)
         return div
     }
+}
+function clearMarkers(){
+    markers.clearMarkers()
+}
+function addMarker(address, e){
+    str = address.number + ' ' + address.way + ', ' + address.postalcode + ' ' + address.city + ' , France'
+    $.get("https://nominatim.openstreetmap.org/search?q="+str+"&format=json", {}, data=>{
+        if(data.length >= 1){
+            var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+            var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
+            position = new OpenLayers.LonLat(data[0].lon, data[0].lat).transform( fromProjection, toProjection)
+
+            var marker = new OpenLayers.Marker(position)
+
+            markers.addMarker(marker)
+
+            var newBound = map.myLayer.getDataExtent();
+            map.zoomToExtent(newBound);
+
+            marker.events.register("click", map, hoverMarker)
+        }
+    }, "json")
+}
+function hoverMarker(e){
+    console.log(e)
 }
 function parseProductResult(data){
     let list = $(".window.search .searchList")
@@ -104,6 +144,9 @@ function parseProductResult(data){
         e.append(content)
 
         e.click(()=>actProduct(product))
+
+
+        addMarker(shop.address, e)
 
         list.append(e)
     }

@@ -30,7 +30,7 @@ $(()=>{
                     token = data.value
                     user = data.user
                     login(user)
-                    openWindow(lastPage)
+                    openWindow(lastPage.pop())
                     document.cookie = "token="+data.value + "; expires="+dateToString(data.expiration)
                 }
             },"json");

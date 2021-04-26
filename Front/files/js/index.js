@@ -1,5 +1,6 @@
 let user = null
-let lastPage = "cart"
+let lastPage = []
+let firstPage = "search"
 let token = null
 let url = "https://lacueillette.ml/"
 let api = "https://lacueillette.ml/api/"
@@ -10,7 +11,13 @@ let postalcode = 35000
 $(()=>{
     setInterval(renewToken, 3600000)
 
-    openWindow(lastPage)
+    openWindow(firstPage)
+
+    window.onpopstate = e=>{
+        let w = e.state.window
+        closeWindows()
+        $(".window."+w).css("display", "grid")
+    }
 
     $("header .account").click(()=>{
         if(user === null)
@@ -85,8 +92,10 @@ function openWindow(name){
     $(".window."+name + " input").val("")
     clearInputError()
     $(".window."+name).css("display", "grid")
-    if(name !== "login" && name !== "register")
-        lastPage = name
+    if(name !== "login" && name !== "register") {
+        lastPage.push(name)
+        history.pushState({window:name},name)
+    }
 }
 function closeWindows(){
     $(".window").css("display", "none")

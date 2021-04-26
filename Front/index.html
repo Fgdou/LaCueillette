@@ -18,6 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="files/js/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script src="files/js/index.js"></script>
     <script src="files/js/login.js"></script>
     <script src="files/js/register.js"></script>
@@ -41,9 +42,8 @@
     <div class="successPopup"></div>
     <div class="container">
         <div class="window search">
-            <div class="map"><img src="files/img/carte.png" alt="Carte"></div>
-            <div class="searchList">
-            </div>
+            <div class="map" id="map"></div>
+            <div class="searchList"></div>
         </div>
         <div class="window login">
             <form class="login">
