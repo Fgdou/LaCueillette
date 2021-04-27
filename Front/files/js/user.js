@@ -9,6 +9,9 @@ $(()=>{
     $(".window.newAddress .submit").click(()=>createChangeAddress())
     $(".window.newAddress .cancel").click(()=>$(".window.newAddress").css("display", "none"))
 
+    setCitySelect($(".window.newAddress .postalcode input"), $(".window.newAddress .city select"))
+    setCitySelect($(".window.newShop .postalcode input"), $(".window.newShop .city select"))
+
     $(".window.user .infos .edit").click(()=>editUser())
 
     $(".window.user .shops .new").click(()=>{
@@ -20,7 +23,7 @@ $(()=>{
         $(".window.newShop").css("display", "none")
     })
     $(".window.newShop form").submit(e=>e.preventDefault())
-    $(".window.newShop .dropdown select").change(()=>{
+    $(".window.newShop .category select").change(()=>{
         if($(".window.newShop .dropdown select").val() === "new"){
             let category = prompt("Entrer une nouvelle categorie")
             if(category === "" || category === null)
@@ -37,7 +40,7 @@ $(()=>{
                         errorPopup(data.error)
                 }else{
                     newShopAct(()=>{
-                        $(".window.newShop .dropdown select").val(data.id)
+                        $(".window.newShop .category select").val(data.id)
                     })
                 }
             }, "json")
@@ -54,7 +57,7 @@ $(()=>{
         let category = $(".window.newShop .category select").val()
         let number = $(".window.newShop .number input").val()
         let way = $(".window.newShop .way input").val()
-        let city = $(".window.newShop .city input").val()
+        let city = $(".window.newShop .city select").val()
         let postalcode = $(".window.newShop .postalcode input").val()
 
         if(name === "")
@@ -85,7 +88,7 @@ $(()=>{
 })
 
 function newShopAct(fun) {
-    let select = $(".window.newShop select")
+    let select = $(".window.newShop .category select")
     select.html("")
     $.post(api + "store/type/getAll", {user_token: token}, data=>{
         if(data.error)
@@ -142,7 +145,7 @@ function editUser(){
 function createChangeAddress(){
     let number = $(".window.newAddress .number input").val()
     let way = $(".window.newAddress .way input").val()
-    let city = $(".window.newAddress .city input").val()
+    let city = $(".window.newAddress .city select").val()
     let postalcode = $(".window.newAddress .postalcode input").val()
     let state = $(".window.newAddress .state input").val()
 
@@ -218,7 +221,10 @@ function fillStores(stores){
         let tr = $("<tr></tr>")
 
         tr.append($("<td></td>").addClass("name").html(store.name))
-        tr.append($("<td></td>").addClass("city").html(store.address.city))
+
+        if(store.address) {
+            tr.append($("<td></td>").addClass("city").html(store.address.city))
+        }
 
         let btns = $("<td></td>").addClass("actions")
 
@@ -313,15 +319,15 @@ function openAddress(address_){
     if(address_ === null){
         $(".window.newAddress .number input").val("")
         $(".window.newAddress .way input").val("")
-        $(".window.newAddress .city input").val("")
+        $(".window.newAddress .city select").val("")
         $(".window.newAddress .postalcode input").val("")
         $(".window.newAddress .state input").val("")
 
     }else{
         $(".window.newAddress .number input").val(address.number)
         $(".window.newAddress .way input").val(address.way)
-        $(".window.newAddress .city input").val(address.city)
         $(".window.newAddress .postalcode input").val(address.postalcode)
+        setCity(address.postalcode.toString(), address.city, $(".window.newAddress .city select"))
         $(".window.newAddress .state input").val(address.state)
     }
     $(".window.newAddress").css("display", "block")

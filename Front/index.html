@@ -29,6 +29,7 @@
     <script src="files/js/shop.js"></script>
     <script src="files/js/product.js"></script>
     <script src="files/js/cart.js"></script>
+    <script src="files/js/select.js"></script>
 </head>
 <body>
     <header>
@@ -149,7 +150,7 @@
             <form>
                 <h1>Sélectionnez une adresse pour continuer</h1>
                 <div class="input postalcode"><input type="number" placeholder="postalcode"></div>
-                <div class="input city"><input type="text" placeholder="Ville"></div>
+                <div class="city select"><select name="city"></select></div>
                 <button class="button clickable submit" class="submit">Continuer</button>
             </form>
         </div>
@@ -203,7 +204,7 @@
                 <h1>Edition d'adresse</h1>
                 <div class="input number"><input type="number" placeholder="Numéro"></div>
                 <div class="input way"><input type="text" placeholder="Rue"></div>
-                <div class="input city"><input type="text" placeholder="Ville"></div>
+                <div class="city select"><select name="city"></select></div>
                 <div class="input postalcode"><input type="number" placeholder="Code Postal"></div>
                 <div class="input state"><input type="text" placeholder="Pays" value="France"></div>
                 <button class="clickable button submit">Valider</button>
@@ -224,7 +225,7 @@
                     <h2>Adresse</h2>
                     <div class="input number"><input type="number" placeholder="Num"></div>
                     <div class="input way"><input type="text" placeholder="Rue"></div>
-                    <div class="input city"><input type="text" placeholder="Ville"></div>
+                    <div class="select city"><select name="city"></select></div>
                     <div class="input postalcode"><input type="number" placeholder="Code postal"></div>
                 </div>
                 <button class="clickable button submit" type="submit">Valider</button>

@@ -136,7 +136,13 @@ public class Store {
     }
 
     public Address getAddress() throws Exception {
-        return Address.getById(address_id);
+        try {
+            return Address.getById(address_id);
+        }catch(Exception e){
+            if(e.getMessage().equals("Address not found"))
+                return null;
+            throw e;
+        }
     }
 
     public int getId() {
