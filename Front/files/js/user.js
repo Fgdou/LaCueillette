@@ -225,6 +225,9 @@ function fillStores(stores){
         if(store.address) {
             tr.append($("<td></td>").addClass("city").html(store.address.city))
         }
+        else{
+            tr.append($("<td></td>").addClass("city").html("NULL"))
+        }
 
         let btns = $("<td></td>").addClass("actions")
 
