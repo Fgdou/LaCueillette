@@ -7,6 +7,7 @@ services:
       - "8080:80"
     volumes:
       - ./Front:/usr/share/nginx/html
+    restart: always
   back:
     image: maven
     ports:
@@ -27,3 +28,4 @@ services:
       MYSQL_ROOT_PASSWORD: g7Nn5DkEBLCbpCTNw84FPkw3wjoDPYu4KJ2NSSkb
     volumes:
       - ./Back/mysql:/var/lib/mysql
+    restart: always
