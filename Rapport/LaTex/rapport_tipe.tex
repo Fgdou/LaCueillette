@@ -122,10 +122,11 @@
 	\begin{center}
 		\includegraphics[width=10cm]{fig/tableLang}
 		\caption{Normalized global results for Energy, Time, and Memory.\cite{pereira_ranking_2021}}
+		\label{fig:tableLang}
 	\end{center}
 \end{figure}
 
-\paragraph{}Nous nous sommes donc tournés vers le langage Java qui possède ces deux caractéristiques. On peut voir en Figure 1 que ce n’est pas le plus rapide, car il est derrière le C et C++. Cependant, ce sont des langages beaucoup plus avancés et non accessibles pour un petit projet comme le nôtre, ce nécessitant pas de grandes optimisations.
+\paragraph{}Nous nous sommes donc tournés vers le langage Java qui possède ces deux caractéristiques. On peut voir en Figure n°\ref{fig:tableLang} que ce n’est pas le plus rapide, car il est derrière le C et C++. Cependant, ce sont des langages beaucoup plus avancés et non accessibles pour un petit projet comme le nôtre, ce nécessitant pas de grandes optimisations.
 \paragraph{}Afin de pouvoir sauvegarder nos données de façon permanente (catalogue d’un magasin, commandes passées...), nous avons choisi une base de données MySQL. Une base de données permet de sauvegarder et de récupérer rapidement des données persistantes (ne sont pas perdues si le programme s'éteint).  Le MySQL permet, comme avec le Java, de définir les types de données qui vont être sauvegardées. On assure avec cela que les données attendues sont fiables.
 
 \paragraph{}Afin de gérer la liaison entre les clients et le serveur, une interface de programmation (API) est nécessaire. Nous avons fait le choix de faire appel à un framework qui a comme avantage d’être fourni avec toutes les fonctions de discussion avec le réseau. Ce framework nous permet de nous concentrer sur la liaison client-serveur qui est le cœur du problème.
@@ -175,10 +176,11 @@ Cette répartition a permis un avancement habile et souple pour mener à bien le
 	\begin{center}
 		\includegraphics[width=10cm]{fig/maquette.png}
 		\caption{Maquette de construction de l'interface graphique du site internet}
+		\label{fig:maquette}
 	\end{center}
 \end{figure}
 
-\paragraph{}L’interface graphique nécessite la conception d’une maquette graphique au préalable afin que le développeur en charge du développement de l’interface graphique sache vers quel design s’orienter sans perdre du temps à tergiverser. Cette maquette (Figure n°2) a, de toute évidence évolué entre sa première version et la version actuelle du site internet, cependant il est indéniable qu’elle a permis de gagner beaucoup de temps dans les grandes parties graphiques de l’interface.
+\paragraph{}L’interface graphique nécessite la conception d’une maquette graphique au préalable afin que le développeur en charge du développement de l’interface graphique sache vers quel design s’orienter sans perdre du temps à tergiverser. Cette maquette (Figure n°\ref{fig:maquette}) a, de toute évidence évolué entre sa première version et la version actuelle du site internet, cependant il est indéniable qu’elle a permis de gagner beaucoup de temps dans les grandes parties graphiques de l’interface.
 
 \subsection{La réalisation}
 \subsubsection{Le back-end}
@@ -191,14 +193,23 @@ Cette répartition a permis un avancement habile et souple pour mener à bien le
 	\begin{center}
 		\includegraphics[width=10cm]{fig/uml-simplified.png}
 		\caption{Diagramme UML de l'architecture du moteur serveur du produit}
+		\label{fig:uml-simplified}
 	\end{center}
 \end{figure}
 
-\paragraph{}Comme mentionné sur la Figure n°3, de l’adresse au sous-produit tout concept utilisé dans le programme est représenté par des variables.  Cette modélisation est présente dans la base de données MySQL et dans la mémoire vive de l’ordinateur exécutant le logiciel serveur (que l’on appelle, pour simplifier, serveur). La liaison avec l’interface de programmation (l’API) s’opère grâce à des méthodes de mutations (plus couramment appelées Getters and Setters).
+\paragraph{}Comme mentionné sur la Figure n°\ref{fig:uml-simplified}, de l’adresse au sous-produit tout concept utilisé dans le programme est représenté par des variables.  Cette modélisation est présente dans la base de données MySQL et dans la mémoire vive de l’ordinateur exécutant le logiciel serveur (que l’on appelle, pour simplifier, serveur). La liaison avec l’interface de programmation (l’API) s’opère grâce à des méthodes de mutations (plus couramment appelées Getters and Setters).
 
 \subsubsection{L'API}
 
-\paragraph{}L’interface de programmation (API) fait la liaison entre la partie cachée de la solution (le serveur) et sa partie visible (le client). L’utilisation de l’API ne nécessite pas de savoir comment fonctionne le serveur, la documentation fournie par le développeur de celle-ci permet de connaître quel point d’entrée est à utiliser pour obtenir l’information recherchée. L’utilisation de l’API s’organise à travers des requêtes et des réponses, sa programmation se concentre sur les mêmes aspects.
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=10cm]{fig/API_diagram.png}
+		\caption{Schéma de la relation entre le client, l'API et le serveur}
+		\label{fig:API_diagram}
+	\end{center}
+\end{figure}
+
+\paragraph{}L’interface de programmation (API) fait la liaison entre la partie cachée de la solution (le serveur) et sa partie visible (le client)(voir Figure n°\ref{fig:API_diagram}). L’utilisation de l’API ne nécessite pas de savoir comment fonctionne le serveur, la documentation fournie par le développeur de celle-ci permet de connaître quel point d’entrée est à utiliser pour obtenir l’information recherchée. L’utilisation de l’API s’organise à travers des requêtes et des réponses, sa programmation se concentre sur les mêmes aspects.
 \paragraph{}Grâce aux méthodes de mutations mises à disposition précédemment, l’interface de programmation gère les accès aux données et vérifie si l’utilisateur qui requiert une information a le droit d’y avoir accès. Quand une requête est envoyée à l’API, celle-ci vérifie la qualité de l’utilisateur puis demande au programme les données recherchées. Une modification est faite dans le programme et dans la base de données s’il est nécessaire d’en faire. Une réponse est ensuite remise à l’utilisateur qui en a fait la demande.
 \paragraph{}Grâce au Framework Spring, le développement de cette interface de programmation est amplement simplifié. Le développeur s’est concentré sur les suites d’opérations à faire mais le service de discussion avec le client est, pour sa part, déjà prêt à l’emploi. Le démarrage du programme entraîne le démarrage de la couche fournie par Spring et permet la discussion sur le réseau entre des ordinateurs.
 \noindent Une API fonctionnelle permet au client de fonctionner correctement.
