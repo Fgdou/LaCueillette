@@ -1,5 +1,6 @@
 var markers = null
 var map = null
+var marker_cache = []
 
 $(()=>{
     $("header .search").submit((e)=>{
@@ -94,24 +95,38 @@ function clearMarkers(){
     markers.clearMarkers()
 }
 function addMarker(address, e){
-    str = address.number + ' ' + address.way + ', ' + address.postalcode + ' ' + address.city + ' , France'
-    $.get("https://nominatim.openstreetmap.org/search?q="+str+"&format=json", {}, data=>{
-        if(data.length >= 1){
-            var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-            var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+    let str = address.number + ' ' + address.way + ', ' + address.postalcode + ' ' + address.city + ' , France'
 
-            position = new OpenLayers.LonLat(data[0].lon, data[0].lat).transform( fromProjection, toProjection)
+    if(marker_cache[str] === "")
+    {}
+    else if(marker_cache[str])
+        putMarker(marker_cache[str])
+    else {
+        marker_cache[str] = ""
+        $.get("https://nominatim.openstreetmap.org/search?q=" + str + "&format=json", {}, data => {
+            if (data.length >= 1) {
+                var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+                var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
-            var marker = new OpenLayers.Marker(position)
+                position = new OpenLayers.LonLat(data[0].lon, data[0].lat).transform(fromProjection, toProjection)
 
-            markers.addMarker(marker)
+                marker_cache[str] = position
 
-            var newBound = markers.getDataExtent();
-            map.zoomToExtent(newBound);
+                putMarker(position)
+            }
+        }, "json")
+    }
 
-            marker.events.register("click", map, hoverMarker)
-        }
-    }, "json")
+    function putMarker(position){
+        var marker = new OpenLayers.Marker(position)
+
+        markers.addMarker(marker)
+
+        var newBound = markers.getDataExtent();
+        map.zoomToExtent(newBound);
+
+        marker.events.register("click", map, hoverMarker)
+    }
 }
 function hoverMarker(e){
     console.log(e)
