@@ -78,6 +78,20 @@ function openWindow(name){
         lastPage.push(name)
         history.pushState({window:name},name)
     }
+    scrollTop()
+}
+function scrollTop(){
+    let n = document.body.scrollTop + document.documentElement.scrollTop
+    let step = 5
+
+    f()
+
+    function f(){
+        let n = document.body.scrollTop + document.documentElement.scrollTop
+        window.scrollTo(0, n-step)
+        if(n > 0)
+            setTimeout(f, 1)
+    }
 }
 function closeWindows(){
     $(".window").css("display", "none")
