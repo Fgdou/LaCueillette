@@ -1,5 +1,4 @@
 .search.window{
-    display: grid;
     display: none;
     overflow: hidden;
     grid-template-areas: "searchList";
@@ -14,9 +13,7 @@
     grid-area: map;
     display: none;
     overflow: hidden;
-}
-.map img{
-    height: 100%;
+    height: 100vh;
 }
 
 .searchElement{

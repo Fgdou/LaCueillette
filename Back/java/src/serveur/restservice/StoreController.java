@@ -151,6 +151,13 @@ public class StoreController {
         return user.getStores();
     }
 
+    @PostMapping("/store/get/byCity")
+    public List<Store> getStoreByCity(@RequestParam Map<String, String> requestParam) throws Exception {
+        String city = requestParam.get("city");
+        int postalcode = Integer.parseInt(requestParam.get("postalcode"));
+        return Store.getByCity(postalcode, city);
+    }
+
     //StoreType
 
     /**
@@ -162,7 +169,6 @@ public class StoreController {
      */
     @PostMapping("/store/type/getAll")
     public List<StoreType> getStoreType(@RequestParam Map<String, String> requestParam) throws Exception {
-        User user = User.getByToken(requestParam.get("user_token"));
         return StoreType.getAll();
     }
 

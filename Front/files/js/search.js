@@ -13,22 +13,26 @@ $(()=>{
     $("header .search img").click(()=>{
         search()
     })
-
-    map = new OpenLayers.Map("map")
-    map.addLayer(new OpenLayers.Layer.OSM())
-    map.zoomToMaxExtent()
-    markers = new OpenLayers.Layer.Markers("markers")
-    map.addLayer(markers)
 })
 
 function search(){
-    clearMarkers()
+
+
     let txt = $("header .search input").val()
     if(txt === "")
         return
 
     $(".window.search .searchList").html("")
     openWindow("search")
+
+    if(map === null){
+        map = new OpenLayers.Map("map")
+        map.addLayer(new OpenLayers.Layer.OSM())
+        markers = new OpenLayers.Layer.Markers()
+        map.addLayer(markers)
+    }
+
+    clearMarkers()
 
     $.post(api + "Store/search", {
         search: txt,

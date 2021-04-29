@@ -62,6 +62,7 @@ $(()=>{
 function login(user){
     $("header .account span").text("Bonjour, " + user.name.charAt(0).toUpperCase() + user.name.slice(1))
     actCart()
+    actCategory()
 }
 function logout(){
     $.post(api+"user/logout", {
