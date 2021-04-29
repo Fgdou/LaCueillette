@@ -4,6 +4,7 @@ let firstPage = "home"
 let token = null
 let url = "https://lacueillette.ml/"
 let api = "https://lacueillette.ml/api/"
+let server_connected = true
 
 let city = "RENNES"
 let postalcode = "35000"
@@ -54,12 +55,16 @@ function checkAlive(){
     $.post(api + "alive", {}, data=>{
         if(!data.log || data.log !== "alive") {
             errorPopup("Erreur de communication avec le serveur")
+            server_connected = false
             setTimeout(checkAlive, 6000)
         }else{
+            if(server_connected === false)
+                window.location.reload()
             setTimeout(checkAlive, 30000)
         }
     }).fail(()=>{
         errorPopup("Communication impossible avec le serveur")
+        server_connected = false
         setTimeout(checkAlive, 6000)
     })
 }

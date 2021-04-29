@@ -11,6 +11,15 @@ $(()=>{
         $("header .search input").val($(".window.home .search input").val())
         search()
     })
+    actCategory()
+
+    let img = $(".window.home .img")
+    window.onscroll = ()=>{
+        let n = (document.body.scrollTop + document.documentElement.scrollTop) / document.body.clientHeight
+
+        img.css("opacity", 1-n*3)
+        img.css("transform", "scale("+(1+n)+")")
+    }
 })
 
 function actCategory(){
@@ -52,6 +61,8 @@ function actStores(){
                 let div = $("<div></div>").addClass("element clickable")
                 let name = $("<span></span>").addClass("name").html(e.name)
                 let cat = $("<span></span>").addClass("category").html(e.type.name)
+
+                div.attr("title", e.name)
 
                 div.append(name)
                 div.append(cat)

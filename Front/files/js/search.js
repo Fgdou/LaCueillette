@@ -67,6 +67,8 @@ function parseShopResult(data){
 
         let content = $("<div></div>").addClass("content")
 
+        e.attr("title", shop.name)
+
         content.append(createElement("name", shop.name))
 
         let infos = $("<div></div>").addClass("infos")
@@ -144,6 +146,8 @@ function parseProductResult(data){
 
         let e = $("<div></div>").addClass("searchElement clickable")
         e.append($("<img src='files/img/Paniervide.svg' alt='Shop'>"))
+
+        e.attr("title", product.name)
 
         let content = $("<div></div>").addClass("content")
 

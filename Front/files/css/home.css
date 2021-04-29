@@ -65,16 +65,40 @@
     border-radius: 10px;
     padding: 10px 20px;
     margin: 5px;
+    width: 200px;
+    overflow: hidden;
 }
 .window.home .shopList .element .name{
     display: block;
     font-weight: bold;
     font-size: 120%;
+    overflow: hidden;
+    text-wrap: none;
+    white-space: nowrap;
 }
 .window.home .shopList .element .category{
     display: block;
     text-align: right;
     opacity: .7;
+}
+.window.home .img{
+    height: 50vh;
+    overflow: hidden;
+    width: 100%;
+    background-image: url("../img/backhome.jpg");
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+}
+.window.home .container{
+    background: white;
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    padding: 20px 15px;
 }
 
 @media (min-width: 700px){
@@ -82,5 +106,15 @@
         grid-template-columns: 30% auto;
         grid-template-areas:
             "city search";
+    }
+    .window.home .container{
+        background: white;
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        width: 90%;
+        max-width: 1200px;
+        transform: translateX(-50%);
+        height: auto;
     }
 }
