@@ -1,14 +1,23 @@
 $(()=>{
-    let postalcode_input = $(".window.select .postalcode input")
-    let select = $(".window.select .city select")
+    let postalcode_input = $(".window.home .selectCity .postalcode input")
+    let select = $(".window.home .selectCity .city select")
+
+    postalcode_input.val(postalcode)
+    setCity(postalcode, city, select)
+    actStores()
+    $("header .address span").html(city)
 
 
-    setCitySelect(postalcode_input, select)
+    setCitySelect(postalcode_input, select, actCities)
 
-    $(".window.select form").submit(e=>e.preventDefault())
-    $(".window.select .submit").click(()=>{
-        let pc = $(".window.select .postalcode input").val()
-        let city_ = $(".window.select .city select").val()
+    $(".window.home .selectCity").submit(e=>e.preventDefault())
+    select.change(()=>{
+        actCities()
+    })
+
+    function actCities(){
+        let pc = $(".window.home .selectCity .postalcode input").val()
+        let city_ = $(".window.home .selectCity .city select").val()
 
         clearInputError()
 
@@ -20,20 +29,20 @@ $(()=>{
             postalcode = pc
             city = city_
             $("header .address span").html(city)
-            openWindow("search")
+            actStores()
         }
-    })
+    }
     $("header .address").click(()=>{
-        openWindow("select")
-        $(".window.select .postalcode input").val(postalcode)
+        openWindow("home")
+        $(".window.home .selectCity .postalcode input").val(postalcode)
         setCity(postalcode, city, select)
     })
 })
 
-function setCitySelect(postalcode_input, select_input){
+function setCitySelect(postalcode_input, select_input, f = null){
     postalcode_input.on("input", (e)=>{
         let value = postalcode_input.val()
-        searchCity(value, select_input)
+        searchCity(value, select_input, f)
     })
 }
 function setCity(pc, name, output){

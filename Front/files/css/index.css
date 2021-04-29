@@ -54,10 +54,13 @@ header .cart span{
 header .cart img{
     height: 38px;
 }
-header .search{
+form.search{
     grid-area: search;
     text-align: center;
     margin: 0 10px 5px 10px;
+    background: white;
+    border-radius: 9px;
+    padding: 5px 10px;
 }
 header .address{
     grid-area: address;
@@ -68,17 +71,13 @@ header .address img{
     height: 20px;
 }
 
-header .search{
-    background: white;
-    border-radius: 9px;
-    padding: 5px 10px;
-}
-header .search img{
+form.search img{
     margin-right: 0;
     margin-left: 10px;
     float: right;
 }
-header .search input{
+
+form.search input{
     font-size: 25px;
     color: #58391C;
     text-align: center;
@@ -87,13 +86,13 @@ header .search input{
     display: inline-block;
     border: none;
 }
-header .search input:focus{
+form.search input:focus{
     outline: none;
 }
-header .search input:focus::placeholder{
+form.search input:focus::placeholder{
     font-size: 0;
 }
-header .search input::placeholder{
+form.search input::placeholder{
     font-weight: bold;
     color: #6A492B;
 }
@@ -273,7 +272,7 @@ h1{
         margin: 0;
     }
 
-    header .search{
+    form.search{
         margin: 0 10px 0 10px;
     }
     header .logo{

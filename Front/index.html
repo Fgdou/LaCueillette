@@ -149,16 +149,22 @@
             </div>
         </div>
         <div class="back window home">
-            <div class="categoryList"></div>
-            <div class="shopList"></div>
-        </div>
-        <div class="back window select">
-            <form>
-                <h1>Sélectionnez une adresse pour continuer</h1>
-                <div class="input postalcode"><input type="number" placeholder="postalcode"></div>
-                <div class="city dropDown"><select name="city"></select></div>
-                <button class="button clickable submit" class="submit">Continuer</button>
-            </form>
+            <div class="infos">
+                <h1>Bienvenue sur le site de la Cueillette !</h1>
+            </div>
+            <div class="searchSection">
+                <form class="selectCity">
+                    <div class="input postalcode"><input type="number" placeholder="postalcode"></div>
+                    <div class="city dropDown"><select name="city"></select></div>
+                </form>
+                <form class="search"><input type="text" class="" placeholder="Rechercher"><img src="files/img/Loupe.svg" alt="Rechercher" class="clickable"></form>
+            </div>
+            <div class="infoSection">
+                <h2>Catégories</h2>
+                <div class="categoryList"></div>
+                <h2>Magasins</h2>
+                <div class="shopList"></div>
+            </div>
         </div>
         <div class="back window product">
             <div class="infos">
@@ -209,7 +215,7 @@
             <form>
                 <h1>Edition d'adresse</h1>
                 <div class="input number"><input type="number" placeholder="Numéro"></div>
-                <div class="input way"><input type="text" placeholder="Rue"></div>
+                <div class="input way"><input type="text" placeholder="Voie"></div>
                 <div class="city dropDown"><select name="city"></select></div>
                 <div class="input postalcode"><input type="number" placeholder="Code Postal"></div>
                 <div class="input state"><input type="text" placeholder="Pays" value="France"></div>
@@ -230,7 +236,7 @@
                 <div class="address">
                     <h2>Adresse</h2>
                     <div class="input number"><input type="number" placeholder="Num"></div>
-                    <div class="input way"><input type="text" placeholder="Rue"></div>
+                    <div class="input way"><input type="text" placeholder="Voie"></div>
                     <div class="dropDown city"><select name="city"></select></div>
                     <div class="input postalcode"><input type="number" placeholder="Code postal"></div>
                 </div>

@@ -1,0 +1,86 @@
+.window.home .search img{
+    vertical-align: middle;
+    height: 30px;
+}
+.window.home .search{
+    border: 2px solid #58391C;
+}
+
+.window.home h1, .window.home h2{
+    text-align: center;
+}
+
+.window.home .selectCity{
+    grid-area: city;
+    display: grid;
+    grid-template-areas:
+            "title title"
+            "postalcode city";
+    grid-template-columns: 100px auto;
+}
+.window.home .selectCity .postalcode{
+    grid-area: postalcode;
+}
+.window.home .selectCity .city{
+    grid-area: city;
+}
+.window.home .searchSection h2{
+    grid-area: title;
+}
+.window.home .selectCity .city select{
+    width: 100%;
+}
+.window.home .search{
+    grid-area: search;
+    align-self: end;
+    margin: 7px;
+}
+
+
+.window.home .searchSection{
+    display: grid;
+    grid-template-areas:
+            "city"
+            "search";
+    grid-template-rows: auto;
+    grid-gap: 10px;
+}
+
+.window.home .categoryList, .window.home .shopList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.window.home .categoryList .element{
+    padding: 10px 20px;
+    background: #6A492B;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 5px;
+}
+.window.home .shopList .element{
+    background: #6A492B;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 5px;
+}
+.window.home .shopList .element .name{
+    display: block;
+    font-weight: bold;
+    font-size: 120%;
+}
+.window.home .shopList .element .category{
+    display: block;
+    text-align: right;
+    opacity: .7;
+}
+
+@media (min-width: 700px){
+    .window.home .searchSection{
+        grid-template-columns: 30% auto;
+        grid-template-areas:
+            "city search";
+    }
+}

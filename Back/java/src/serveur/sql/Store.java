@@ -71,7 +71,7 @@ public class Store {
     }
 
     public static List<Store> getByCity(int postalcode, String city) throws Exception{
-        String sql = "SELECT S.* FROM Stores S JOIN Addresses A on S.address_id = A.id WHERE A.postalcode = ? AND A.city LIKE ?;";
+        String sql = "SELECT S.* FROM Stores S JOIN Addresses A on S.address_id = A.id WHERE A.postalcode = ? AND A.city LIKE ? ORDER BY S.name;";
         String[] tab = new String[]{
                 String.valueOf(postalcode),
                 city
