@@ -17,7 +17,7 @@ $(()=>{
     window.onscroll = ()=>{
         let n = (document.body.scrollTop + document.documentElement.scrollTop) / document.body.clientHeight
 
-        img.css("opacity", 1-n*3)
+        img.css("opacity", 1-n*2)
         img.css("transform", "scale("+(1+n)+")")
     }
 })
