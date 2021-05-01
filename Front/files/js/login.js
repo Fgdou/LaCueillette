@@ -31,7 +31,7 @@ $(()=>{
                     user = data.user
                     login(user)
                     openWindow(lastPage.pop())
-                    document.cookie = "token="+data.value + "; expires="+dateToString(data.expiration)
+                    setCookie("token", data.value, dateToString(data.expiration))
                 }
             },"json");
         }
@@ -48,7 +48,7 @@ $(()=>{
         }, (data)=>{
             if(data.error){
                 errorPopup(data.error)
-                document.cookie = "token=; expires=Thu, 1 Jan 1970 00:00:01 UTC"
+                deleteCookie("token")
             }else{
                 user = data
                 token = cookie
@@ -76,6 +76,12 @@ function logout(){
     $("header .cart span").html("Panier (0)")
 }
 
+function setCookie(cookiename, value, expiration){
+    document.cookie = cookiename + "=" + value + "; expires="+expiration
+}
+function deleteCookie(cookiename){
+    document.cookie = cookiename + "=; expires=Thu, 1 Jan 1970 00:00:01 UTC"
+}
 function getCookie(cookiename) {
     var name = cookiename + "=";
 
