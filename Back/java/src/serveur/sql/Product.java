@@ -67,6 +67,9 @@ public class Product {
     public static Product create(String name, float price, boolean price_kg, ProductCategory category,
                                  Store store, boolean canBePicked, boolean canBeDelivered, float tva,
                                  DateTime start, DateTime stop, DateTime expiration, String description) throws Exception {
+        if(tva < 0 || tva >= 1)
+            throw new Exception("0 < TVA < 1");
+
         String sql = "INSERT INTO Products (name, price, price_kg, category_id, store_id, canBePicked, canBeDelivered, tva, time_start, time_stop, expiration, description) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String[] tab = new String[]{

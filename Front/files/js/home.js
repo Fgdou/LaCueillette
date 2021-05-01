@@ -63,6 +63,7 @@ function actStores(){
                 let cat = $("<span></span>").addClass("category").html(e.type.name)
 
                 div.attr("title", e.name)
+                div.click(()=>openStore(e))
 
                 div.append(name)
                 div.append(cat)

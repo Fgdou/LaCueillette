@@ -33,9 +33,12 @@ function actCart(){
                 let quantity = data.quantities[i]
 
                 let e = $("<tr></tr>")
-                let select = $("<input type='number' value='"+quantity+"' max='"+sp.quantity+"' min='0'>")
+                let select = $("<select></select>").addClass("dropDown")
                 let name = $("<span></span>").html(sp.product.name).addClass("clickable")
                 let price = $("<span></span>").html(getPriceOnly(sp, quantity))
+
+                fillSelect(select, sp.quantity)
+                select.val(quantity)
 
                 name.click(()=>{
                     actProduct(sp.product)

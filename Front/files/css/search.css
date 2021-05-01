@@ -9,7 +9,7 @@
     height: 100%;
     margin: 0 auto;
 }
-.map{
+.search.window .map{
     grid-area: map;
     display: none;
     overflow: hidden;
@@ -65,7 +65,7 @@
         height: calc(100vh - 60px);
         overflow: hidden;
     }
-    .map{
+    .search.window .map{
         display: block;
     }
     .searchList{

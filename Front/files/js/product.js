@@ -25,8 +25,10 @@ function actProduct(product_){
     pdelivered.prop("hidden", true)
     pdescription.html(product_.description)
 
-    sname.html(product_.store.name)
+    sname.addClass("clickable").html(product_.store.name)
     saddress.html(getAddress(product_.store.address))
+
+    sname.click(()=>openStore(product_.store))
 
 
 
@@ -44,8 +46,10 @@ function actProduct(product_){
 
                 let name = $("<td></td>").html(sp.special_tag)
                 let quantity = $("<td></td>").html(sp.quantity + ((sp.product.priceKg)?" g":""))
-                let select = $("<input type='number' max='"+sp.quantity+"' min='0' value='0'>")
+                let select = $("<select></select>").addClass("dropDown")
                 let button = $("<button class='clickable button' disabled>Ajouter au panier</button>")
+
+                fillSelect(select, sp.quantity)
 
                 e.append(name)
                 e.append(quantity)
@@ -100,4 +104,9 @@ function getSubQuantity(product, sub){
         return sub.quantity
     else
         return sub.quantity/1000 + " kg"
+}
+function fillSelect(select, n){
+    select.html("")
+    for(let i=0; i<=n; i++)
+        select.append($("<option></option>").html(i))
 }

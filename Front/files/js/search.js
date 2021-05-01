@@ -185,8 +185,9 @@ function getAddress(address){
     return address.number + " " + address.way + " - " + address.postalcode + " " + address.city
 }
 function getPrice(product){
+    let price = product.price * (1 + product.tva)
     if(product.priceKg)
-        return product.price.toFixed(2) + " €/kg"
+        return price.toFixed(2) + " €/kg"
     else
-        return product.price.toFixed(2) + " €"
+        return price.toFixed(2) + " €"
 }

@@ -10,6 +10,8 @@ let city = "RENNES"
 let postalcode = "35000"
 
 $(()=>{
+    let select = $(".window.home .selectCity .city select")
+
     setInterval(renewToken, 3600000)
 
     openWindow(firstPage)
@@ -29,7 +31,9 @@ $(()=>{
         }
     })
     $("header .logo").click(()=>{
-        window.location.replace(url)
+        openWindow("home")
+        $(".window.home .selectCity .postalcode input").val(postalcode)
+        setCity(postalcode, city, select)
     })
 
     checkAlive()
