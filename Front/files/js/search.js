@@ -82,7 +82,7 @@ function parseShopResult(data){
 
         e.append(content)
 
-        e.click(()=>actShop(shop))
+        e.click(()=>openStore(shop))
 
         addMarker(shop.address, e)
 
