@@ -89,6 +89,7 @@ $(()=>{
 
 function newShopAct(fun) {
     let select = $(".window.newShop .category select")
+    $(".window.newShop .category select *").off()
     select.html("")
     $.post(api + "store/type/getAll", {user_token: token}, data=>{
         if(data.error)
@@ -213,6 +214,7 @@ function userAct(){
 
 function fillStores(stores){
     let list = $(".window.user .shops .list")
+    $(".window.user .shops .list *").off()
     list.html("")
 
     for(let i=0; i<stores.length; i++){
@@ -277,6 +279,7 @@ function deleteAddress(address) {
 
 function fillAddresses(addresses){
     let list = $(".window.user .addresses .list")
+    $(".window.user .addresses .list *").off()
     list.html("")
 
     for(let i=0; i<addresses.length; i++){

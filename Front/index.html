@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="files/css/user.css">
     <link rel="stylesheet" href="files/css/shopadmin.css">
     <link rel="stylesheet" href="files/css/subproducts.css">
-    <link rel="stylesheet" href="files/css/shop.css">
     <link rel="stylesheet" href="files/css/product.css">
     <link rel="stylesheet" href="files/css/cart.css">
     <link rel="stylesheet" href="files/css/home.css">
+    <link rel="stylesheet" href="files/css/store.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -27,11 +27,11 @@
     <script src="files/js/search.js"></script>
     <script src="files/js/shopadmin.js"></script>
     <script src="files/js/subproducts.js"></script>
-    <script src="files/js/shop.js"></script>
     <script src="files/js/product.js"></script>
     <script src="files/js/cart.js"></script>
     <script src="files/js/select.js"></script>
     <script src="files/js/home.js"></script>
+    <script src="files/js/store.js"></script>
 </head>
 <body>
     <header>
@@ -213,6 +213,20 @@
                 <button class="button clickable validate">Valider mon Panier</button>
             </div>
         </div>
+        <div class="back window store">
+            <div class="infos">
+                <h1 class="title"></h1>
+                <div class="owner"></div>
+                <div class="address"></div>
+                <div class="category"></div>
+                <div class="description"></div>
+            </div>
+            <div class="map" id="shopmap"></div>
+            <h2>Produits</h2>
+            <div class="products">
+
+            </div>
+        </div>
 
         <div class="popup newAddress window">
             <form>
@@ -249,7 +263,7 @@
         </div>
         <div class="popup newProduct window">
             <form>
-                <h1>Modification de produit</h1>
+                <h1>Ajout / Modification de produit</h1>
                 <div class="input name"><input type="text" placeholder="Nom"></div>
                 <div class="type"><label for="box_type">Catégorie </label><select id="box_type"></select></div>
                 <div class="input price"><input type="number" placeholder="Prix" step="0.01"></div>

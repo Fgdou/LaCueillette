@@ -226,6 +226,14 @@ h1{
     padding: 10px;
     display: grid;
 }
+
+.dropDown{
+    border: none;
+    font-size: inherit;
+}
+.dropDown option:checked{
+    margin: 0 5px;
+}
 @media(min-width: 800px) {
     .back{
         position: absolute;

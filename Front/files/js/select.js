@@ -2,6 +2,15 @@ $(()=>{
     let postalcode_input = $(".window.home .selectCity .postalcode input")
     let select = $(".window.home .selectCity .city select")
 
+
+    let ccity = getCookie("city")
+    let cpostalcode = getCookie("postalcode")
+
+    if(ccity !== "" && cpostalcode !== ""){
+        city = ccity
+        postalcode = cpostalcode
+    }
+
     postalcode_input.val(postalcode)
     setCity(postalcode, city, select)
     actStores()
@@ -30,6 +39,11 @@ $(()=>{
             city = city_
             $("header .address span").html(city)
             actStores()
+            var d = new Date();
+            d.setTime(d.getTime() + (15*24*60*60*1000));
+            var expires = d.toUTCString();
+            setCookie("city", city, expires)
+            setCookie("postalcode", postalcode, expires)
         }
     }
     $("header .address").click(()=>{
