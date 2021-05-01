@@ -38,6 +38,7 @@ function actProduct(product_){
         if(data.error)
             errorPopup(data.error)
         else{
+            $(".window.product .subproducts .list *").off()
             list.html("")
             for(let i=0; i<data.length; i++){
                 let sp = data[i]

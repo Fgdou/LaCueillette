@@ -35,6 +35,7 @@ function openStore(store){
         if(data.error)
             errorPopup(data.error)
         else{
+            $(".window.store .products *").off()
             products.html("")
             for(let i=0; i<data.length; i++){
                 let product = data[i]
@@ -51,7 +52,7 @@ function openStore(store){
                 div.attr("title", product.name)
 
                 products.append(div)
-                products.click(()=>actProduct(product))
+                div.click(()=>actProduct(product))
             }
         }
     }, "json")

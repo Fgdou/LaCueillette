@@ -29,6 +29,7 @@ function actCategory(){
         if(data.error)
             errorPopup(data)
         else{
+            $(".window.home .categoryList *").off()
             container.html("")
 
             for(let i=0; i<data.length; i++){
@@ -53,6 +54,7 @@ function actStores(){
         if(data.error)
             errorPopup(data)
         else{
+            $(".window.home .shopList *").off()
             container.html("")
 
             for(let i=0; i<data.length; i++){

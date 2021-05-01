@@ -22,6 +22,7 @@ function search(){
     if(txt === "")
         return
 
+    $(".window.search .searchList *").off()
     $(".window.search .searchList").html("")
     openWindow("search")
 

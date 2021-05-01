@@ -21,6 +21,7 @@ function actCart(){
         if(data.error)
             errorPopup(data.error)
         else{
+            $(".window.cart .list *").off()
             list.html("")
 
             $("header .cart span").html("Panier ("+data.subProducts.length+")")
@@ -28,6 +29,7 @@ function actCart(){
             $(".window.cart .totalttc").html("Total TTC: " + data.priceTTC.toFixed(2) + " €")
 
             for(let i=0; i<data.subProducts.length; i++){
+
 
                 let sp = data.subProducts[i]
                 let quantity = data.quantities[i]

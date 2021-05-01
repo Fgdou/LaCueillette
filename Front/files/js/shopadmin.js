@@ -106,6 +106,7 @@ function shopAdminAct(shop_){
 }
 function parseProductsShop(data){
     let list = $(".window.shopadmin .products .list")
+    $(".window.shopadmin .products .list *").off()
     list.html("")
 
     for(let i=0; i<data.length; i++){

@@ -26,6 +26,7 @@ function actSubproducts(product_){
 }
 function parseSubProducts(data){
     let list = $(".window.subproducts .list")
+    $(".window.subproducts .list *").off()
 
     list.html("")
 
