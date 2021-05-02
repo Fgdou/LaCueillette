@@ -249,6 +249,20 @@ public class Order {
     public Store getStore() throws Exception {
         return Store.getById(store_id);
     }
+    public List<SubProduct> getSubProducts() throws Exception {
+        String sql = "SELECT subproduct_id FROM OrdersProducts WHERE order_id = ?;";
+        String[] tab = new String[]{
+                String.valueOf(id)
+        };
+
+        ResultSet rs = DataBase.getInstance().query(sql, tab);
+        List<SubProduct> list = new LinkedList<>();
+
+        while(rs.next())
+            list.add(SubProduct.getById(rs.getInt(1)));
+
+        return list;
+    }
     public int getStoreId(){
         return store_id;
     }
