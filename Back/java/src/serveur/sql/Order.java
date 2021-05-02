@@ -164,6 +164,8 @@ public class Order {
      * Will get the stock back
      */
     public void cancel() throws Exception {
+        if(state == ORDER_CANCELED || state == ORDER_FINISHED)
+            throw new Exception("Order already done");
         setState(ORDER_CANCELED);
 
         for(int i : products_q.keySet()){
@@ -246,16 +248,19 @@ public class Order {
         return Store.getById(store_id);
     }
     public List<SubProduct> getSubProducts() throws Exception {
-        String sql = "SELECT subproduct_id FROM OrdersProducts WHERE order_id = ?;";
-        String[] tab = new String[]{
-                String.valueOf(id)
-        };
 
-        ResultSet rs = DataBase.getInstance().query(sql, tab);
         List<SubProduct> list = new LinkedList<>();
 
-        while(rs.next())
-            list.add(SubProduct.getById(rs.getInt(1)));
+        for(int id : products_q.keySet())
+            list.add(SubProduct.getById(id));
+
+        return list;
+    }
+    public List<Integer> getQuantities() throws Exception{
+        List<Integer> list = new LinkedList<>();
+
+        for(int id : products_q.keySet())
+            list.add(products_q.get(id));
 
         return list;
     }

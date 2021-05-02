@@ -145,7 +145,7 @@ function parseShopOrders(orders){
         let cancel = $("<img src='files/img/delete.svg' title='Annuler la commande' class='clickable'>")
 
         cancel.click(()=>{
-            $.post(api + order/CancelPrepare, {
+            $.post(api + "order/CancelPrepare", {
                 user_token: token,
                 order_id: order.id
             }, data=>{
@@ -156,14 +156,15 @@ function parseShopOrders(orders){
             }, "json")
         })
 
-        buttons.append(cancel)
 
         if(order.state === 0){
             nwait++
             listwait.append(tr)
+            buttons.append(cancel)
         }else if(order.state === 1){
             nprep++
             listprep.append(tr)
+            buttons.append(cancel)
         }else{
             nfinish++
             listfinish.append(tr)

@@ -227,6 +227,10 @@ h1{
     display: grid;
 }
 
+table img{
+    height: 30px;
+}
+
 .dropDown{
     border: none;
     font-size: inherit;
