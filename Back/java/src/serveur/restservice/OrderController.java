@@ -122,5 +122,32 @@ public class OrderController {
         return store.getOrders();
     }
 
+    @PostMapping("/order/startPrepare")
+    public Response startPrepare(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Order order = Order.getById(Integer.parseInt(requestParam.get("store_id")));
+        Store store = order.getStore();
+
+        if (!store.getSeller().equals(user) && !user.isAdmin()) //Only seller and admin can set an order paid
+            throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
+
+        order.startPrepare();
+
+        return new ResponseLog("OK");
+    }
+    @PostMapping("/order/FinishPrepare")
+    public Response finishPrepare(@RequestParam Map<String, String> requestParam) throws Exception {
+        User user = User.getByToken(requestParam.get("user_token"));
+        Order order = Order.getById(Integer.parseInt(requestParam.get("store_id")));
+        Store store = order.getStore();
+
+        if (!store.getSeller().equals(user) && !user.isAdmin()) //Only seller and admin can set an order paid
+            throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
+
+        order.finishPrepare();
+
+        return new ResponseLog("OK");
+    }
+
 
 }

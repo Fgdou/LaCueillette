@@ -128,6 +128,11 @@ public class Order {
      * @param quantity quantity
      */
     protected void addSubProduct(SubProduct sp, int quantity) throws Exception {
+
+        if(sp.getQuantity() < quantity)
+            throw new Exception("Not enough items");
+        sp.setQuantity(sp.getQuantity()-quantity);
+
         products_q.put(sp.getId(), quantity);
 
         String sql = "INSERT INTO OrdersProducts (subproduct_id, order_id, quantity, kg) VALUES (?, ?, ?, 0)";
@@ -137,6 +142,8 @@ public class Order {
                 String.valueOf(quantity)
         };
         DataBase.getInstance().query(sql, tab);
+
+
     }
 
     /**
@@ -159,13 +166,11 @@ public class Order {
     public void cancel() throws Exception {
         setState(ORDER_CANCELED);
 
-        if(paid){
-            for(int i : products_q.keySet()){
-                SubProduct s = SubProduct.getById(i);
-                int q = products_q.get(i);
+        for(int i : products_q.keySet()){
+            SubProduct s = SubProduct.getById(i);
+            int q = products_q.get(i);
 
-                s.setQuantity(s.getQuantity()+q);
-            }
+            s.setQuantity(s.getQuantity()+q);
         }
     }
 
@@ -174,14 +179,6 @@ public class Order {
      */
     public void pay() throws Exception {
         setPaid(true);
-
-        //TODO check availability
-        for(int i : products_q.keySet()){
-            SubProduct s = SubProduct.getById(i);
-            int q = products_q.get(i);
-
-            s.setQuantity(s.getQuantity()-q);
-        }
     }
 
     /**
