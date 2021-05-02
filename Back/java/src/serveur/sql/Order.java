@@ -50,7 +50,7 @@ public class Order {
         ResultSet rss = DataBase.getInstance().query(sql, tab);
         while(rss.next()){
             int subproduct_id = rss.getInt(2);
-            int quantity = rss.getInt(5);
+            int quantity = rss.getInt(4);
 
             products_q.put(subproduct_id, quantity);
         }
