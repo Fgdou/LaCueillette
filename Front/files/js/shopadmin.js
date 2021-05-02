@@ -103,6 +103,54 @@ function shopAdminAct(shop_){
             parseProductsShop(data)
         }
     }, "json")
+    $.post(api + "order/get/byStore", {
+        user_token: token,
+        store_id: shop_.id
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else
+            parseShopOrders(data)
+    }, "json")
+}
+function parseShopOrders(orders){
+    let listprep = $(".window.shopadmin .listprep")
+    let listwait = $(".window.shopadmin .listwait")
+    let listfinish = $(".window.shopadmin .listfinish")
+
+
+    let nprep_span = $(".window.shopadmin .nprep")
+    let nwait_span  = $(".window.shopadmin .nwait")
+    let nfinish_span  = $(".window.shopadmin .nfinish")
+
+    let nprep = 0
+    let nwait  = 0
+    let nfinish = 0
+
+    for(let i=0; i<orders.length; i++){
+        let order = orders[i]
+
+        let tr = $("<tr></tr>")
+        tr.append($("<td></td>").html(order.id))
+        tr.append($("<td></td>").html(dateToStringFormat(order.created)))
+        tr.append($("<td></td>").html(order.user.name + " " + order.user.surname))
+        tr.append($("<td></td>").html(order.subProducts.length))
+
+        if(order.state === 0){
+            nwait++
+            listwait.append(tr)
+        }else if(order.state === 1){
+            nprep++
+            listprep.append(tr)
+        }else{
+            nfinish++
+            listfinish.append(tr)
+        }
+    }
+
+    nprep_span.html(nprep)
+    nwait_span.html(nwait)
+    nfinish_span.html(nfinish)
 }
 function parseProductsShop(data){
     let list = $(".window.shopadmin .products .list")

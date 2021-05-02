@@ -194,6 +194,8 @@ public class Cart {
             order.addSubProduct(subProduct, quantity);
         }
 
+        clear();
+
         return new LinkedList(orders.values());
     }
 

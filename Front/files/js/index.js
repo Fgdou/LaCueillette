@@ -145,5 +145,5 @@ function numFormat(num, n){
     return num
 }
 function dateToStringFormat(date){
-    return numFormat(date.day, 2) + "-" + numFormat(date.month, 2) + "-" +numFormat(date.year, 4) + " " + numFormat(date.hour, 2) + ":" + numFormat(date.minute, 2) + ":" + numFormat(date.second, 2)
+    return numFormat(date.day+1, 2) + "-" + numFormat(date.month+1, 2) + "-" +numFormat(date.year, 4) + " " + numFormat(date.hour, 2) + ":" + numFormat(date.minute, 2) + ":" + numFormat(date.second, 2)
 }

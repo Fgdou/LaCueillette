@@ -207,8 +207,9 @@ function userAct(){
         if(data.error)
             errorPopup(data.error)
         else
-            fillOrders()
+            fillOrders(data)
     }, "json")
+    actAddresses()
 }
 function actAddresses(){
     $.post(api + "user/get/allAddresses", {
@@ -230,13 +231,13 @@ function fillOrders(orders){
         let order = orders[i]
 
         let tr = $("<tr></tr>")
-        tr.append($("<td></td>").html(dateToStringFormat(order.id)))
+        tr.append($("<td></td>").html(order.id))
         tr.append($("<td></td>").html(dateToStringFormat(order.created)))
-        tr.append($("<td></td>").html(dateToStringFormat(order.store.name)))
-        tr.append($("<td></td>").html(dateToStringFormat(order.store.address.city)))
-        tr.append($("<td></td>").html(dateToStringFormat(order.subproducts.length)))
-        tr.append($("<td></td>").html(dateToStringFormat(order.priceTTC.toFixed(2) + " €")))
-        tr.append($("<td></td>").html(dateToStringFormat(state)))
+        tr.append($("<td></td>").addClass("clickable").html(order.store.name).click(()=>openStore(order.store)))
+        tr.append($("<td></td>").html(order.store.address.city))
+        tr.append($("<td></td>").html(order.subProducts.length))
+        tr.append($("<td></td>").html(order.priceTTC.toFixed(2) + " €"))
+        tr.append($("<td></td>").html(order.state))
 
 
         list.append(tr)

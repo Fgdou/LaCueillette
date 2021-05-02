@@ -28,7 +28,7 @@ function validateCart(){
         user_token: token,
         address_id: addr
     }, data=>{
-        if(data.error())
+        if(data.error)
             errorPopup(data.error)
         else{
             $(".window.chooseAddress").css("display", "none")
