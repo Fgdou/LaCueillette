@@ -108,7 +108,7 @@ public class Order {
      */
     protected static Order create(Store store, Address address, DateTime appointment, User user) throws Exception {
 
-        String sql = "INSERT INTO Orders (store_id, paid, created, address_id, state, appointement, user_id) VALUES (?, 0, NOW(), ?, 0, ?, ?); SELECT MAX(id) FROM Orders";
+        String sql = "INSERT INTO Orders (store_id, paid, created, address_id, state, appointement, user_id) VALUES (?, 0, NOW(), ?, 0, ?, ?);";
         String[] tab = {
                 String.valueOf(store.getId()),
                 String.valueOf(address.getId()),
@@ -116,9 +116,11 @@ public class Order {
                 String.valueOf(user.getId())
         };
 
-        ResultSet rs = DataBase.getInstance().query(sql, tab);
+        DataBase.getInstance().query(sql, tab);
 
-        return getById(rs.getInt(1));
+        ResultSet rs = DataBase.getInstance().query("SELECT * FROM Orders WHERE id = (SELECT LAST_INSERT_ID());");
+        rs.next();
+        return new Order(rs);
     }
 
     /**

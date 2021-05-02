@@ -7,8 +7,35 @@ $(()=>{
             openWindow("login")
         }
     })
+    $(".window.cart .validate").click(()=>{
+        $(".window.chooseAddress").css("display", "block")
+        actAddresses()
+    })
+    $(".window.chooseAddress form").click(e=>e.preventDefault())
+    $(".window.chooseAddress .cancel").click((e)=>{
+        e.preventDefault()
+        $(".window.chooseAddress").css("display", "none")
+    })
+    $(".window.chooseAddress .submit").click(()=>{
+        validateCart()
+    })
 })
+function validateCart(){
 
+    let addr = $(".window.chooseAddress select").val()
+
+    $.post(api + "cart/validate", {
+        user_token: token,
+        address_id: addr
+    }, data=>{
+        if(data.error())
+            errorPopup(data.error)
+        else{
+            $(".window.chooseAddress").css("display", "none")
+            editUser()
+        }
+    }, "json")
+}
 function actCart(){
     if(user === null)
         return

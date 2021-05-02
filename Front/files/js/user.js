@@ -192,6 +192,20 @@ function userAct(){
     $(".window.user .email").html(user.mail)
     $(".window.user .creation").html(dateToStringFormat(user.created))
 
+    $.post(api + "store/get/byUser", {
+        user_token: token
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else
+            fillStores(data)
+    }, "json")
+
+    $.post(api + "order/getAll", {
+        user_token: token
+    }, fillOrders, "json")
+}
+function actAddresses(){
     $.post(api + "user/get/allAddresses", {
         user_token: token
     }, data=>{
@@ -201,17 +215,20 @@ function userAct(){
             fillAddresses(data)
         }
     }, "json")
-
-    $.post(api + "store/get/byUser", {
-        user_token: token
-    }, data=>{
-        if(data.error)
-            errorPopup(data.error)
-        else
-            fillStores(data)
-    }, "json")
 }
+function fillOrders(orders){
+    let list = $(".window.user .orders .list")
 
+    list.html("")
+
+    for(let i=0; i<orders.length; i++){
+        let order = orders[i]
+
+        let tr = $("<tr></tr>")
+        let date = $("<td></td>").html(dateToStringFormat(order.date))
+        //todo
+    }
+}
 function fillStores(stores){
     let list = $(".window.user .shops .list")
     $(".window.user .shops .list *").off()
@@ -279,8 +296,10 @@ function deleteAddress(address) {
 
 function fillAddresses(addresses){
     let list = $(".window.user .addresses .list")
+    let select = $(".window.chooseAddress select")
     $(".window.user .addresses .list *").off()
     list.html("")
+    select.html("")
 
     for(let i=0; i<addresses.length; i++){
         let address = addresses[i]
@@ -306,6 +325,10 @@ function fillAddresses(addresses){
         tr.append(tdbtn)
 
         list.append(tr)
+
+
+        let option = $("<option value='"+address.id+"'></option>").html(getAddress(address))
+        select.append(option)
     }
 }
 function deleteAccount(){
