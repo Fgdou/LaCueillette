@@ -127,6 +127,10 @@ function parseShopOrders(orders){
     let nwait  = 0
     let nfinish = 0
 
+    listprep.html("")
+    listwait.html("")
+    listfinish.html("")
+
     for(let i=0; i<orders.length; i++){
         let order = orders[i]
 
@@ -135,6 +139,24 @@ function parseShopOrders(orders){
         tr.append($("<td></td>").html(dateToStringFormat(order.created)))
         tr.append($("<td></td>").html(order.user.name + " " + order.user.surname))
         tr.append($("<td></td>").html(order.subProducts.length))
+
+        let buttons = $("<td></td>")
+
+        let cancel = $("<img src='files/img/delete.svg' title='Annuler la commande' class='clickable'>")
+
+        cancel.click(()=>{
+            $.post(api + order/CancelPrepare, {
+                user_token: token,
+                order_id: order.id
+            }, data=>{
+                if(data.error)
+                    errorPopup(data.error)
+                else
+                    shopAdminAct(shop)
+            }, "json")
+        })
+
+        buttons.append(cancel)
 
         if(order.state === 0){
             nwait++
@@ -146,6 +168,7 @@ function parseShopOrders(orders){
             nfinish++
             listfinish.append(tr)
         }
+        tr.append(buttons)
     }
 
     nprep_span.html(nprep)
