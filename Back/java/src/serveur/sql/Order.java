@@ -112,7 +112,7 @@ public class Order {
         String[] tab = {
                 String.valueOf(store.getId()),
                 String.valueOf(address.getId()),
-                (appointment == null) ? "0000-00-00" : appointment.toString(),
+                (appointment == null) ? "2000/01/01 00:00:00" : appointment.toString(),
                 String.valueOf(user.getId())
         };
 
