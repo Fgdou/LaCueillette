@@ -129,8 +129,11 @@ public class Order {
      */
     protected void addSubProduct(SubProduct sp, int quantity) throws Exception {
 
-        if(sp.getQuantity() < quantity)
+        if(sp.getQuantity() < quantity) {
+            cancel();
+            delete();
             throw new Exception("Not enough items");
+        }
         sp.setQuantity(sp.getQuantity()-quantity);
 
         products_q.put(sp.getId(), quantity);

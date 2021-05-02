@@ -32,7 +32,9 @@ function validateCart(){
             errorPopup(data.error)
         else{
             $(".window.chooseAddress").css("display", "none")
+            actCart()
             userAct()
+            openWindow("user")
         }
     }, "json")
 }
