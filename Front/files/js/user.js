@@ -203,7 +203,12 @@ function userAct(){
 
     $.post(api + "order/getAll", {
         user_token: token
-    }, fillOrders, "json")
+    }, data=>{
+        if(data.error)
+            errorPopup(data.error)
+        else
+            fillOrders()
+    }, "json")
 }
 function actAddresses(){
     $.post(api + "user/get/allAddresses", {
@@ -225,8 +230,16 @@ function fillOrders(orders){
         let order = orders[i]
 
         let tr = $("<tr></tr>")
-        let date = $("<td></td>").html(dateToStringFormat(order.date))
-        //todo
+        tr.append($("<td></td>").html(dateToStringFormat(order.id)))
+        tr.append($("<td></td>").html(dateToStringFormat(order.created)))
+        tr.append($("<td></td>").html(dateToStringFormat(order.store.name)))
+        tr.append($("<td></td>").html(dateToStringFormat(order.store.address.city)))
+        tr.append($("<td></td>").html(dateToStringFormat(order.subproducts.length)))
+        tr.append($("<td></td>").html(dateToStringFormat(order.priceTTC.toFixed(2) + " €")))
+        tr.append($("<td></td>").html(dateToStringFormat(state)))
+
+
+        list.append(tr)
     }
 }
 function fillStores(stores){

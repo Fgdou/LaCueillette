@@ -51,7 +51,6 @@ public class Order {
         while(rss.next()){
             int subproduct_id = rss.getInt(2);
             int quantity = rss.getInt(5);
-            float kg = rss.getFloat(6);
 
             products_q.put(subproduct_id, quantity);
         }
