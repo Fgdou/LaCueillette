@@ -96,7 +96,7 @@ public class OrderController {
         Order order = Order.getById(Integer.parseInt(requestParam.get("order_id")));
         Store store = order.getStore();
 
-        if (!store.getSeller().equals(user) || !user.isAdmin()) //Only seller and admin can set an order paid
+        if (!store.getSeller().equals(user) && !user.isAdmin()) //Only seller and admin can set an order paid
             throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
 
         order.pay();
@@ -116,7 +116,7 @@ public class OrderController {
         User user = User.getByToken(requestParam.get("user_token"));
         Store store = Store.getById(Integer.parseInt(requestParam.get("store_id")));
 
-        if (!store.getSeller().equals(user) || !user.isAdmin()) //Only seller and admin can set an order paid
+        if (!store.getSeller().equals(user) && !user.isAdmin()) //Only seller and admin can set an order paid
             throw new Exception("You are not the owner of this store, you are not the buyer or you are not admin");
 
         return store.getOrders();
