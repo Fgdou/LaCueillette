@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="files/css/cart.css">
     <link rel="stylesheet" href="files/css/home.css">
     <link rel="stylesheet" href="files/css/store.css">
+    <link rel="stylesheet" href="files/css/order.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -32,6 +33,7 @@
     <script src="files/js/select.js"></script>
     <script src="files/js/home.js"></script>
     <script src="files/js/store.js"></script>
+    <script src="files/js/order.js"></script>
 </head>
 <body>
     <header>
@@ -263,6 +265,33 @@
             <h2>Produits</h2>
             <div class="products">
 
+            </div>
+        </div>
+        <div class="back window order">
+            <h1 class="title">Commande</h1>
+            <div class="order">
+                <div class="date"></div>
+                <div class="status"></div>
+            </div>
+            <div class="shop clickable">
+                <h2 class="name"></h2>
+                <div class="address"></div>
+            </div>
+            <div class="user">
+                <h2 class="name"></h2>
+                <div class="address"></div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produit</th><th>Sous-Produit</th><th>Quantité</th><th>Prix HT</th>
+                    </tr>
+                </thead>
+                <tbody class="list"></tbody>
+            </table>
+            <div class="total">
+                <h2 class="ht"></h2>
+                <h2 class="ttc"></h2>
             </div>
         </div>
 

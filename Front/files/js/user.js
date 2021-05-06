@@ -233,12 +233,13 @@ function fillOrders(orders){
         let tr = $("<tr></tr>")
         tr.append($("<td></td>").html(order.id))
         tr.append($("<td></td>").html(dateToStringFormat(order.created)))
-        tr.append($("<td></td>").addClass("clickable").html(order.store.name).click(()=>openStore(order.store)))
+        tr.append($("<td></td>").html(order.store.name))
         tr.append($("<td></td>").html(order.store.address.city))
         tr.append($("<td></td>").html(order.subProducts.length))
         tr.append($("<td></td>").html(order.priceTTC.toFixed(2) + " €"))
         tr.append($("<td></td>").html(order.state))
 
+        tr.click(()=>openOrder(order))
 
         list.append(tr)
     }

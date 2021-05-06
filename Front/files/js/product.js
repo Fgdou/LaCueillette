@@ -28,6 +28,7 @@ function actProduct(product_){
     sname.addClass("clickable").html(product_.store.name)
     saddress.html(getAddress(product_.store.address))
 
+    sname.off()
     sname.click(()=>openStore(product_.store))
 
 
