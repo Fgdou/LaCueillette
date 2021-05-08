@@ -22,7 +22,9 @@
 .window.newAddress h1{
     grid-area: title;
 }
-
+.window.user td.actions{
+    width: 70px;
+}
 
 
 .window.newAddress .number{

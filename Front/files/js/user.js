@@ -237,7 +237,7 @@ function fillOrders(orders){
         tr.append($("<td></td>").html(order.store.address.city))
         tr.append($("<td></td>").html(order.subProducts.length))
         tr.append($("<td></td>").html(order.priceTTC.toFixed(2) + " €"))
-        tr.append($("<td></td>").html(order.state))
+        tr.append($("<td></td>").html(getState(order.state)))
 
         tr.click(()=>openOrder(order))
 

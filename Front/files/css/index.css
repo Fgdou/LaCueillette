@@ -203,6 +203,10 @@ h1{
     padding: 0;
     margin: 0;
 }
+h2{
+    margin: 0;
+    padding: 0;
+}
 .popup{
     background: rgba(0, 0, 0, .3);
     position: fixed;
@@ -227,6 +231,12 @@ h1{
     display: grid;
 }
 
+table{
+    text-align: left;
+}
+table tr td{
+    padding: 10px 0;
+}
 table img{
     height: 30px;
 }

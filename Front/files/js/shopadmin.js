@@ -93,6 +93,7 @@ function createChangeProduct(){
     shopAdminAct(shop)
 }
 function shopAdminAct(shop_){
+    openWindow("shopadmin")
     shop = shop_
     $.post(api + "product/get/byStore", {
         store_id: shop.id
@@ -144,6 +145,7 @@ function parseShopOrders(orders){
 
         let cancel = $("<img src='files/img/delete.svg' title='Annuler la commande' class='clickable'>")
 
+        tr.click(()=>openOrder(order, true))
         cancel.click(()=>{
             $.post(api + "order/CancelPrepare", {
                 user_token: token,

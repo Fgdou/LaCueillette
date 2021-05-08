@@ -44,6 +44,9 @@
 .window.shopadmin table{
     border-spacing: 20px 0;
 }
+.window.shopadmin > div{
+    margin: 10px 0;
+}
 
 @media(min-width: 800px){
     .window.newProduct > form{

@@ -1,4 +1,4 @@
-function openOrder(order){
+function openOrder(order, admin = false){
     openWindow("order")
 
     $(".window.order .title").html("Commande " + order.id);
@@ -32,8 +32,65 @@ function openOrder(order){
         list.append(tr)
     }
 
-    $(".window.order .total .ht").html(order.priceHT.toFixed(2) + " €")
-    $(".window.order .total .tc").html(order.priceTTC.toFixed(2) + " €")
+    $(".window.order .total .ht").html("Total HT : " + order.priceHT.toFixed(2) + " €")
+    $(".window.order .total .ttc").html("Total TTC : " + order.priceTTC.toFixed(2) + " €")
 
-    //TODO add order manipulation
+    let btns = $(".window.order .commands")
+    let btnstart = $(".window.order .commands .start")
+    let btnfinish = $(".window.order .commands .finish")
+
+    btnstart.off()
+    btnfinish.off()
+
+    if(admin){
+        btns.css("display", "grid")
+        if(order.state === 0){
+            btnstart.css("display", "inline-block")
+            btnfinish.css("display", "none")
+        }else if(order.state === 1){
+            btnfinish.css("display", "inline-block")
+            btnstart.css("display", "none")
+        }else{
+            btnstart.css("display", "none")
+            btnfinish.css("display", "none")
+        }
+
+        btnstart.click(()=>{
+            $.post(api + "order/startPrepare", {
+                user_token: token,
+                order_id: order.id
+            }, data=>{
+                if(data.error)
+                    errorPopup(data.error)
+                else {
+                    btnfinish.css("display", "inline-block")
+                    btnstart.css("display", "none")
+                }
+            }, "json")
+        })
+        btnfinish.click(()=>{
+            $.post(api + "order/FinishPrepare", {
+                user_token: token,
+                order_id: order.id
+            }, data=>{
+                if(data.error)
+                    errorPopup(data.error)
+                else
+                    shopAdminAct(shop)
+            }, "json")
+        })
+    }else{
+        btns.css("display", "none")
+    }
+}
+
+function getState(state){
+    if(state === 0)
+        return "En attente"
+    if(state === 1)
+        return "En préparation"
+    if(state === 2)
+        return "Prête"
+    if(state === -1)
+        return "Annulée"
 }
